@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    {{ sonata_block_render({
+         'type': 'raindrop_page.block.service.template',
+         'settings': {
+             'template': 'database:partial-sample'
+         }
+    }) }}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    {% for block in blocks %}
+        {{ sonata_block_render(block) }}
+    {% endfor %}
+{% endblock %}

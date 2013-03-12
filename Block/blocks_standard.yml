@@ -1,0 +1,16 @@
+## YAML Template.
+---
+text:
+    template: RaindropPageBundle:Block:block_text.html.twig
+    settings:
+        title:
+            text: ~
+
+
+post:
+    template: database:post
+    settings:
+        title:
+            text: ~
+        product_preview:
+            image: ~
