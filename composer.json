@@ -1,0 +1,39 @@
+{
+    "name": "raindrop/page-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony Raindrop PageBundle",
+    "keywords": ["cms", "page", "admin"],
+    "homepage": "https://github.com/raindropdevs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raindrop Dev Team",
+            "homepage": "https://github.com/raindropdevs/RaindropPageBundle/graphs/contributors"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "2.1.*",
+        "symfony/monolog-bundle": ">=2.1,<3",
+        "doctrine/doctrine-bundle": "1.1.x-dev",
+        "doctrine/orm": ">=2.2.3,<2.4-dev"
+    },
+    "require-dev": {
+        "symfony/class-loader": "2.1.*",
+        "symfony/yaml": "2.1.*",
+        "symfony/form": "2.1.*",
+        "symfony/finder": "2.1.*"
+    },
+    "suggests": {
+    },
+    "autoload": {
+        "psr-0": { "Raindrop\\PageBundle": "" }
+    },
+    "target-dir": "Raindrop/PageBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
