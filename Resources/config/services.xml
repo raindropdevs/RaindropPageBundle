@@ -9,6 +9,7 @@
         <parameter key="raindrop_page_bundle.page_repository_class">Raindrop\PageBundle\Entity\PageRepository</parameter>
         <parameter key="raindrop_page_bundle.block_class">Raindrop\PageBundle\Entity\Block</parameter>
         <parameter key="raindrop_page_bundle.block_repository_class">Raindrop\PageBundle\Entity\BlockRepository</parameter>
+        <parameter key="raindrop_page.base_action">RaindropPageBundle:Page:index</parameter>
     </parameters>
 
     <services>
