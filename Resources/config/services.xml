@@ -20,6 +20,9 @@
           <call method="setTranslationDomain">
               <argument>RaindropPageBundle</argument>
           </call>
+          <call method="setContainer">
+              <argument type="service" id="service_container" />
+          </call>
       </service>
 
        <service id="raindrop.admin.block" class="Raindrop\PageBundle\Admin\BlockAdmin">

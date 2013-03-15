@@ -1,0 +1,7 @@
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% use 'RaindropPageBundle:Page:page_edit_form.html.twig' with form as parentForm %}
+
+{% block form %}
+    {{ block('parentForm') }}
+{% endblock %}
