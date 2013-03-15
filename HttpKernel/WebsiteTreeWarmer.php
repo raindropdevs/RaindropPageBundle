@@ -41,10 +41,10 @@ class WebsiteTreeWarmer implements CacheWarmerInterface
 
     protected function getCacheFile() {
         return
-                DIRECTORY_SEPARATOR .
-                self::BUNDLE_NAMESPACE . DIRECTORY_SEPARATOR .
-                self::CACHE_DIR . DIRECTORY_SEPARATOR .
-                self::FILENAME;
+                DIRECTORY_SEPARATOR . self::BUNDLE_NAMESPACE .
+                DIRECTORY_SEPARATOR . self::CACHE_DIR .
+                DIRECTORY_SEPARATOR . self::FILENAME
+                ;
     }
 
     public function isOptional()
