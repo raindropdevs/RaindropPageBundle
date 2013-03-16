@@ -24,6 +24,9 @@
           <call method="setContainer">
               <argument type="service" id="service_container" />
           </call>
+          <call method="setLayoutProvider">
+              <argument type="service" id="raindrop.admin.layout.provider" />
+          </call>
       </service>
 
        <service id="raindrop.admin.block" class="Raindrop\PageBundle\Admin\BlockAdmin">
@@ -34,6 +37,10 @@
           <call method="setTranslationDomain">
               <argument>RaindropPageBundle</argument>
           </call>
+      </service>
+
+      <service id="raindrop.admin.layout.provider" class="Raindrop\PageBundle\Admin\Providers\LayoutProvider">
+          <argument type="service" id="raindrop_twig.template_repository" />
       </service>
 
         <service id="raindrop_page.page_repository" factory-service="doctrine.orm.entity_manager" factory-method="getRepository" class="%raindrop_page_bundle.page_repository_class%">

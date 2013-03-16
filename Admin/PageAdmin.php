@@ -9,23 +9,25 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class PageAdmin extends Admin
 {
-    protected $container;
+    protected $container, $layoutProvider;
 
     public function setContainer($container) {
         $this->container = $container;
+    }
+
+    public function setLayoutProvider($layoutProvider) {
+        $this->layoutProvider = $layoutProvider;
     }
 
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
                 ->add('name', null, array('required' => true))
-                ->add('layout', null, array('required' => true))
-//                ->add('children', 'sonata_type_collection', array(), array(
-//                    'edit' => 'inline',
-//                    'inline' => 'table',
-//                    'sortable'  => 'position'
-//                ))
-                ->add('route', null, array('required' => true))
+                ->add('layout', 'choice', array(
+                    'required' => true,
+                    'choices' => $this->layoutProvider->provide()
+                ))
+                ->add('url', 'text', array('required' => true, 'property_path' => false))
         ;
     }
 
