@@ -6,10 +6,12 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Raindrop\PageBundle\Form\EventListener\AddRouteFieldSubscriber;
+use Raindrop\RoutingBundle\Entity\Route;
 
 class PageAdmin extends Admin
 {
-    protected $container, $layoutProvider;
+    protected $container, $layoutProvider, $blockProvider;
 
     public function setContainer($container) {
         $this->container = $container;
@@ -17,6 +19,18 @@ class PageAdmin extends Admin
 
     public function setLayoutProvider($layoutProvider) {
         $this->layoutProvider = $layoutProvider;
+
+        return $this;
+    }
+
+    public function setBlockProvider($blockProvider) {
+        $this->blockProvider = $blockProvider;
+
+        return $this;
+    }
+
+    public function getBlockProvider() {
+        return $this->blockProvider;
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -25,10 +39,15 @@ class PageAdmin extends Admin
                 ->add('name', null, array('required' => true))
                 ->add('layout', 'choice', array(
                     'required' => true,
-                    'choices' => $this->layoutProvider->provide()
+                    'choices' => $this->layoutProvider->provide(),
+                    'data' => $this->getSubject()->getLayout() ?: ''
                 ))
-                ->add('url', 'text', array('required' => true, 'property_path' => false))
+//                ->add('route', 'sonata_type_model_list', array(), array())
+//                ->add('url', 'text', array('required' => true, 'property_path' => false, 'data' => $this->getSubject()->getRoute() ? $this->getSubject()->getRoute()->getPath() : '' ))
         ;
+
+        $builder = $formMapper->getFormBuilder();
+        $builder->addEventSubscriber(new AddRouteFieldSubscriber($builder->getFormFactory()));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -69,25 +88,12 @@ class PageAdmin extends Admin
 
     public function preUpdate($page)
     {
-        // make sure route points to proper controller
-        // @TODO: make this parameter configurable
-        $page->setController('RaindropPageBundle:Page:index');
-
-        // update template last modified as the content has changed
-        $layout = $page->getLayout();
-        $orm = $this->container->get('doctrine.orm.default_entity_manager');
-        $templateClass = $this->container->getParameter('raindrop_twig_loader_bundle.entity_class');
-        $templateRepo = $orm
-            ->getRepository($templateClass);
-
-        // @TODO: fix this shit :)
-        $params = explode(':', $layout);
-        if ($params[0] == 'database') {
-            $tpl = $templateRepo->findOneByName($params[1]);
-            $tpl->setUpdated(new \DateTime);
-            $orm->persist($tpl);
-            $orm->flush();
-        }
+        /**
+         * Check for related route
+         * @param type $page
+         */
+        $this->setRelatedRoute($page);
+        $this->setRelatedLayout($page);
     }
 
     public function postUpdate($page)
@@ -95,5 +101,54 @@ class PageAdmin extends Admin
         $route = $page->getRoute();
         $route->setContent($page);
         $this->modelManager->getEntityManager($route)->flush();
+    }
+
+    protected function setRelatedRoute($page)
+    {
+        $orm = $this->container->get('doctrine.orm.default_entity_manager');
+
+        $query = $this->container->get('request')->query->all();
+        $uniqid = $query['uniqid'];
+        $requestParams = $this->container->get('request')->request->all();
+        $formParams = $requestParams[$uniqid];
+
+        $url = $formParams['url'];
+
+        if (!empty($url) && ($page->getRoute() && $page->getRoute()->getPath() !== $url)) {
+            $routeRepo = $orm->getRepository($this->container->getParameter('raindrop_routing_bundle.route_object_class'));
+            $route = $routeRepo->findOneByPath($url);
+            if (!$route) {
+                $route = new Route;
+                $route->setPath($url);
+            }
+
+            // make sure the controller is properly bound
+            $route->setController('raindrop_page.page_controller');
+
+            $page->setRoute($route);
+            $orm->persist($route);
+            $orm->flush();
+        }
+    }
+
+    protected function setRelatedLayout($page) {
+
+        $orm = $this->container->get('doctrine.orm.default_entity_manager');
+
+        // update template last modified as the content has changed
+        $layout = $page->getLayout();
+
+        // @TODO: fix this shit :)
+        $params = explode(':', $layout);
+        if ($params[0] == 'database') {
+            $templateClass = $this->container
+                ->getParameter('raindrop_twig_loader_bundle.entity_class');
+            $templateRepo = $orm
+                ->getRepository($templateClass);
+            $tpl = $templateRepo->findOneByName($params[1]);
+            $tpl->setUpdated(new \DateTime);
+            $orm->persist($tpl);
+            $orm->flush();
+        }
     }
 }

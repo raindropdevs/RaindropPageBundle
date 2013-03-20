@@ -15,6 +15,7 @@
             </ul>
 
             <div class="tab-content">
+
                 <div class="tab-pane active" id="tab1">
                     <form class="form-horizontal" action="{{ admin.generateUrl(url, {'id': admin.id(object), 'uniqid': admin.uniqid, 'subclass': app.request.get('subclass')}) }}" {{ form_enctype(form) }} method="POST">
                         {% if form.vars.errors|length > 0 %}
@@ -83,10 +84,52 @@
                         {% endblock formactions %}
                     </form>
                 </div>
+
+
                 <div class="tab-pane" id="tab2">
+                    <div class="span6 page-layout">
+                        {% for block in object.getChildren() %}
+                            <div data-block="{{ block.getType() }}" class="row-fluid draggable-block">
+                                <a class="close">&times;</a>
+                                <div class="span4">
+                                    <p>{{ block.getName() }}</p>
+                                </div>
+                                <div class="span4">
+                                    <p>{{ block.getTemplate() }}</p>
+                                </div>
+                                <div class="span2">
+                                    <p>
+                                        <a data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">click me</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            {# Twitter bootstrap modal wrapper #}
+                            <div id="editModal{{ block.getId() }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-body"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="span4">
+                        {% for blockType in admin.getBlockProvider().provide() %}
+                            <div data-block="{{ blockType.getType() }}" class="row-fluid draggable-source-block fixed-width-200">
+                                <div class="span6">
+                                    <p>{{ blockType.getType() }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-    {% endif%}
+
+        <script>
+        var globalConfig = {
+            urlCheckPath: '{{ path('raindrop_admin_url_check') }}',
+            addBlockPath: '{{ path('raindrop_admin_add_block', { 'page_id': object.getId(), 'type': 'block_type' }) }}'
+        };
+        </script>
+    {% endif %}
 
 {% endblock %}

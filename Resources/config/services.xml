@@ -10,14 +10,18 @@
         <parameter key="raindrop_page_bundle.block_class">Raindrop\PageBundle\Entity\Block</parameter>
         <parameter key="raindrop_page_bundle.block_repository_class">Raindrop\PageBundle\Entity\BlockRepository</parameter>
         <parameter key="raindrop_page.base_action">RaindropPageBundle:Page:index</parameter>
+        <parameter key="raindrop_page.page_controller">RaindropPageBundle:Page:index</parameter>
     </parameters>
 
     <services>
        <service id="raindrop.admin.page" class="Raindrop\PageBundle\Admin\PageAdmin">
-          <tag name="sonata.admin" manager_type="orm" group="page" label="page"/>
+
           <argument />
           <argument>Raindrop\PageBundle\Entity\Page</argument>
           <argument>SonataAdminBundle:CRUD</argument>
+
+          <tag name="sonata.admin" manager_type="orm" group="page" label="page"/>
+
           <call method="setTranslationDomain">
               <argument>RaindropPageBundle</argument>
           </call>
@@ -26,6 +30,9 @@
           </call>
           <call method="setLayoutProvider">
               <argument type="service" id="raindrop.admin.layout.provider" />
+          </call>
+          <call method="setBlockProvider">
+              <argument type="service" id="raindrop.admin.block.provider" />
           </call>
       </service>
 
@@ -39,8 +46,23 @@
           </call>
       </service>
 
+       <service id="raindrop.admin.blockVariable" class="Raindrop\PageBundle\Admin\BlockVariableAdmin">
+          <tag name="sonata.admin" manager_type="orm" group="page" label="block_variable"/>
+          <argument />
+          <argument>Raindrop\PageBundle\Entity\BlockVariable</argument>
+          <argument>SonataAdminBundle:CRUD</argument>
+          <call method="setTranslationDomain">
+              <argument>RaindropPageBundle</argument>
+          </call>
+      </service>
+
       <service id="raindrop.admin.layout.provider" class="Raindrop\PageBundle\Admin\Providers\LayoutProvider">
           <argument type="service" id="raindrop_twig.template_repository" />
+      </service>
+
+      <service id="raindrop.admin.block.provider" class="Raindrop\PageBundle\Admin\Providers\BlockProvider">
+          <argument type="service" id="doctrine.orm.entity_manager" />
+          <argument>Raindrop\PageBundle\Entity\BlockConfig</argument>
       </service>
 
         <service id="raindrop_page.page_repository" factory-service="doctrine.orm.entity_manager" factory-method="getRepository" class="%raindrop_page_bundle.page_repository_class%">
@@ -56,6 +78,10 @@
             <tag name="sonata.block" />
             <argument>raindrop_page.block.service.template</argument>
             <argument type="service" id="templating" />
+        </service>
+
+        <service id="raindrop_page.block.manager" class="Raindrop\PageBundle\Manager\BlockManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
         <service id="raindrop_page.tree.warmer" class="Raindrop\PageBundle\HttpKernel\WebsiteTreeWarmer" public="false">

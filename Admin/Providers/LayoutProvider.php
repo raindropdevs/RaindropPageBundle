@@ -2,6 +2,9 @@
 
 namespace Raindrop\PageBundle\Admin\Providers;
 
+/**
+ * This class provides layout for the admin edit page.
+ */
 class LayoutProvider {
 
     protected $repository;
@@ -32,6 +35,13 @@ class LayoutProvider {
     }
 
     public function provide() {
-        return $this->getAll();
+        $rawList = $this->getAll();
+
+        $return = array();
+        array_walk($rawList, function ($value) use (&$return) {
+            $return['database:' . $value] = $value;
+        });
+
+        return $return;
     }
 }

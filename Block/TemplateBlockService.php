@@ -51,11 +51,9 @@ class TemplateBlockService extends BaseBlockService
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $formMapper->add('settings', 'sonata_type_immutable_array', array(
-            'keys' => array(
-                array('template', 'textarea', array()),
-            )
-        ));
+        foreach ($block->getVariables() as $type) {
+            $formMapper->add($type->getName(), $type->getType(), $type->getOptions());
+        }
     }
 
     /**
