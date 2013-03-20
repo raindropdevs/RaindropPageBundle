@@ -322,6 +322,12 @@ class Page
      */
     public function getChildren()
     {
-        return $this->children;
+        $iterator = $this->children->getIterator();
+
+        $iterator->uasort(function ($first, $second) {
+            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
+        });
+
+        return $iterator;
     }
 }
