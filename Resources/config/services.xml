@@ -14,11 +14,11 @@
     </parameters>
 
     <services>
-       <service id="raindrop.admin.page" class="Raindrop\PageBundle\Admin\PageAdmin">
+        <service id="raindrop.admin.page" class="Raindrop\PageBundle\Admin\PageAdmin">
 
           <argument />
           <argument>Raindrop\PageBundle\Entity\Page</argument>
-          <argument>SonataAdminBundle:CRUD</argument>
+          <argument>RaindropPageBundle:PageCRUD</argument>
 
           <tag name="sonata.admin" manager_type="orm" group="page" label="page"/>
 
@@ -34,7 +34,7 @@
           <call method="setBlockProvider">
               <argument type="service" id="raindrop.admin.block.provider" />
           </call>
-      </service>
+       </service>
 
        <service id="raindrop.admin.block" class="Raindrop\PageBundle\Admin\BlockAdmin">
           <tag name="sonata.admin" manager_type="orm" group="page" label="block"/>
@@ -82,6 +82,12 @@
 
         <service id="raindrop_page.block.manager" class="Raindrop\PageBundle\Manager\BlockManager">
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="raindrop_page.page.manager" />
+        </service>
+
+        <service id="raindrop_page.page.manager" class="Raindrop\PageBundle\Manager\PageManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%raindrop_twig_loader_bundle.entity_class%</argument>
         </service>
 
         <service id="raindrop_page.tree.warmer" class="Raindrop\PageBundle\HttpKernel\WebsiteTreeWarmer" public="false">

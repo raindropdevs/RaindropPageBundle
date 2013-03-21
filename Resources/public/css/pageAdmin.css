@@ -8,12 +8,30 @@
 
 #tab2 .row-fluid {
     margin-top: 12px;
-    background: #f5f5f5;
+    background: #eeeeee;
 }
 
-#tab2 .row-fluid.draggable-block .span6,
-#tab2 .row-fluid.draggable-source-block .span6 {
+#tab2 .row-fluid.draggable-block .span4,
+#tab2 .row-fluid.draggable-block .span2 {
     padding: 8px;
+}
+
+#tab2 .row-fluid.draggable-source-block .span12 {
+    padding: 0 8px;
+    text-align: center;
+}
+
+#tab2 .row-fluid.draggable-source-block .span12 p {
+    margin: 4px 0 0;
+}
+
+#tab2 .row-fluid.draggable-source-block .span12 a.pull-left {
+    margin-top: 4px;
+    display: none;
+}
+
+#tab2 .row-fluid.draggable-source-block:hover .span12 a.pull-left {
+    display: block;
 }
 
 #tab2 .row-fluid.hover {
@@ -26,11 +44,18 @@
 
 #tab2 .row-fluid.draggable-block .close {
     padding: 8px;
+    opacity: 1;
+    margin-top: 7px;
+}
+
+#tab2 .row-fluid.draggable-block .pull-right {
+    padding: 8px;
+    margin-top: 5px;
 }
 
 #tab2 .modal {
-    width: 800px;
-    margin-left: -400px;
+    width: 1024px;
+    margin-left: -512px;
 }
 
 #tab2 .modal input[type='text'],
@@ -44,4 +69,35 @@
 
 #tab2 .modal .form-horizontal .controls {
     margin-left: 120px;
+}
+
+.draggable-block,
+.draggable-source-block {
+    border: solid 1px #ccc;
+}
+
+#tab2 .draggable-source-block {
+    background: #ffffcc;
+}
+
+#tab2 .ui-droppable.ui-state-highlight {
+    border: 0;
+    background: #ffffcc;
+    padding: 0 4px 4px;
+}
+
+#tab2 .draggable-block .drag-drop {
+    display: none;
+}
+
+#tab2 .draggable-block:hover .drag-drop {
+    display: block;
+}
+
+#tab2 .draggable-block .span4 p {
+    margin: 4px 0 0;
+}
+
+#tab2 .row-fluid.draggable-source-block {
+    margin-top: 2px;
 }

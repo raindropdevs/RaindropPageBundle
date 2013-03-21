@@ -6,17 +6,20 @@
             {{ "form_not_available"|trans({}, "SonataAdminBundle") }}
         </div>
     {% else %}
+
         <div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active">
+                <li {% if not app.request.get('layout') %}class="active"{% endif %}>
                     <a data-toggle="tab" href="#tab1">Edit fields</a>
                 </li>
-                <li><a data-toggle="tab" href="#tab2">Edit layout</a></li>
+                <li {% if app.request.get('layout') %}class="active"{% endif %}>
+                    <a data-toggle="tab" href="#tab2">Edit layout</a>
+                </li>
             </ul>
 
             <div class="tab-content">
 
-                <div class="tab-pane active" id="tab1">
+                <div class="tab-pane {% if not app.request.get('layout') %}active{% endif %}" id="tab1">
                     <form class="form-horizontal" action="{{ admin.generateUrl(url, {'id': admin.id(object), 'uniqid': admin.uniqid, 'subclass': app.request.get('subclass')}) }}" {{ form_enctype(form) }} method="POST">
                         {% if form.vars.errors|length > 0 %}
                             <div class="sonata-ba-form-error">
@@ -86,21 +89,23 @@
                 </div>
 
 
-                <div class="tab-pane" id="tab2">
+                <div class="tab-pane {% if app.request.get('layout') %}active{% endif %}" id="tab2">
+
+                    <div class="span1"></div>
+
                     <div class="span6 page-layout">
                         {% for block in object.getChildren() %}
-                            <div data-block="{{ block.getType() }}" class="row-fluid draggable-block">
-                                <a class="close">&times;</a>
+                            <div data-block="{{ block.getType() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
+                                <a class="close raindrop_tips" title="Delete block and all children"><i class="icon-remove"></i></a>
+                                <a title="Edit block content" class="pull-right raindrop_tips" data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">
+                                    <i class="icon-cog"></i>
+                                </a>
+                                <a class="drag-drop pull-right"><i class="icon-resize-vertical"></i></a>
                                 <div class="span4">
                                     <p>{{ block.getName() }}</p>
                                 </div>
                                 <div class="span4">
                                     <p>{{ block.getTemplate() }}</p>
-                                </div>
-                                <div class="span2">
-                                    <p>
-                                        <a data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">click me</a>
-                                    </p>
                                 </div>
                             </div>
 
@@ -111,11 +116,19 @@
                         {% endfor %}
                     </div>
 
-                    <div class="span4">
+                    <div class="span1"></div>
+
+                    <div class="span4 block-source">
                         {% for blockType in admin.getBlockProvider().provide() %}
-                            <div data-block="{{ blockType.getType() }}" class="row-fluid draggable-source-block fixed-width-200">
-                                <div class="span6">
-                                    <p>{{ blockType.getType() }}</p>
+                            <div title="{{ blockType.getDescription() }}" data-block="{{ blockType.getType() }}" class="raindrop_tips row-fluid draggable-source-block fixed-width-200">
+                                <div class="span12">
+                                    <div class="span1">
+                                        <a class="drag-drop pull-left"><i class="icon-plus"></i></a>
+                                    </div>
+                                    <div class="span10">
+                                        <p>{{ blockType.getType() }}</p>
+                                    </div>
+                                    <div class="span1"></div>
                                 </div>
                             </div>
                         {% endfor %}
@@ -127,7 +140,9 @@
         <script>
         var globalConfig = {
             urlCheckPath: '{{ path('raindrop_admin_url_check') }}',
-            addBlockPath: '{{ path('raindrop_admin_add_block', { 'page_id': object.getId(), 'type': 'block_type' }) }}'
+            addBlockPath: '{{ path('raindrop_admin_add_block', { 'page_id': object.getId(), 'type': 'block_type' }) }}',
+            orderBlocksPath: '{{ path('raindrop_admin_order_blocks', { 'page_id': object.getId() }) }}',
+            removeBlockPath: '{{ path('raindrop_admin_remove_block', { 'block_id': 0 }) }}'
         };
         </script>
     {% endif %}

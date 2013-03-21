@@ -56,4 +56,52 @@ class AdminController extends Controller
 
         return new JsonResponse(array('result' => $result));
     }
+
+
+    /**
+     * @Route("/admin/page/order/blocks/{page_id}", name="raindrop_admin_order_blocks")
+     * @Secure(roles="ROLE_ADMIN")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function orderBlocksAction() {
+
+        $result = false;
+        $page_id = $this->get('request')->get('page_id');
+
+        $page = $this->getPage($page_id);
+
+        if ($page) {
+            $this->get('raindrop_page.block.manager')
+                    ->reorderBlocks($page, $this->get('request')->get('ids'));
+
+            $this->get('raindrop_page.page.manager')
+                ->updatePageLayoutTimestamp($page);
+
+            $result = true;
+        }
+        return new JsonResponse(array('result' => $result));
+    }
+
+    protected function getPage($id) {
+        $orm = $this
+                ->get('doctrine.orm.default_entity_manager');
+
+        return $orm
+                ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
+                ->find($id);
+    }
+
+    /**
+     * @Route("/admin/page/remove/block/{block_id}", name="raindrop_admin_remove_block")
+     * @Secure(roles="ROLE_ADMIN")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function removeBlockAction() {
+        $block_id = $this->get('request')->get('block_id');
+
+        $result = $this->get('raindrop_page.block.manager')
+                ->removeBlock($block_id);
+
+        return new JsonResponse(array('result' => $result));
+    }
 }
