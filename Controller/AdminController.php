@@ -104,4 +104,21 @@ class AdminController extends Controller
 
         return new JsonResponse(array('result' => $result));
     }
+
+    /**
+     * @Route("/admin/page/reload/blocks/{page_id}", name="raindrop_admin_reload_layout")
+     * @Secure(roles="ROLE_ADMIN")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function reloadLayoutAction() {
+        $page_id = $this->get('request')->get('page_id');
+        $page = $this->getPage($page_id);
+
+        $result = false;
+        if ($page) {
+            $result = $this->render('RaindropPageBundle:Page:page_layout_list.html.twig', array('object' => $page));
+        }
+
+        return new JsonResponse(array('result' => $result ? $result->getContent() : false));
+    }
 }

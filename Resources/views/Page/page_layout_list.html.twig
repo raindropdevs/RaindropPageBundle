@@ -1,0 +1,15 @@
+{% for block in object.getChildren() %}
+    <div data-block="{{ block.getType() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
+        <a class="close raindrop_tips" title="Delete block and all children"><i class="icon-remove"></i></a>
+        <a title="Edit block content" class="pull-right raindrop_tips" data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">
+            <i class="icon-cog"></i>
+        </a>
+        <a class="drag-drop pull-right"><i class="icon-resize-vertical"></i></a>
+        <div class="span4">
+            <p>{{ block.getName() }}</p>
+        </div>
+        <div class="span4">
+            <p>{{ block.getTemplate() }}</p>
+        </div>
+    </div>
+{% endfor %}

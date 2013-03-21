@@ -189,7 +189,6 @@ var pageAdmin = (function(){
                     activeClass: "ui-state-highlight",
                     drop: function( event, ui ) {
                         pageAdmin.addBlockToLayout( ui.draggable );
-                        pageAdmin.pageLayoutSetup();
                     }
                 });
         },
@@ -222,7 +221,18 @@ var pageAdmin = (function(){
 //
 //                        $("#tab2")
 //                            .prepend(modalHtml);
-                        window.location.reload();
+                        $.ajax({
+                            url: globalConfig.reloadBlocksPath,
+                            type: 'GET',
+                            success: function (returnData) {
+                                if (returnData.result) {
+                                    $(".page-layout")
+                                        .html(returnData.result);
+                                }
+                            }
+                        });
+
+                        pageAdmin.pageLayoutSetup();
                     }
                 }
             })
