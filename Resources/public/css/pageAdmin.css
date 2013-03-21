@@ -101,3 +101,11 @@
 #tab2 .row-fluid.draggable-source-block {
     margin-top: 2px;
 }
+
+#tab2 .ui-sortable-placeholder {
+    border: dashed 1px #ddd;
+    background: #ffffcc;
+    width: 675px;
+    height: 46px;
+    margin-top: 12px;
+}

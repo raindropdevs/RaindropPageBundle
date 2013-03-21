@@ -152,14 +152,14 @@ var pageAdmin = (function(){
                     revert: "invalid", // when not dropped, the item will revert back to its initial position
                     containment: "document",
                     helper: "clone",
-                    cursor: "move",
                     connectWith: ".block-source"
                 });
 
             // let the trash be droppable, accepting the gallery items
             $(".page-layout")
                 .sortable({
-//                    placeholder: "ui-state-highlight",
+                    placeholder: "ui-sortable-placeholder",
+                    helper: "clone",
                     cursor: "move",
                     distance: 5,
                     stop: function( event, ui ) {
@@ -187,7 +187,6 @@ var pageAdmin = (function(){
                 .droppable({
                     accept: "#tab2 .draggable-source-block",
                     activeClass: "ui-state-highlight",
-                    cursor: "move",
                     drop: function( event, ui ) {
                         pageAdmin.addBlockToLayout( ui.draggable );
                         pageAdmin.pageLayoutSetup();
