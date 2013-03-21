@@ -27,6 +27,11 @@ class BlockConfig
     /**
      * @ORM\Column
      */
+    protected $description;
+
+    /**
+     * @ORM\Column
+     */
     protected $type;
 
     /**
@@ -147,5 +152,28 @@ class BlockConfig
             'type' => $this->getType(),
             'options' => $this->getOptions()
         ));
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return BlockConfig
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }
