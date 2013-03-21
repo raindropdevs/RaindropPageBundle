@@ -43,12 +43,12 @@ class Block extends BaseBlock
     protected $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="parent", cascade={"persist", "remove"})
      */
     protected $children;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\BlockVariable", mappedBy="block", cascade="persist")
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\BlockVariable", mappedBy="block", cascade={"persist", "remove"})
      */
     protected $variables;
 
