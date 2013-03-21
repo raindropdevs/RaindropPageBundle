@@ -132,23 +132,8 @@ class PageAdmin extends Admin
     }
 
     protected function setRelatedLayout($page) {
-
-        $orm = $this->container->get('doctrine.orm.default_entity_manager');
-
-        // update template last modified as the content has changed
-        $layout = $page->getLayout();
-
-        // @TODO: fix this shit :)
-        $params = explode(':', $layout);
-        if ($params[0] == 'database') {
-            $templateClass = $this->container
-                ->getParameter('raindrop_twig_loader_bundle.entity_class');
-            $templateRepo = $orm
-                ->getRepository($templateClass);
-            $tpl = $templateRepo->findOneByName($params[1]);
-            $tpl->setUpdated(new \DateTime);
-            $orm->persist($tpl);
-            $orm->flush();
-        }
+        $this->container
+                ->get('raindrop_page.page.manager')
+                ->updatePageLayoutTimestamp($page);
     }
 }
