@@ -40,7 +40,7 @@
           <tag name="sonata.admin" manager_type="orm" group="page" label="block"/>
           <argument />
           <argument>Raindrop\PageBundle\Entity\Block</argument>
-          <argument>SonataAdminBundle:CRUD</argument>
+          <argument>RaindropPageBundle:BlockCRUD</argument>
           <call method="setTranslationDomain">
               <argument>RaindropPageBundle</argument>
           </call>
