@@ -30,7 +30,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Raindrop\TwigLoaderBundle\RaindropPageBundle(),
+        new Raindrop\PageBundle\RaindropPageBundle(),
     );
 }
 ```
@@ -55,15 +55,3 @@ want PageAdmin to show up into your dashboard:
                 contexts:   [admin]
 
 ### **USAGE**:
-
-#### Load template from database:
-
-``` php
-class myController {
-	public function indexAction() {
-		return $this->render('database:contact_us_en');
-	}
-}
-```
-
-The database loader will load the template using <entity>::getData() method and pass result to controller render method.
