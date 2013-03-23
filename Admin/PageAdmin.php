@@ -93,7 +93,7 @@ class PageAdmin extends Admin
          * @param type $page
          */
         $this->setRelatedRoute($page);
-        $this->setRelatedLayout($page);
+        $this->updateRelatedLayout($page);
     }
 
     public function postUpdate($page)
@@ -124,14 +124,14 @@ class PageAdmin extends Admin
 
             // make sure the controller is properly bound
             $route->setController('raindrop_page.page_controller');
-
             $page->setRoute($route);
+
             $orm->persist($route);
             $orm->flush();
         }
     }
 
-    protected function setRelatedLayout($page) {
+    protected function updateRelatedLayout($page) {
         $this->container
                 ->get('raindrop_page.page.manager')
                 ->updatePageLayoutTimestamp($page);
