@@ -58,7 +58,7 @@ class BlockCRUDController extends CRUDController
 
                 // TEO: if we're coming from page admin, redirect to there
                 $referer = $this->get('request')->server->get('HTTP_REFERER');
-                if (preg_match('/\/admin\/raindrop\/page\/page\/[\d]+\/edit$/', $referer)) {
+                if (preg_match('/\/admin\/raindrop\/page\/page\/[\d]+\/edit/', $referer)) {
 //                    return $this->redirect('admin_raindrop_page_page_edit', array('id' =>  $object->getPage()));
                     return $this->redirect($this->generateUrl('admin_raindrop_page_page_edit', array(
                         'id' =>  $object->getPage()->getId(), 'layout' => true
