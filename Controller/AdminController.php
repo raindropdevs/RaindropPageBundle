@@ -91,6 +91,15 @@ class AdminController extends Controller
                 ->find($id);
     }
 
+    protected function getBlock($id) {
+        $orm = $this
+                ->get('doctrine.orm.default_entity_manager');
+
+        return $orm
+                ->getRepository($this->container->getParameter('raindrop_page_bundle.block_class'))
+                ->find($id);
+    }
+
     /**
      * @Route("/admin/page/remove/block/{block_id}", name="raindrop_admin_remove_block")
      * @Secure(roles="ROLE_ADMIN")
@@ -120,5 +129,27 @@ class AdminController extends Controller
         }
 
         return new JsonResponse(array('result' => $result ? $result->getContent() : false));
+    }
+
+    /**
+     * @Route("/admin/page/preview/blocks/{id}", name="raindrop_admin_preview_block")
+     * @Secure(roles="ROLE_ADMIN")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function blockPreview() {
+        $block_id = $this->get('request')->get('id');
+        $block = $this->getBlock($block_id);
+        return $this->render('RaindropPageBundle:Block:block_preview.html.twig', array('block' => $block));
+    }
+
+    /**
+     * @Route("/admin/page/preview/page/{id}", name="raindrop_admin_preview_page")
+     * @Secure(roles="ROLE_ADMIN")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function pagePreview() {
+        $page_id = $this->get('request')->get('id');
+        $page = $this->getPage($page_id);
+        return $this->render($page->getLayout(), array('blocks' => $page->getChildren()));
     }
 }
