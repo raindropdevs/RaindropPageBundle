@@ -1,15 +1,43 @@
+<div class="span12 page-layout">
+    {% for block in object.getChildren() %}
+        <div id="block-{{ block.getId() }}" data-block="{{ block.getType() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
+
+
+            <a title="Delete block" data-toggle="modal" data-content="
+               WARNING: You are about to delete the block, its variables and all its children.<br><br><a href='javascript:pageAdmin.removePopover({{ block.getId() }});'>Cancel</a>  <a href='javascript:pageAdmin.removeBlock({{ block.getId() }});' class='pull-right btn btn-danger'>Delete</a><br>
+               " class="pull-right remove-popover raindrop_tips" href="javascript:;" data-original-title="Confirm"><i class="icon-remove"></i></a>
+
+            {#<a class="close raindrop_tips" title="Delete block and all children"><i class="icon-remove"></i></a>#}
+
+            <a title="Quick block preview" class="pull-right raindrop_tips" data-toggle="modal" href="{{ path('raindrop_admin_preview_block', { id: block.getId() }) }}" data-target="#previewModal{{ block.getId() }}">
+                <i class="icon-eye-open"></i>
+            </a>
+
+            <a title="Edit block content" class="pull-right raindrop_tips" data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">
+                <i class="icon-pencil"></i>
+            </a>
+
+            <a title="Drag me" class="drag-drop pull-right raindrop_tips"><i class="icon-resize-vertical"></i></a>
+
+
+
+            <div class="span4">
+                <p>{{ block.getName() }}</p>
+            </div>
+            <div class="span4">
+                <p>{{ block.getTemplate() }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{# Twitter bootstrap modal wrapper #}
 {% for block in object.getChildren() %}
-    <div data-block="{{ block.getType() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
-        <a class="close raindrop_tips" title="Delete block and all children"><i class="icon-remove"></i></a>
-        <a title="Edit block content" class="pull-right raindrop_tips" data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">
-            <i class="icon-cog"></i>
-        </a>
-        <a class="drag-drop pull-right"><i class="icon-resize-vertical"></i></a>
-        <div class="span4">
-            <p>{{ block.getName() }}</p>
-        </div>
-        <div class="span4">
-            <p>{{ block.getTemplate() }}</p>
-        </div>
+    <div id="editModal{{ block.getId() }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body"></div>
+    </div>
+
+    <div id="previewModal{{ block.getId() }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body"></div>
     </div>
 {% endfor %}

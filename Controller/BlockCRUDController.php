@@ -61,7 +61,7 @@ class BlockCRUDController extends CRUDController
                 if (preg_match('/\/admin\/raindrop\/page\/page\/[\d]+\/edit/', $referer)) {
 //                    return $this->redirect('admin_raindrop_page_page_edit', array('id' =>  $object->getPage()));
                     return $this->redirect($this->generateUrl('admin_raindrop_page_page_edit', array(
-                        'id' =>  $object->getPage()->getId(), 'layout' => true
+                        'id' =>  $object->getPage()->getId()
                     )));
                 }
                 return $this->redirectTo($object);

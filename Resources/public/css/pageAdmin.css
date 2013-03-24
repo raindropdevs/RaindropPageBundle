@@ -6,68 +6,71 @@
         Purpose of the stylesheet follows.
 */
 
-#tab2 .row-fluid {
+#tabLayout .row-fluid {
     margin-top: 12px;
-    background: #eeeeee;
 }
 
-#tab2 .row-fluid.draggable-block .span4,
-#tab2 .row-fluid.draggable-block .span2 {
+#tabLayout .row-fluid.draggable-block {
+    background: #eeeeee;
+    box-shadow: 0 1px 2px #ddd;
+}
+
+#tabLayout .page-layout {
+    padding: 0 4px 4px;
+}
+
+#tabLayout .row-fluid.draggable-block .span4,
+#tabLayout .row-fluid.draggable-block .span2 {
     padding: 8px;
 }
 
-#tab2 .row-fluid.draggable-source-block .span12 {
+#tabLayout .row-fluid.draggable-source-block .span12 {
     padding: 0 8px;
     text-align: center;
 }
 
-#tab2 .row-fluid.draggable-source-block .span12 p {
+#tabLayout .row-fluid.draggable-source-block .span12 p {
     margin: 4px 0 0;
 }
 
-#tab2 .row-fluid.draggable-source-block .span12 a.pull-left {
-    margin-top: 4px;
+#tabLayout .row-fluid.draggable-source-block .span12 a.pull-left {
+    margin-top: 5px;
     display: none;
 }
 
-#tab2 .row-fluid.draggable-source-block:hover .span12 a.pull-left {
+#tabLayout .row-fluid.draggable-source-block:hover .span12 a.pull-left {
     display: block;
 }
 
-#tab2 .row-fluid.hover {
+#tabLayout .row-fluid.hover {
     background: #F6F4F0;
 }
 
-#tab2 .row-fluid.draggable-source-block.fixed-width-200 {
+#tabLayout .row-fluid.draggable-source-block.fixed-width-200 {
     width: 400px;
 }
 
-#tab2 .row-fluid.draggable-block .close {
+#tabLayout .row-fluid.draggable-block .close {
     padding: 8px;
     opacity: 1;
     margin-top: 7px;
 }
 
-#tab2 .row-fluid.draggable-block .pull-right {
+#tabLayout .row-fluid.draggable-block .pull-right {
     padding: 8px;
-    margin-top: 5px;
+    margin-top: 2px;
 }
 
-#tab2 .modal {
-    width: 1024px;
-    margin-left: -512px;
-}
-
-#tab2 .modal input[type='text'],
-#tab2 .modal textarea {
+#tabLayout .modal input[type='text'],
+#tabLayout .modal textarea {
     width: 100%;
 }
 
-#tab2 .modal .form-horizontal .control-label {
+#tabLayout .modal .form-horizontal .control-label {
     width: 100px;
 }
 
-#tab2 .modal .form-horizontal .controls {
+#tabLayout .modal .form-horizontal .controls {
     margin-left: 120px;
 }
 
@@ -76,36 +79,39 @@
     border: solid 1px #ccc;
 }
 
-#tab2 .draggable-source-block {
+#tabLayout .draggable-source-block {
     background: #ffffcc;
 }
 
-#tab2 .ui-droppable.ui-state-highlight {
+#tabLayout .ui-droppable.ui-state-highlight {
     border: 0;
     background: #ffffcc;
-    padding: 0 4px 4px;
 }
 
-#tab2 .draggable-block .drag-drop {
+#tabLayout .draggable-block .drag-drop {
     display: none;
 }
 
-#tab2 .draggable-block:hover .drag-drop {
+#tabLayout .draggable-block:hover .drag-drop {
     display: block;
 }
 
-#tab2 .draggable-block .span4 p {
+#tabLayout .draggable-block .span4 p {
     margin: 4px 0 0;
 }
 
-#tab2 .row-fluid.draggable-source-block {
+#tabLayout .row-fluid.draggable-source-block {
     margin-top: 2px;
 }
 
-#tab2 .ui-sortable-placeholder {
+#tabLayout .ui-sortable-placeholder {
     border: dashed 1px #ddd;
     background: #ffffcc;
-    width: 675px;
-    height: 46px;
+    width: 667px;
+    height: 41px;
     margin-top: 12px;
+}
+
+.modal form fieldset legend {
+    line-height: 20px;
 }

@@ -66,8 +66,8 @@ var pageAdmin = (function(){
 
         init: function () {
 
-            config.urlParentGroup = $('#tab1 form.form-horizontal:eq(0) .control-group:eq(2)');
-            config.urlInputField = $('#tab1 form.form-horizontal:eq(0) input[type=text]:eq(1)');
+            config.urlParentGroup = $('#tabMeta form.form-horizontal:eq(0) .control-group:eq(2)');
+            config.urlInputField = $('#tabMeta form.form-horizontal:eq(0) input[type=text]:eq(1)');
 
             addUrlCheckerListener();
 
@@ -79,6 +79,8 @@ var pageAdmin = (function(){
             this.pageLayoutSetup();
 
             this.setupDragDrop();
+
+            this.setupModal();
 
             $(".row-fluid.draggable-source-block")
                 .mouseenter(function(){
@@ -92,6 +94,50 @@ var pageAdmin = (function(){
             $(".raindrop_tips").tooltip();
         },
 
+        removePopover: function (id) {
+            $("#block-" + id).find('a.remove-popover').click();
+        },
+
+        removeBlock: function (id) {
+            $.ajax({
+               url: globalConfig.removeBlockPath.replace('0', id),
+               type: 'POST',
+               success: function (returnData) {
+                   if (returnData.result) {
+                       $("#block-" + id).find('a.remove-popover').click();
+                       $("#block-" + id).remove();
+                   }
+               }
+            });
+        },
+
+        setupModal: function () {
+
+            var winWidth = $(window).width() - 80;
+            var winHeight = $(window).height() - 200;
+
+            $("body").prepend(
+                $("<style/>", {
+                    type: "text/css",
+                    html:
+                        '#tabLayout .modal {' +
+                            'width: ' + (winWidth) + 'px;' +
+                            'margin-left: -' + (winWidth/2) + 'px;' +
+                        '}' +
+
+                        '#tabLayout .modal .modal-body {' +
+                            'max-height: ' + winHeight + 'px;' +
+                        '}'
+
+                })
+            );
+
+            $('#pagePreview').on('hide', function () {
+                $(this).removeData("modal");
+                $(this).find('.modal-body').html("");
+            });
+        },
+
         pageLayoutSetup: function () {
 
             $(".row-fluid.draggable-block:not(.hover-bound)")
@@ -102,43 +148,25 @@ var pageAdmin = (function(){
                 .mouseleave(function(){
                     $(this).removeClass('hover');
                 })
-                .find(".close")
+                .find('.remove-popover')
+                    .popover({
+                        placement: 'top',
+                        html: true
+                    })
+                .find(".btn-danger")
                     .click(function(){
-
                         var parentToDelete = $(this)
-                                .parents(".row-fluid.draggable-block");
+                            .parents(".row-fluid.draggable-block");
 
-                        var modalHtml =
-                        '<div class="alert alert-error fade in">' +
-//                            '<h4 class="alert-heading">Do you want to remove this element?</h4>'+
-//                            '<p>'+
-                              'WARNING: You are about to delete the block, its variables and all its children. '+
-                              '<a href="#" class="btn btn-danger">Delete</a> or <a href="#" class="btn">Close</a>'+
-//                            '</p>'+
-                        '</div>';
-
-                        $("#tab2")
-                            .prepend(modalHtml);
-
-                        $("#tab2")
-                            .find('.alert .btn')
-                            .click(function(){
-                                $(".alert-error").remove();
-                            })
-                            .end()
-                            .find(".btn-danger")
-                            .click(function(){
-                                $.ajax({
-                                   url: globalConfig.removeBlockPath.replace('0', parentToDelete.data('id')),
-                                   type: 'POST',
-                                   success: function (returnData) {
-                                       if (returnData.result) {
-                                           parentToDelete.remove();
-                                       }
-                                   }
-                                });
-
-                            });
+                        $.ajax({
+                           url: globalConfig.removeBlockPath.replace('0', parentToDelete.data('id')),
+                           type: 'POST',
+                           success: function (returnData) {
+                               if (returnData.result) {
+                                   parentToDelete.remove();
+                               }
+                           }
+                        });
                     })
                 .end()
                 ;
@@ -185,7 +213,7 @@ var pageAdmin = (function(){
 
             $(".page-layout")
                 .droppable({
-                    accept: "#tab2 .draggable-source-block",
+                    accept: "#tabLayout .draggable-source-block",
                     activeClass: "ui-state-highlight",
                     drop: function( event, ui ) {
                         pageAdmin.addBlockToLayout( ui.draggable );
@@ -203,36 +231,17 @@ var pageAdmin = (function(){
                 type: 'GET',
                 success: function (returnData) {
                     if (returnData.result) {
-//                        var newElement = draggable.clone();
-//                        newElement
-//                            .removeClass('fixed-width-200')
-//                            .removeClass('draggable-source-block')
-//                            .addClass('draggable-block')
-//                            .append('<a class="close">&times;</a>')
-//                            ;
-//
-//                        $(".page-layout").append(newElement);
-//
-//                        var modalHtml =
-//                        '<div class="alert alert-success fade in">' +
-//                              'block successfully created' +
-//                              '<button data-dismiss="alert" class="close" type="button">×</button>' +
-//                        '</div>';
-//
-//                        $("#tab2")
-//                            .prepend(modalHtml);
                         $.ajax({
                             url: globalConfig.reloadBlocksPath,
                             type: 'GET',
                             success: function (returnData) {
                                 if (returnData.result) {
-                                    $(".page-layout")
+                                    $(".page-layout-container")
                                         .html(returnData.result);
+                                    pageAdmin.setupElements();
                                 }
                             }
                         });
-
-                        pageAdmin.pageLayoutSetup();
                     }
                 }
             })
