@@ -67,6 +67,8 @@ class Block extends BaseBlock
      */
     protected $updated;
 
+    protected $entityManager;
+
     /**
      * Get id
      *
@@ -77,11 +79,28 @@ class Block extends BaseBlock
         return $this->id;
     }
 
+    public function setEntityManager($entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    public function getEntityManager() {
+        return $this->entityManager;
+    }
+
     public function getSettings() {
         $return = array();
 
         foreach ($this->getVariables() as $variable) {
-            $return [$variable->getName()]= $variable->getContent();
+
+            if ($variable->getType() == 'entity') {
+                $options = $variable->getOptions();
+                $return [$variable->getName()]= $this
+                        ->entityManager
+                        ->getRepository($options['model'])
+                        ->find($variable->getContent());
+            } else {
+                $return [$variable->getName()]= $variable->getContent();
+            }
         }
 
         return $return;

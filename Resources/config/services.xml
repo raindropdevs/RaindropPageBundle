@@ -54,6 +54,9 @@
           <call method="setTranslationDomain">
               <argument>RaindropPageBundle</argument>
           </call>
+          <call method="setContainer">
+              <argument type="service" id="service_container" />
+          </call>
       </service>
 
       <service id="raindrop.admin.layout.provider" class="Raindrop\PageBundle\Admin\Providers\LayoutProvider">
@@ -109,6 +112,10 @@
         <service id="raindrop.page.seo.listener" class="Raindrop\PageBundle\HttpKernel\FilterControllerSeoPageEvent">
             <argument type="service" id="service_container" />
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+
+        <service id="raindrop_page.postload_listener" class="Raindrop\PageBundle\Listener\PostLoadListener">
+            <tag name="doctrine.event_listener" event="postLoad"></tag>
         </service>
     </services>
 
