@@ -31,9 +31,7 @@ class FilterControllerSeoPageEvent {
             $page = $request->get('content');
             $seoPage = $this->get('sonata.seo.page');
 
-            $seoPage
-                ->setTitle($page->getName())
-            ;
+            $seoPage->setTitle($page->getTitle());
 
             foreach ($page->getMetasProperty() as $name => $content) {
                 if (!empty($content)) {

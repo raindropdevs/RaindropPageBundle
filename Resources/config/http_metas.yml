@@ -4,9 +4,11 @@ name:
     - ['robots', 'text', { required: false }]
 
 property:
-    - ['og:site_name', 'text', { required: false }]
-    - ['og:description', 'text', { required: false }]
+    - ['og:url', 'text', { required: false }]
     - ['og:type', 'text', { required: false }]
+    - ['og:image', 'text', { required: false }]
+    - ['og:description', 'text', { required: false }]
+    - ['og:site_name', 'text', { required: false }]
 
 http_equiv:
     - ['Content-type', 'text', { required: false }]

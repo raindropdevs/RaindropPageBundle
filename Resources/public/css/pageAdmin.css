@@ -11,14 +11,15 @@
 }
 
 #tabLayout .row-fluid.draggable-block {
-    background: #eeeeee;
-    box-shadow: 0 1px 2px #ddd;
+    background: #E6F1F6;
+    /*box-shadow: 0 1px 2px #ddd;*/
 }
 
 #tabLayout .page-layout {
     padding: 0 4px 4px;
 }
 
+#tabLayout .row-fluid.draggable-block .span1,
 #tabLayout .row-fluid.draggable-block .span4,
 #tabLayout .row-fluid.draggable-block .span2 {
     padding: 8px;
@@ -58,7 +59,7 @@
 
 #tabLayout .row-fluid.draggable-block .pull-right {
     padding: 8px;
-    margin-top: 2px;
+    /*margin-top: 2px;*/
 }
 
 #tabLayout .modal input[type='text'],
@@ -96,8 +97,8 @@
     display: block;
 }
 
-#tabLayout .draggable-block .span4 p {
-    margin: 4px 0 0;
+#tabLayout .draggable-block p {
+    margin: 0;
 }
 
 #tabLayout .row-fluid.draggable-source-block {
@@ -110,6 +111,10 @@
     width: 667px;
     height: 41px;
     margin-top: 12px;
+}
+
+#tabMeta .sonata-ba-field-standard-natural input {
+    width: 50%;
 }
 
 .modal form fieldset legend {
