@@ -115,3 +115,11 @@
 .modal form fieldset legend {
     line-height: 20px;
 }
+
+.modal-body form table td + td + td {
+    width: 70%;
+}
+
+.modal .modal-body form table td textarea {
+    min-height: 140px;
+}

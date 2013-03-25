@@ -1,19 +1,26 @@
 <?php
-// src/Acme/DemoBundle/Form/EventListener/AddNameFieldSubscriber.php
+
 namespace Raindrop\PageBundle\Form\EventListener;
 
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\DependencyInjection\Container;
 
-class AddRouteFieldSubscriber implements EventSubscriberInterface
-{
-    private $factory;
+/**
+ * Description of AddMetaFieldSubscriber
+ *
+ * @author teito
+ */
+class AddMetaFieldSubscriber implements EventSubscriberInterface {
 
-    public function __construct(FormFactoryInterface $factory)
+    private $factory, $http_metas;
+
+    public function __construct(FormFactoryInterface $factory, $http_metas)
     {
         $this->factory = $factory;
+        $this->http_metas = $http_metas;
     }
 
     public static function getSubscribedEvents()
@@ -37,8 +44,21 @@ class AddRouteFieldSubscriber implements EventSubscriberInterface
             return;
         }
 
-        // check if the product object is "new"
-        $url = $data->getRoute() ? $data->getRoute()->getPath() : '';
-        $form->add($this->factory->createNamed('url', 'text', $url, array('property_path' => false)));
+        foreach ($this->http_metas as $type => $keys) {
+            $name = 'metas_' . $type;
+            $getter = 'getMetas' . Container::camelize($type);
+
+            $form->add($this->factory->createNamed(
+                $name,
+                'sonata_type_immutable_array',
+                $data ? $data->$getter() : array(),
+                array(
+                    'required' => false,
+                    'keys' => $keys
+                )
+            ));
+        }
     }
 }
+
+?>

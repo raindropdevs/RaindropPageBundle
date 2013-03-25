@@ -1,0 +1,12 @@
+name:
+    - ['keywords', 'text', { required: false }]
+    - ['description', 'text', { required: false }]
+    - ['robots', 'text', { required: false }]
+
+property:
+    - ['og:site_name', 'text', { required: false }]
+    - ['og:description', 'text', { required: false }]
+    - ['og:type', 'text', { required: false }]
+
+http_equiv:
+    - ['Content-type', 'text', { required: false }]

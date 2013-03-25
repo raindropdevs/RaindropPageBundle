@@ -105,6 +105,11 @@
             <tag name="sonata.block.loader" />
             <argument type="service" id="raindrop_page.block_repository" />
         </service>
+
+        <service id="raindrop.page.seo.listener" class="Raindrop\PageBundle\HttpKernel\FilterControllerSeoPageEvent">
+            <argument type="service" id="service_container" />
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
     </services>
 
 </container>

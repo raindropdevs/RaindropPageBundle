@@ -7,10 +7,13 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Raindrop\PageBundle\Form\EventListener\AddRouteFieldSubscriber;
+use Raindrop\PageBundle\Form\EventListener\AddMetaFieldSubscriber;
 use Raindrop\RoutingBundle\Entity\Route;
 
 class PageAdmin extends Admin
 {
+//    public $supportsPreviewMode = true;
+
     protected $container, $layoutProvider, $blockProvider;
 
     public function setContainer($container) {
@@ -42,12 +45,15 @@ class PageAdmin extends Admin
                     'choices' => $this->layoutProvider->provide(),
                     'data' => $this->getSubject()->getLayout() ?: ''
                 ))
-//                ->add('route', 'sonata_type_model_list', array(), array())
-//                ->add('url', 'text', array('required' => true, 'property_path' => false, 'data' => $this->getSubject()->getRoute() ? $this->getSubject()->getRoute()->getPath() : '' ))
+                ->add('title', null, array('required' => true))
         ;
 
         $builder = $formMapper->getFormBuilder();
+
         $builder->addEventSubscriber(new AddRouteFieldSubscriber($builder->getFormFactory()));
+
+        $http_metas = $this->container->getParameter('raindrop_page.admin.http_metas');
+        $builder->addEventSubscriber(new AddMetaFieldSubscriber($builder->getFormFactory(), $http_metas));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

@@ -53,6 +53,30 @@ class Page
      */
     protected $layout;
 
+
+    /**
+     * @ORM\Column
+     */
+    protected $title;
+
+    protected $head;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    protected $metas_name;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    protected $metas_property;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    protected $metas_http_equiv;
+
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -329,5 +353,97 @@ class Page
         });
 
         return $iterator;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Page
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set metas_name
+     *
+     * @param array $metasName
+     * @return Page
+     */
+    public function setMetasName($metasName)
+    {
+        $this->metas_name = $metasName;
+    
+        return $this;
+    }
+
+    /**
+     * Get metas_name
+     *
+     * @return array 
+     */
+    public function getMetasName()
+    {
+        return $this->metas_name;
+    }
+
+    /**
+     * Set metas_property
+     *
+     * @param array $metasProperty
+     * @return Page
+     */
+    public function setMetasProperty($metasProperty)
+    {
+        $this->metas_property = $metasProperty;
+    
+        return $this;
+    }
+
+    /**
+     * Get metas_property
+     *
+     * @return array 
+     */
+    public function getMetasProperty()
+    {
+        return $this->metas_property;
+    }
+
+    /**
+     * Set metas_http_equiv
+     *
+     * @param array $metasHttpEquiv
+     * @return Page
+     */
+    public function setMetasHttpEquiv($metasHttpEquiv)
+    {
+        $this->metas_http_equiv = $metasHttpEquiv;
+    
+        return $this;
+    }
+
+    /**
+     * Get metas_http_equiv
+     *
+     * @return array 
+     */
+    public function getMetasHttpEquiv()
+    {
+        return $this->metas_http_equiv;
     }
 }

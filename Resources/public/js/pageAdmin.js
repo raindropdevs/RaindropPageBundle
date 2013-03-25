@@ -66,8 +66,9 @@ var pageAdmin = (function(){
 
         init: function () {
 
-            config.urlParentGroup = $('#tabMeta form.form-horizontal:eq(0) .control-group:eq(2)');
-            config.urlInputField = $('#tabMeta form.form-horizontal:eq(0) input[type=text]:eq(1)');
+            // TODO: fix following weak selector.
+            config.urlParentGroup = $('#tabMeta form.form-horizontal:eq(0) .control-group:eq(3)');
+            config.urlInputField = $('#tabMeta form.form-horizontal:eq(0) input[type=text]:eq(2)');
 
             addUrlCheckerListener();
 
@@ -131,11 +132,6 @@ var pageAdmin = (function(){
 
                 })
             );
-
-            $('#pagePreview').on('hide', function () {
-                $(this).removeData("modal");
-                $(this).find('.modal-body').html("");
-            });
         },
 
         pageLayoutSetup: function () {
