@@ -20,7 +20,7 @@ class ServiceLoader implements BlockLoaderInterface
         return false;
     }
 
-    public function load($name) {
-        return $this->blockRepository->findOneByName($name);
+    public function load($configuration) {
+        return $this->blockRepository->findOneByName($configuration['settings']['name']);
     }
 }
