@@ -15,11 +15,8 @@ class PostLoadListener {
         $entityManager = $args->getEntityManager();
 
         if ($entity instanceof Block) {
-
             /**
-             * This binding is here to avoid circular dependency.
-             * Check if resolver is already bound to an entityManager
-             * and, in case, assign it.
+             * Use entity manager to retrieve related entity
              */
             $entity->setEntityManager($entityManager);
         }
