@@ -34,17 +34,17 @@ class WebsiteTreeWarmer implements CacheWarmerInterface
             return;
         }
 
-        $cacheFilePath = $cacheDir . $this->getCacheFile();
+        $cacheFilePath = $cacheDir . self::getCacheFile();
         $cache = new ConfigCache($cacheFilePath, $this->container->getParameter('kernel.debug'));
         $cache->write(serialize($this->treeBuilder->buildTree()->toArray()));
     }
 
-    protected function getCacheFile() {
+    public static function getCacheFile() {
         return
-                DIRECTORY_SEPARATOR . self::BUNDLE_NAMESPACE .
-                DIRECTORY_SEPARATOR . self::CACHE_DIR .
-                DIRECTORY_SEPARATOR . self::FILENAME
-                ;
+            DIRECTORY_SEPARATOR . self::BUNDLE_NAMESPACE .
+            DIRECTORY_SEPARATOR . self::CACHE_DIR .
+            DIRECTORY_SEPARATOR . self::FILENAME
+            ;
     }
 
     public function isOptional()
