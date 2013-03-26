@@ -10,8 +10,10 @@
     margin-top: 12px;
 }
 
-#tabLayout .row-fluid.draggable-block {
+#tabLayout .draggable-block {
     background: #E6F1F6;
+    min-height: 40px;
+
     /*box-shadow: 0 1px 2px #ddd;*/
 }
 
@@ -20,8 +22,9 @@
 }
 
 #tabLayout .row-fluid.draggable-block .span1,
+#tabLayout .row-fluid.draggable-block .span2,
 #tabLayout .row-fluid.draggable-block .span4,
-#tabLayout .row-fluid.draggable-block .span2 {
+#tabLayout .row-fluid.draggable-block .span5 {
     padding: 8px;
 }
 
@@ -78,6 +81,7 @@
 .draggable-block,
 .draggable-source-block {
     border: solid 1px #ccc;
+    position: relative;
 }
 
 #tabLayout .draggable-source-block {
@@ -89,11 +93,7 @@
     background: #ffffcc;
 }
 
-#tabLayout .draggable-block .drag-drop {
-    display: none;
-}
-
-#tabLayout .draggable-block:hover .drag-drop {
+#tabLayout .draggable-block:hover .pageBlockToolbar {
     display: block;
 }
 
@@ -127,4 +127,18 @@
 
 .modal .modal-body form table td textarea {
     min-height: 140px;
+}
+
+.pageBlockToolbar {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 36px;
+    background: #F6F4F0;
+}
+
+.page-layout-container {
+    padding-bottom: 120px;
 }
