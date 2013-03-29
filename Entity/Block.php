@@ -58,6 +58,16 @@ class Block extends BaseBlock
     protected $position;
 
     /**
+     * @ORM\Column(type="array")
+     */
+    protected $javascripts;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    protected $stylesheets;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created;
@@ -437,5 +447,51 @@ class Block extends BaseBlock
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set javascripts
+     *
+     * @param array $javascripts
+     * @return Block
+     */
+    public function setJavascripts($javascripts)
+    {
+        $this->javascripts = $javascripts;
+    
+        return $this;
+    }
+
+    /**
+     * Get javascripts
+     *
+     * @return array 
+     */
+    public function getJavascripts()
+    {
+        return $this->javascripts;
+    }
+
+    /**
+     * Set stylesheets
+     *
+     * @param array $stylesheets
+     * @return Block
+     */
+    public function setStylesheets($stylesheets)
+    {
+        $this->stylesheets = $stylesheets;
+    
+        return $this;
+    }
+
+    /**
+     * Get stylesheets
+     *
+     * @return array 
+     */
+    public function getStylesheets()
+    {
+        return $this->stylesheets;
     }
 }
