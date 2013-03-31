@@ -2,6 +2,9 @@
 
 namespace Raindrop\PageBundle\Extension;
 
+use Raindrop\RoutingBundle\Entity\Route;
+
+
 class TwigExtension extends \Twig_Extension {
 
     protected $container;
@@ -18,12 +21,18 @@ class TwigExtension extends \Twig_Extension {
     }
 
     public function renderJavascript() {
-        $blocks = $this->guessPage()->getChildren();
+        $page = $this->guessPage();
+        if (!$page) {
+            return '';
+        }
+        $blocks = $page->getChildren();
         $requirements = array();
 
         foreach ($blocks as $block) {
-            foreach ($block->getJavascripts() as $js) {
-                $requirements [$js]= true;
+            if ($block->hasJavascripts()) {
+                foreach ($block->getJavascripts() as $js) {
+                    $requirements [$js]= true;
+                }
             }
         }
 
@@ -36,16 +45,22 @@ class TwigExtension extends \Twig_Extension {
             'assets' => implode(",", array_keys($requirements))
         ));
 
-        return '<script type="text/javascript" src="'. $path .'"></script>';
+        return '<script src="'. $path .'" type="text/javascript"></script>';
     }
 
     public function renderStylesheet() {
-        $blocks = $this->guessPage()->getChildren();
+        $page = $this->guessPage();
+        if (!$page) {
+            return '';
+        }
+        $blocks = $page->getChildren();
         $requirements = array();
 
         foreach ($blocks as $block) {
-            foreach ($block->getStylesheets() as $css) {
-                $requirements [$css]= true;
+            if ($block->hasStylesheets()) {
+                foreach ($block->getStylesheets() as $css) {
+                    $requirements [$css]= true;
+                }
             }
         }
 
@@ -65,10 +80,19 @@ class TwigExtension extends \Twig_Extension {
         return 'raindrop_page_extension';
     }
 
+    /**
+     * Try to find out if current route points to a page entity.
+     * @return null
+     */
     protected function guessPage() {
-        return $this->container->get('router')
+        $route = $this->container->get('router')
                 ->getRouteCollection()
-                ->get($this->container->get('request')->get('_route'))
-                ->getContent();
+                ->get($this->container->get('request')->get('_route'));
+
+        if ($route instanceof Route) {
+            return $route->getContent();
+        }
+
+        return null;
     }
 }

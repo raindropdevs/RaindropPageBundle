@@ -7,6 +7,7 @@ use Sonata\BlockBundle\Model\Block as BaseBlock;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Raindrop\PageBundle\Entity\BlockVariable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @ORM\Entity(repositoryClass="Raindrop\PageBundle\Entity\BlockRepository")
@@ -77,6 +78,10 @@ class Block extends BaseBlock
      */
     protected $updated;
 
+    /**
+     *
+     * @var type Doctrine\ORM\EntityManager
+     */
     protected $entityManager;
 
     /**
@@ -89,7 +94,10 @@ class Block extends BaseBlock
         return $this->id;
     }
 
-    public function setEntityManager($entityManager) {
+    /**
+     * @param type $entityManager Doctrine\ORM\EntityManager
+     */
+    public function setEntityManager(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
     }
 
@@ -361,6 +369,8 @@ class Block extends BaseBlock
     {
         $this->children[] = $children;
 
+        $children->setParent($this);
+
         return $this;
     }
 
@@ -449,6 +459,10 @@ class Block extends BaseBlock
         return $this->position;
     }
 
+    public function hasJavascripts() {
+        return !empty($this->javascripts);
+    }
+
     /**
      * Set javascripts
      *
@@ -458,18 +472,22 @@ class Block extends BaseBlock
     public function setJavascripts($javascripts)
     {
         $this->javascripts = $javascripts;
-    
+
         return $this;
     }
 
     /**
      * Get javascripts
      *
-     * @return array 
+     * @return array
      */
     public function getJavascripts()
     {
         return $this->javascripts;
+    }
+
+    public function hasStylesheets() {
+        return !empty($this->stylesheets);
     }
 
     /**
@@ -481,14 +499,14 @@ class Block extends BaseBlock
     public function setStylesheets($stylesheets)
     {
         $this->stylesheets = $stylesheets;
-    
+
         return $this;
     }
 
     /**
      * Get stylesheets
      *
-     * @return array 
+     * @return array
      */
     public function getStylesheets()
     {
