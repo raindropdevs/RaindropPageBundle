@@ -3,6 +3,7 @@
 namespace Raindrop\PageBundle\Extension;
 
 use Raindrop\RoutingBundle\Entity\Route;
+use Raindrop\PageBundle\Entity\Page;
 
 
 class TwigExtension extends \Twig_Extension {
@@ -21,11 +22,12 @@ class TwigExtension extends \Twig_Extension {
     }
 
     public function renderJavascript() {
-        $page = $this->guessPage();
-        if (!$page) {
-            return '';
+        $blocks = $this->getPageBlocks();
+
+        if (!count($blocks)) {
+            return;
         }
-        $blocks = $page->getChildren();
+
         $requirements = array();
 
         foreach ($blocks as $block) {
@@ -49,11 +51,12 @@ class TwigExtension extends \Twig_Extension {
     }
 
     public function renderStylesheet() {
-        $page = $this->guessPage();
-        if (!$page) {
+        $blocks = $this->getPageBlocks();
+
+        if (empty($blocks)) {
             return '';
         }
-        $blocks = $page->getChildren();
+
         $requirements = array();
 
         foreach ($blocks as $block) {
@@ -74,6 +77,14 @@ class TwigExtension extends \Twig_Extension {
         ));
 
         return '<link rel="stylesheet" type="text/css" href="'. $path .'" />';
+    }
+
+    protected function getPageBlocks() {
+        $page = $this->guessPage();
+        if (!$page instanceof Page) {
+            return array();
+        }
+        return $page->getChildren();
     }
 
     public function getName() {
