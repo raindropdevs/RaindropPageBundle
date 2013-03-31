@@ -34,8 +34,12 @@ class Page
     /**
      * @ORM\Column(nullable=true)
      */
-    protected $locale;
+    protected $country;
 
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $locale;
 
     /**
      * @ORM\OneToOne(targetEntity="Raindrop\RoutingBundle\Entity\Route")
@@ -58,8 +62,6 @@ class Page
      * @ORM\Column
      */
     protected $title;
-
-    protected $head;
 
     /**
      * @ORM\Column(type="array")
@@ -210,6 +212,15 @@ class Page
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * A convenient proxy method
+     *
+     * @return type
+     */
+    public function getLastModified() {
+        return $this->getUpdated();
     }
 
     /**
@@ -364,14 +375,14 @@ class Page
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -387,14 +398,14 @@ class Page
     public function setMetasName($metasName)
     {
         $this->metas_name = $metasName;
-    
+
         return $this;
     }
 
     /**
      * Get metas_name
      *
-     * @return array 
+     * @return array
      */
     public function getMetasName()
     {
@@ -410,14 +421,14 @@ class Page
     public function setMetasProperty($metasProperty)
     {
         $this->metas_property = $metasProperty;
-    
+
         return $this;
     }
 
     /**
      * Get metas_property
      *
-     * @return array 
+     * @return array
      */
     public function getMetasProperty()
     {
@@ -433,17 +444,40 @@ class Page
     public function setMetasHttpEquiv($metasHttpEquiv)
     {
         $this->metas_http_equiv = $metasHttpEquiv;
-    
+
         return $this;
     }
 
     /**
      * Get metas_http_equiv
      *
-     * @return array 
+     * @return array
      */
     public function getMetasHttpEquiv()
     {
         return $this->metas_http_equiv;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return Page
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }
