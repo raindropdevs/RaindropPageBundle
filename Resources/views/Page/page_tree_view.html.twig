@@ -1,0 +1,87 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block title %}{{ 'title_dashboard'|trans({}, 'SonataAdminBundle') }}{% endblock%}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/raindroppage/js/jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/sonatajquery/jquery-ui-1.8.23.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/sonatajquery/jquery-ui-i18n.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('bundles/sonataadmin/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('bundles/sonataadmin/qtip/jquery.qtip-1.0.0-rc3.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/sonataadmin/jquery/jquery.form.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/sonataadmin/base.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/raindroppage/js/jstree.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/raindroppage/js/treeAdmin.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/raindroppage/css/treeAdmin.css') }}" type="text/css" media="all" />
+{% endblock %}
+
+{% block breadcrumb %}{% endblock %}
+
+{% block actions %}
+    <div class="sonata-actions">
+        {% include 'SonataAdminBundle:Core:create_button.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block side_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active'}, 'list') }}{% endblock %}
+
+{% block list_table %}
+    {% set batchactions = admin.batchactions %}
+    <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" >
+        <div class="row-fluid">
+            <div class="span12">
+                <li id="rootElement">
+                    <ul>
+                        {% include 'RaindropPageBundle:Page:node.html.twig' with { node: root, indent: 1 } %}
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+
+{% block list_filters %}
+    {% if admin.datagrid.filters %}
+        <form class="sonata-filter-form {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hide' : '' }}" action="{{ admin.generateUrl('list') }}" method="GET">
+            <fieldset class="filter_legend">
+                <legend class="filter_legend {{ admin.datagrid.hasActiveFilters ? 'active' : 'inactive' }}">{{ 'label_filters'|trans({}, 'SonataAdminBundle') }}</legend>
+
+                <div class="filter_container {{ admin.datagrid.hasActiveFilters ? 'active' : 'inactive' }}">
+                    <table class="table table-bordered">
+                        {% for filter in admin.datagrid.filters %}
+                        <tr id="filter_{{ filter.name }}_row" class="filter {{ filter.isActive ? 'active' : 'inactive' }}">
+                                <td class="filter-title">{{ admin.trans(filter.label) }}</td>
+                                <td class="filter-type">{{ form_widget(form.children[filter.formName].children['type']) }}</td>
+                                <td class="filter-value">{{ form_widget(form.children[filter.formName].children['value']) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                    <input type="hidden" name="filter[_page]" id="filter__page" value="1" />
+
+                    {% set foo = form.children['_page'].setRendered() %}
+                    {{ form_rest(form) }}
+
+                    <input type="submit" class="btn btn-primary" value="{{ 'btn_filter'|trans({}, 'SonataAdminBundle') }}" />
+
+                    <a class="btn" href="{{ admin.generateUrl('list', {filters: 'reset'}) }}">{{ 'link_reset_filter'|trans({}, 'SonataAdminBundle') }}</a>
+                </div>
+            </fieldset>
+        </form>
+    <script>
+    var globalConfig = {
+        createPageUrl: '{{ admin.generateUrl('create') }}',
+        editPageUrl: '{{ admin.generateUrl('edit', { id: 0 }) }}',
+        deletePageUrl: ''
+    };
+    </script>
+    {% endif %}
+{% endblock %}

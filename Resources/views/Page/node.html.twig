@@ -1,0 +1,36 @@
+
+{% if node['name'] == '__ROOT__' %}
+    {% set node_name = 'Homepage' %}
+{% else %}
+    {% set node_name = node['name'] %}
+{% endif %}
+
+
+{% if node['page_id'] is not empty %}
+    {% set node_id = ' id=page_' ~ node['page_id'] %}
+    {% set node_href = ' href=' ~ admin.generateUrl('edit', {'id': node['page_id'] }) %}
+    {% set node_class = ' class=link' %}
+    {% set node_title = ' title=' ~ node['path'] %}
+    {% set node_data_id = ' data-id=' ~ node['page_id'] %}
+{% else %}
+    {% set node_id = '' %}
+    {% set node_href = '' %}
+    {% set node_class = '' %}
+    {% set node_title = ' title=' ~ node['name'] %}
+    {% set node_data_id = '' %}
+{% endif %}
+
+
+<li data-path="{{ node['path'] }}"{{ node_id }}{{ node_data_id }}>
+    <a{{ node_href }}{{ node_class }}{{ node_title }}>{{ node_name }}</a>
+
+    {% if node['children'] is not empty %}
+    <ul>
+        {% for child in node['children'] %}
+            {% include 'RaindropPageBundle:Page:node.html.twig' with { node: child, indent: indent + 1 } %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+</li>
+
+

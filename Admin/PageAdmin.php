@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Raindrop\PageBundle\Form\EventListener\AddRouteFieldSubscriber;
 use Raindrop\PageBundle\Form\EventListener\AddMetaFieldSubscriber;
 use Raindrop\RoutingBundle\Entity\Route;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class PageAdmin extends Admin
 {
@@ -36,6 +37,11 @@ class PageAdmin extends Admin
         return $this->blockProvider;
     }
 
+//    public function configureRoutes(RouteCollection $collection)
+//    {
+//        $collection->add('tree', 'tree/view');
+//    }
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -46,11 +52,18 @@ class PageAdmin extends Admin
                     'data' => $this->getSubject()->getLayout() ?: ''
                 ))
                 ->add('title', null, array('required' => true))
+//                ->add('country', null, array('required' => false))
+//                ->add('locale', null, array('required' => false))
         ;
 
-        $builder = $formMapper->getFormBuilder();
+        $urlValue = '';
+        $parent = $this->container->get('request')->get('parent');
+        if ($parent) {
+            $urlValue = $parent . '/<name>';
+        }
 
-        $builder->addEventSubscriber(new AddRouteFieldSubscriber($builder->getFormFactory()));
+        $builder = $formMapper->getFormBuilder();
+        $builder->addEventSubscriber(new AddRouteFieldSubscriber($builder->getFormFactory(), array('url' => $urlValue)));
 
         $http_metas = $this->container->getParameter('raindrop_page.admin.http_metas');
         $builder->addEventSubscriber(new AddMetaFieldSubscriber($builder->getFormFactory(), $http_metas));
@@ -86,53 +99,61 @@ class PageAdmin extends Admin
             case 'edit':
                 return 'RaindropPageBundle:Page:page_editor.html.twig';
                 break;
+            case 'list':
+                return 'RaindropPageBundle:Page:page_tree_view.html.twig';
+                break;
             default:
                 return parent::getTemplate($name);
                 break;
         }
     }
 
-    public function preUpdate($page)
-    {
-        /**
-         * Check for related route
-         * @param type $page
-         */
+    public function postPersist($page) {
         $this->setRelatedRoute($page);
-        $this->updateRelatedLayout($page);
     }
 
+    /**
+     * @param type $page
+     */
     public function postUpdate($page)
     {
-        $route = $page->getRoute();
-        $route->setContent($page);
-        $this->modelManager->getEntityManager($route)->flush();
+        $this->setRelatedRoute($page);
+        $this->updateRelatedLayout($page);
     }
 
     protected function setRelatedRoute($page)
     {
         $orm = $this->container->get('doctrine.orm.default_entity_manager');
 
+        /**
+         * This is insane to access a form property...
+         */
         $query = $this->container->get('request')->query->all();
         $uniqid = $query['uniqid'];
         $requestParams = $this->container->get('request')->request->all();
         $formParams = $requestParams[$uniqid];
-
         $url = $formParams['url'];
 
-        if (!empty($url) && ($page->getRoute() && $page->getRoute()->getPath() !== $url)) {
-            $routeRepo = $orm->getRepository($this->container->getParameter('raindrop_routing_bundle.route_object_class'));
-            $route = $routeRepo->findOneByPath($url);
+        if (!empty($url)) {
+            $route = $page->getRoute();
+
             if (!$route) {
                 $route = new Route;
+                $resolver = $this->container
+                    ->get('raindrop_routing.content_resolver');
+                $resolver->setEntityManager($orm);
+                $route->setResolver($resolver);
                 $route->setPath($url);
+                $route->setNameFromPath();
+                $orm->persist($route);
             }
 
-            // make sure the controller is properly bound
-            $route->setController('raindrop_page.page_controller');
+            // make sure url and controller are properly bound
             $page->setRoute($route);
+            $route->setPath($url);
+            $route->setController($this->container->getParameter('raindrop_page.page_controller'));
 
-            $orm->persist($route);
+            // make sure the controller is properly bound
             $orm->flush();
         }
     }
