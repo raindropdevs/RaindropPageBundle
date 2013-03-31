@@ -1,4 +1,5 @@
-var pageAdmin = (function(){
+
+var pageAdmin = (function () {
 
     /*
      * private vars and methods
@@ -13,21 +14,43 @@ var pageAdmin = (function(){
 
 
     var urlChecker = function (url) {
+
+        var paragraphConfig;
+
         $.ajax({
             url: globalConfig.urlCheckPath,
             type: 'POST',
             data: 'url=' + url,
             success: function (result) {
-
                 if (result.available) {
                     config.urlParentGroup
                         .removeClass('error')
                         .addClass('success');
+
+                    paragraphConfig = {
+                        "html": "Url is not in use at the moment",
+                        "class": "",
+                        "style": "display:inline; margin-left: 40px; color: #007A2F"
+                    };
+
                 } else {
                     config.urlParentGroup
                         .removeClass('success')
                         .addClass('error');
+
+                    paragraphConfig = {
+                        "html": "Url is already taken by page named '" + result.page + "'",
+                        "class": "",
+                        "style": "display:inline; margin-left: 40px; color: #BD0000"
+                    };
                 }
+
+                config.urlInputField
+                    .parent()
+                        .find('p').remove()
+                    .end()
+                    .append($('<p/>', paragraphConfig))
+                    ;
             }
         });
     }
@@ -35,6 +58,7 @@ var pageAdmin = (function(){
     var addUrlCheckerListener = function () {
         config.urlInputField
             .keyup(function (event) {
+                clearTimeout(config.eventKeyUpTimeout);
                 config.eventKeyUpTimeout = setTimeout(function () {
                     var $el = $(event.currentTarget)
                     var url = $el.val();
