@@ -26,7 +26,18 @@ class AdminController extends Controller
             ->get('raindrop_routing.route_repository')
             ->findOneByPath($name);
 
-        return new JsonResponse(array('available' => !$route));
+        $available = true;
+        $page_title = null;
+
+        if ($route) {
+            $page = $this->get('raindrop_page.page_repository')->findOneByRoute($route->getId());
+            if ($page) {
+                $available = false;
+                $page_title = $page->getTitle();
+            }
+        }
+
+        return new JsonResponse(array('available' => $available, 'page' => $page_title));
     }
 
 
