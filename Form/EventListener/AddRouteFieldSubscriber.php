@@ -9,11 +9,12 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class AddRouteFieldSubscriber implements EventSubscriberInterface
 {
-    private $factory;
+    private $factory, $options;
 
-    public function __construct(FormFactoryInterface $factory)
+    public function __construct(FormFactoryInterface $factory, $options = array())
     {
         $this->factory = $factory;
+        $this->options = $options;
     }
 
     public static function getSubscribedEvents()
@@ -38,7 +39,16 @@ class AddRouteFieldSubscriber implements EventSubscriberInterface
         }
 
         // check if the product object is "new"
-        $url = $data->getRoute() ? $data->getRoute()->getPath() : '';
-        $form->add($this->factory->createNamed('url', 'text', $url, array('property_path' => false)));
+        $url = $this->options['url'];
+
+        if ($data->getRoute()) {
+            // obj is not new so retrieve route
+            $route = $data->getRoute();
+            if ($route) {
+                $url = $route->getPath();
+            }
+        }
+
+        $form->add($this->factory->createNamed('url', 'text', $url, array('property_path' => false, 'data' => $url)));
     }
 }
