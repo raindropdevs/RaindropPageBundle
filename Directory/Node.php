@@ -4,15 +4,19 @@ namespace Raindrop\PageBundle\Directory;
 
 class Node {
 
+    const ROOT = '__ROOT__';
+
     protected $path;
 
     protected $name;
 
     protected $parent;
 
+    protected $page_id;
+
     protected $children = array();
 
-    public function __construct($name, $parent = '_ROOT_') {
+    public function __construct($name, $parent = self::ROOT) {
         $this->name = $name;
         $this->parent = $parent;
         $this->initPath();
@@ -21,11 +25,13 @@ class Node {
     public function initPath() {
 
         $base = DIRECTORY_SEPARATOR;
-        if ($this->parent instanceof Node) {
+        if ($this->parent instanceof Node && $this->parent->getName() != self::ROOT) {
             $base = $this->parent->getPath() . DIRECTORY_SEPARATOR;
         }
 
-        $this->setPath($base . $this->getName());
+        $suffix = $this->name != self::ROOT ? $this->getName() : '';
+
+        $this->setPath($base . $suffix);
     }
 
     public function getPath() {
@@ -44,6 +50,14 @@ class Node {
 
     public function setName($name) {
         $this->name = $name;
+    }
+
+    public function setPageId($page_id) {
+        $this->page_id = $page_id;
+    }
+
+    public function getPageId() {
+        return $this->page_id;
     }
 
     public function getParent() {
@@ -93,6 +107,7 @@ class Node {
         $return = array(
             'name' => $this->getName(),
             'path' => $this->getPath(),
+            'page_id' => $this->getPageId(),
             'parent' => $this->getParentPath(),
             'children' => array()
         );

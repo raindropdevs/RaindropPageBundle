@@ -2,35 +2,46 @@
 
 namespace Raindrop\PageBundle\Directory;
 
+use Raindrop\PageBundle\Directory\Node;
+
 class Tree {
 
-    protected $routeRepository, $tree;
+    protected $pagesRepository, $root;
 
-    public function __construct($routeRepository) {
-        $this->routeRepository = $routeRepository;
+    public function __construct($pagesRepository) {
+        $this->pagesRepository = $pagesRepository;
     }
 
     public function buildTree() {
-        $routes = $this->routeRepository->findAll();
+        $pages = $this->pagesRepository->findAll();
 
-        $this->tree = array();
+        $this->root = new Node(Node::ROOT);
 
-        foreach ($routes as $route) {
+        foreach ($pages as $page) {
 
-            $array = $this->getCleanPathArray($route->getPath());
-            $root = array_shift($array);
-
-            if (!isset($this->tree[$root])) {
-                $this->tree[$root] = new Node($root);
+            if ($page->getRoute()->getPath() == '/') {
+                $this->root->setPageId($page->getId());
             }
 
-            $current = $this->tree[$root];
+            if (is_null($page->getRoute())) {
+                continue;
+            }
+
+            $array = $this->getCleanPathArray($page->getRoute()->getPath());
+
+            $current = $this->root;
 
             foreach ($array as $dir) {
 
                 if (!empty($dir)) {
                     if (!$current->hasChild($dir)) {
-                        $current->addChild(new Node($dir, $current));
+                        $node = new Node($dir, $current);
+
+                        if ($node->getPath() == $page->getRoute()->getPath()) {
+                            $node->setPageId($page->getId());
+                        }
+
+                        $current->addChild($node);
                     }
 
                     $current = $current->getChild($dir);
@@ -41,18 +52,30 @@ class Tree {
         return $this;
     }
 
-    public function toArray() {
-        $return = array();
-        foreach ($this->tree as $node) {
-            $return []= $node->toArray();
+    public function fromRootArray($root) {
+
+        $this->root = new Node(Node::ROOT);
+        $this->importChildren($this->root, $root);
+
+        return $this;
+    }
+
+    public function importChildren($node, $array) {
+        foreach ($array['children'] as $child) {
+            $node->addChild(new Node($child['name'], $node));
+
+            if (!empty($child['children'])) {
+                $this->importChildren($node->getChild($child['name']), $child);
+            }
         }
-        return $return;
+    }
+
+    public function toArray() {
+        return $this->root->toArray();
     }
 
     public function dumpGraph() {
-        foreach ($this->tree as $node) {
-            echo $node->dumpGraph();
-        }
+        echo $this->root->dumpGraph();
     }
 
     public function getCleanPathArray($path) {
