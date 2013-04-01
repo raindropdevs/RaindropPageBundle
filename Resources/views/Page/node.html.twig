@@ -12,16 +12,18 @@
     {% set node_class = ' class=link' %}
     {% set node_title = ' title=' ~ node['path'] %}
     {% set node_data_id = ' data-id=' ~ node['page_id'] %}
+    {% set node_data_title = ' data-title=' ~ node['title'] %}
 {% else %}
     {% set node_id = '' %}
     {% set node_href = '' %}
     {% set node_class = '' %}
     {% set node_title = ' title=' ~ node['name'] %}
     {% set node_data_id = '' %}
+    {% set node_data_title = '' %}
 {% endif %}
 
 
-<li data-path="{{ node['path'] }}"{{ node_id }}{{ node_data_id }}>
+<li data-path="{{ node['path'] }}"{{ node_id }}{{ node_data_id }}{{ node_data_title }}>
     <a{{ node_href }}{{ node_class }}{{ node_title }}>{{ node_name }}</a>
 
     {% if node['children'] is not empty %}

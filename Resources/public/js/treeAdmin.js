@@ -41,6 +41,7 @@ var treeAdmin = (function () {
                                 "label": "Delete",
                                 "action": function (obj) {
                                     var page_id = $(obj.reference.parent()).data('id');
+                                    window.location.href = globalConfig.deletePageUrl.replace('0', page_id);
                                 }
                             }
                         }

@@ -33,7 +33,7 @@
 
 {% block list_table %}
     {% set batchactions = admin.batchactions %}
-    <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" >
+    <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" style="margin-bottom: 100px;">
         <div class="row-fluid">
             <div class="span12">
                 <li id="rootElement">
@@ -80,7 +80,7 @@
     var globalConfig = {
         createPageUrl: '{{ admin.generateUrl('create') }}',
         editPageUrl: '{{ admin.generateUrl('edit', { id: 0 }) }}',
-        deletePageUrl: ''
+        deletePageUrl: '{{ admin.generateUrl('delete', { id: 0 }) }}'
     };
     </script>
     {% endif %}

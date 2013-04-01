@@ -10,6 +10,8 @@ class Node {
 
     protected $name;
 
+    protected $title;
+
     protected $parent;
 
     protected $page_id;
@@ -50,6 +52,14 @@ class Node {
 
     public function setName($name) {
         $this->name = $name;
+    }
+
+    public function setTitle($title) {
+        $this->title = $title;
+    }
+
+    public function getTitle() {
+        return $this->title;
     }
 
     public function setPageId($page_id) {
@@ -108,6 +118,7 @@ class Node {
             'name' => $this->getName(),
             'path' => $this->getPath(),
             'page_id' => $this->getPageId(),
+            'title' => $this->getTitle(),
             'parent' => $this->getParentPath(),
             'children' => array()
         );

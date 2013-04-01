@@ -39,6 +39,7 @@ class Tree {
 
                         if ($node->getPath() == $page->getRoute()->getPath()) {
                             $node->setPageId($page->getId());
+                            $node->setTitle($page->getTitle());
                         }
 
                         $current->addChild($node);
