@@ -43,10 +43,13 @@ class AddAssetsFieldSubscriber implements EventSubscriberInterface {
         }
 
         // add existing fields
-        foreach ($data->getJavascripts() as $js) {
-            $form->add($this->factory->createNamed('javascripts', 'multiple_text', $js, array(
-                'required' => false
-            )));
+        $jss = $data->getJavascripts();
+        if (!empty($jss)) {
+            foreach ($jss as $js) {
+                $form->add($this->factory->createNamed('javascripts', 'multiple_text', $js, array(
+                    'required' => false
+                )));
+            }
         }
 
         $form->add($this->factory->createNamed('javascripts', 'multiple_text', null, array(
@@ -54,10 +57,13 @@ class AddAssetsFieldSubscriber implements EventSubscriberInterface {
         )));
 
         // add existing fields
-        foreach ($data->getStylesheets() as $css) {
-            $form->add($this->factory->createNamed('stylesheets', 'multiple_text', $css, array(
-                'required' => false
-            )));
+        $csss = $data->getJavascripts();
+        if (!empty($csss)) {
+            foreach ($csss as $css) {
+                $form->add($this->factory->createNamed('stylesheets', 'multiple_text', $css, array(
+                    'required' => false
+                )));
+            }
         }
 
         $form->add($this->factory->createNamed('stylesheets', 'multiple_text', null, array(
