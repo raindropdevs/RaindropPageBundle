@@ -37,23 +37,15 @@ class PageAdmin extends Admin
         return $this->blockProvider;
     }
 
-//    public function configureRoutes(RouteCollection $collection)
-//    {
-//        $collection->add('tree', 'tree/view');
-//    }
-
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('name', null, array('required' => true))
+                ->add('title', null, array('required' => true))
                 ->add('layout', 'choice', array(
                     'required' => true,
                     'choices' => $this->layoutProvider->provide(),
                     'data' => $this->getSubject()->getLayout() ?: ''
                 ))
-                ->add('title', null, array('required' => true))
-//                ->add('country', null, array('required' => false))
-//                ->add('locale', null, array('required' => false))
         ;
 
         $urlValue = '';
@@ -72,14 +64,14 @@ class PageAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('name')
+            ->add('title')
         ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('name')
+            ->addIdentifier('title')
             ->addIdentifier('route.path', null, array('label' => 'route name'))
             ->addIdentifier('layout')
 
@@ -106,6 +98,14 @@ class PageAdmin extends Admin
                 return parent::getTemplate($name);
                 break;
         }
+    }
+
+    public function prePersist($page) {
+        $page->setName($page->getTitle());
+    }
+
+    public function preUpdate($page) {
+        $page->setName($page->getTitle());
     }
 
     public function postPersist($page) {
