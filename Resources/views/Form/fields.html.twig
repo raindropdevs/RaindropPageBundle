@@ -1,0 +1,26 @@
+{% block extensible_array_widget %}
+    {% spaceless %}
+        {% if expanded %}
+            <ul {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                <li>
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            {# just let the choice widget render the select tag #}
+            {{ block('choice_widget') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block multiple_text_widget %}
+    {% spaceless %}
+        {% for val in value %}
+            <input class="span5" type="text" {{ block('widget_attributes') }} value="{{ val }}" /><br>
+        {% endfor %}
+        <input class="span5" type="text" {{ block('widget_attributes') }} value="" />
+    {% endspaceless %}
+{% endblock %}

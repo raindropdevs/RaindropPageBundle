@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Raindrop\PageBundle\Form\EventListener\AddAssetsFieldSubscriber;
 
 class BlockAdmin extends Admin
 {
@@ -19,9 +20,6 @@ class BlockAdmin extends Admin
     {
         $formMapper
                 ->add('name', null, array('required' => true))
-//                ->add('page', null, array('required' => false))
-//                ->add('template', null, array('required' => true))
-//                ->add('parent', null, array('required' => false))
         ;
 
         $formMapper
@@ -31,12 +29,11 @@ class BlockAdmin extends Admin
                 ), array(
                     'edit' => 'inline',
                     'inline' => 'table'
-                ));
+                ))
+            ;
 
-//        foreach ($this->getSubject()->getVariables() as $variable) {
-//            $formMapper
-//                ->add('content', $variable->getType(), $variable->getOptions());
-//        }
+        $builder = $formMapper->getFormBuilder();
+        $builder->addEventSubscriber(new AddAssetsFieldSubscriber($builder->getFormFactory()));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -52,26 +49,26 @@ class BlockAdmin extends Admin
             ->addIdentifier('name')
             ->addIdentifier('page')
             ->addIdentifier('template')
-
-            // add custom action links
-//            ->add('_action', 'actions', array(
-//                'actions' => array(
-//                    'view' => array(),
-//                    'edit' => array()
-//                )
-//            ))
         ;
     }
 
-//    public function preUpdate($page)
-//    {
-//        $page->setController('RaindropPageBundle:Page:index');
-//    }
-//
-//    public function postUpdate($page)
-//    {
-//        $route = $page->getRoute();
-//        $route->setContent($page);
-//        $this->modelManager->getEntityManager($route)->flush();
-//    }
+    /**
+     * Filter empty input
+     *
+     * @param type $block
+     * @return type
+     */
+    public function preUpdate($block)
+    {
+        $jss = array_filter($block->getJavascripts(), function ($js) {
+            return !empty($js);
+        });
+
+        $css = array_filter($block->getStylesheets(), function ($cs) {
+            return !empty($cs);
+        });
+
+        $block->setJavascripts($jss);
+        $block->setStylesheets($css);
+    }
 }
