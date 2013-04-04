@@ -25,6 +25,8 @@ class RaindropPageExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        $loader->load('admin.xml');
+        $loader->load('form_types.xml');
 
         $httpMetas = Yaml::parse(__DIR__.'/../Resources/config/http_metas.yml');
         $container->setParameter('raindrop_page.admin.http_metas', $httpMetas);

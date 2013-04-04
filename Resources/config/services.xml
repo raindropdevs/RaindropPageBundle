@@ -7,57 +7,11 @@
     <parameters>
         <parameter key="raindrop_page_bundle.page_class">Raindrop\PageBundle\Entity\Page</parameter>
         <parameter key="raindrop_page_bundle.page_repository_class">Raindrop\PageBundle\Entity\PageRepository</parameter>
-        <parameter key="raindrop_page_bundle.block_class">Raindrop\PageBundle\Entity\Block</parameter>
-        <parameter key="raindrop_page_bundle.block_repository_class">Raindrop\PageBundle\Entity\BlockRepository</parameter>
         <parameter key="raindrop_page.base_action">RaindropPageBundle:Page:index</parameter>
         <parameter key="raindrop_page.page_controller">RaindropPageBundle:Page:index</parameter>
     </parameters>
 
     <services>
-        <service id="raindrop.admin.page" class="Raindrop\PageBundle\Admin\PageAdmin">
-
-            <argument />
-            <argument>Raindrop\PageBundle\Entity\Page</argument>
-            <argument>RaindropPageBundle:PageCRUD</argument>
-
-            <tag name="sonata.admin" manager_type="orm" group="page" label="page"/>
-
-            <call method="setTranslationDomain">
-                <argument>RaindropPageBundle</argument>
-            </call>
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-            <call method="setLayoutProvider">
-                <argument type="service" id="raindrop.admin.layout.provider" />
-            </call>
-            <call method="setBlockProvider">
-                <argument type="service" id="raindrop.admin.block.provider" />
-            </call>
-        </service>
-
-        <service id="raindrop.admin.block" class="Raindrop\PageBundle\Admin\BlockAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="block"/>
-            <argument />
-            <argument>Raindrop\PageBundle\Entity\Block</argument>
-            <argument>RaindropPageBundle:BlockCRUD</argument>
-            <call method="setTranslationDomain">
-                <argument>RaindropPageBundle</argument>
-            </call>
-        </service>
-
-        <service id="raindrop.admin.blockVariable" class="Raindrop\PageBundle\Admin\BlockVariableAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="block_variable"/>
-            <argument />
-            <argument>Raindrop\PageBundle\Entity\BlockVariable</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-            <call method="setTranslationDomain">
-                <argument>RaindropPageBundle</argument>
-            </call>
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
 
         <service id="raindrop.admin.layout.provider" class="Raindrop\PageBundle\Admin\Providers\LayoutProvider">
             <argument type="service" id="raindrop_twig.template_repository" />
@@ -76,24 +30,13 @@
             <argument>%raindrop_page_bundle.block_class%</argument>
         </service>
 
-        <service id="raindrop_page.block.service.template" class="Raindrop\PageBundle\Block\TemplateBlockService">
-            <tag name="sonata.block" />
-            <argument>raindrop_page.block.service.template</argument>
-            <argument type="service" id="templating" />
-        </service>
-
-        <service id="raindrop_page.block.manager" class="Raindrop\PageBundle\Manager\BlockManager">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="raindrop_page.page.manager" />
-        </service>
-
         <service id="raindrop_page.page.manager" class="Raindrop\PageBundle\Manager\PageManager">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%raindrop_twig_loader_bundle.entity_class%</argument>
         </service>
 
         <service id="raindrop_page.tree.warmer" class="Raindrop\PageBundle\HttpKernel\WebsiteTreeWarmer" public="false">
-            <tag name="kernel.cache_warmer" />
+            <!--<tag name="kernel.cache_warmer" />-->
             <argument type="service" id="kernel" />
             <argument type="service" id="service_container" />
             <argument type="service" id="raindrop_page.directory_tree" />
@@ -101,11 +44,6 @@
 
         <service id="raindrop_page.directory_tree" class="Raindrop\PageBundle\Directory\Tree">
             <argument type="service" id="raindrop_page.page_repository" />
-        </service>
-
-        <service id="raindrop.block.loader.service" class="Raindrop\PageBundle\Block\Loader\ServiceLoader">
-            <tag name="sonata.block.loader" />
-            <argument type="service" id="raindrop_page.block_repository" />
         </service>
 
         <service id="raindrop.page.seo.listener" class="Raindrop\PageBundle\HttpKernel\FilterControllerSeoPageEvent">
@@ -117,26 +55,23 @@
             <tag name="doctrine.event_listener" event="postLoad"></tag>
         </service>
 
-        <service id="raindrop.admin.block.service" class="Raindrop\PageBundle\Block\AdminListBlockService">
-            <tag name="sonata.block" />
-            <argument>raindrop.admin.block.service</argument>
-            <argument type="service" id="templating" />
-        </service>
-
-        <service id="raindrop.admin.block.loader.service" class="Raindrop\PageBundle\Block\Loader\AdminDashboardLoader">
-            <tag name="sonata.block.loader" />
-            <argument type="service" id="raindrop_page.block_repository" />
-        </service>
-
         <service id="raindrop_page.cache_reader" class="Raindrop\PageBundle\Directory\CacheReader">
             <argument>%kernel.cache_dir%</argument>
         </service>
 
-
         <service id="raindrop_page.twig_extension" class="Raindrop\PageBundle\Extension\TwigExtension">
-            <argument type="service" id="service_container"/>
+            <argument type="service" id="service_container" />
             <tag name="twig.extension" />
         </service>
+
+        <service id="raindrop.page.intl.provider" class="Raindrop\PageBundle\Admin\Providers\IntlProvider">
+            <argument type="service" id="raindrop.page.intl.country.provider" />
+            <argument type="service" id="raindrop.page.intl.culture.provider" />
+        </service>
+
+        <service id="raindrop.page.intl.country.provider" class="Raindrop\PageBundle\Admin\Providers\CountryProvider" />
+
+        <service id="raindrop.page.intl.culture.provider" class="Raindrop\PageBundle\Admin\Providers\CultureProvider" />
 
     </services>
 
