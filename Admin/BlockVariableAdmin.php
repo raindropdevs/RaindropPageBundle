@@ -71,14 +71,6 @@ class BlockVariableAdmin extends Admin
             ->addIdentifier('name')
             ->addIdentifier('type')
             ->addIdentifier('content')
-
-            // add custom action links
-//            ->add('_action', 'actions', array(
-//                'actions' => array(
-//                    'view' => array(),
-//                    'edit' => array()
-//                )
-//            ))
         ;
     }
 

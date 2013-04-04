@@ -38,7 +38,6 @@ class AddRouteFieldSubscriber implements EventSubscriberInterface
             return;
         }
 
-        // check if the product object is "new"
         $url = $this->options['url'];
 
         if ($data->getRoute()) {
