@@ -45,6 +45,16 @@ class BlockConfig
     protected $options;
 
     /**
+     * @ORM\Column(type="array")
+     */
+    protected $javascripts;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    protected $stylesheets;
+
+    /**
      * Get id
      *
      * @return integer
@@ -163,17 +173,71 @@ class BlockConfig
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function hasJavascripts() {
+        return !empty($this->javascripts);
+    }
+
+    /**
+     * Set javascripts
+     *
+     * @param array $javascripts
+     * @return Block
+     */
+    public function setJavascripts($javascripts)
+    {
+        $this->javascripts = $javascripts;
+
+        return $this;
+    }
+
+    /**
+     * Get javascripts
+     *
+     * @return array
+     */
+    public function getJavascripts()
+    {
+        return $this->javascripts;
+    }
+
+    public function hasStylesheets() {
+        return !empty($this->stylesheets);
+    }
+
+    /**
+     * Set stylesheets
+     *
+     * @param array $stylesheets
+     * @return Block
+     */
+    public function setStylesheets($stylesheets)
+    {
+        $this->stylesheets = $stylesheets;
+
+        return $this;
+    }
+
+    /**
+     * Get stylesheets
+     *
+     * @return array
+     */
+    public function getStylesheets()
+    {
+        return $this->stylesheets;
     }
 }

@@ -27,6 +27,9 @@ class BlockManager {
         $variables = $this->createBlockVariables($blockConfig);
         $block->setVariables($variables);
 
+        $block->setJavascripts($blockConfig->getJavascripts());
+        $block->setStylesheets($blockConfig->getStylesheets());
+
         $block->setPosition(1000);
 
         $variables->forAll(function ($index, $variable) use ($page, $block) {
