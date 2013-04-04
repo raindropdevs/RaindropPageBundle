@@ -104,6 +104,21 @@ class TwigExtension extends \Twig_Extension {
             return $route->getContent();
         }
 
+        $id = $this->container->get('request')->get('page_id');
+        if ($id) {
+            $orm = $this
+                ->container
+                ->get('doctrine.orm.default_entity_manager');
+            $page = $orm
+                ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
+                ->find($id);
+            if ($page) {
+                return $page;
+            }
+        }
+
+
+
         return null;
     }
 }
