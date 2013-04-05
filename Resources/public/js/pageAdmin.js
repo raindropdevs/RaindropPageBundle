@@ -94,27 +94,38 @@ var pageAdmin = (function () {
             config.urlParentGroup = $('#tabMeta form.form-horizontal:eq(0) .control-group:eq(3)');
             config.urlInputField = $('#tabMeta form.form-horizontal:eq(0) input[type=text]:eq(2)');
 
+            /*
+             * Add listener for url input field
+             */
             addUrlCheckerListener();
 
             this.setupElements();
         },
 
+        /*
+         * Setup page elements
+         */
         setupElements: function () {
 
-            this.pageLayoutSetup();
+            /*
+             * Blocks mouse over
+             */
+            this.setupMouseover();
 
+            /*
+             * Blocks popover to delete
+             */
+            this.setupPopover();
+
+            /*
+             * drag and drop
+             */
             this.setupDragDrop();
 
+            /*
+             * force modal window size
+             */
             this.setupModal();
-
-            $(".row-fluid.draggable-source-block")
-                .mouseenter(function(){
-                    $(this).addClass('hover');
-                })
-                .mouseleave(function(){
-                    $(this).removeClass('hover');
-                })
-                ;
 
             $(".raindrop_tips").tooltip();
         },
@@ -158,7 +169,7 @@ var pageAdmin = (function () {
             );
         },
 
-        pageLayoutSetup: function () {
+        setupMouseover: function () {
 
             $(".row-fluid.draggable-block:not(.hover-bound)")
                 .addClass('hover-bound')
@@ -168,6 +179,21 @@ var pageAdmin = (function () {
                 .mouseleave(function(){
                     $(this).removeClass('hover');
                 })
+                ;
+
+            $(".row-fluid.draggable-source-block")
+                .mouseenter(function(){
+                    $(this).addClass('hover');
+                })
+                .mouseleave(function(){
+                    $(this).removeClass('hover');
+                })
+                ;
+        },
+
+        setupPopover: function () {
+            $(".row-fluid.draggable-block:not(.hover-bound)")
+                .addClass('hover-bound')
                 .find('.remove-popover')
                     .popover({
                         placement: 'top',
