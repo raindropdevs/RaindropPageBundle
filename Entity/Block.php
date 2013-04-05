@@ -34,12 +34,12 @@ class Block extends BaseBlock
     protected $template;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page")
+     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page", inversedBy="children")
      */
     protected $page;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Block")
+     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Block", inversedBy="children")
      */
     protected $parent;
 
@@ -112,10 +112,12 @@ class Block extends BaseBlock
 
             if ($variable->getType() == 'entity') {
                 $options = $variable->getOptions();
-                $return [$variable->getName()]= $this
-                        ->entityManager
-                        ->getRepository($options['model'])
-                        ->find($variable->getContent());
+                if ($variable->getContent()) {
+                    $return [$variable->getName()]= $this
+                            ->entityManager
+                            ->getRepository($options['model'])
+                            ->find($variable->getContent());
+                }
             } else {
                 $return [$variable->getName()]= $variable->getContent();
             }

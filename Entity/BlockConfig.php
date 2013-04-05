@@ -240,4 +240,8 @@ class BlockConfig
     {
         return $this->stylesheets;
     }
+
+    public function __toString() {
+        return $this->getName();
+    }
 }

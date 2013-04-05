@@ -34,7 +34,7 @@ class BlockVariable
     protected $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Block")
+     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Block", inversedBy="variables")
      */
     protected $block;
 
