@@ -25,7 +25,7 @@ class BlockConfig
     protected $name;
 
     /**
-     * @ORM\Column
+     * @ORM\Column(nullable=true)
      */
     protected $description;
 
