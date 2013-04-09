@@ -25,7 +25,28 @@ class AddAssetsFieldSubscriber implements EventSubscriberInterface {
     {
         // Tells the dispatcher that you want to listen on the form.pre_set_data
         // event and that the preSetData method should be called.
-        return array(FormEvents::PRE_SET_DATA => 'preSetData');
+        return array(
+            FormEvents::PRE_SET_DATA => 'preSetData',
+            FormEvents::PRE_BIND => 'preBind'
+        );
+    }
+
+    public function preBind(FormEvent $event) {
+
+        $data = $event->getData();
+
+        $jss = array_filter($data['javascripts'], function ($js) {
+            return !empty($js);
+        });
+
+        $css = array_filter($data['stylesheets'], function ($cs) {
+            return !empty($cs);
+        });
+
+        $data['javascripts'] = $jss;
+        $data['stylesheets'] = $css;
+
+        $event->setData($data);
     }
 
     public function preSetData(FormEvent $event)

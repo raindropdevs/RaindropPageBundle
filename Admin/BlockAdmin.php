@@ -51,24 +51,4 @@ class BlockAdmin extends Admin
             ->addIdentifier('template')
         ;
     }
-
-    /**
-     * Filter empty input
-     *
-     * @param type $block
-     * @return type
-     */
-    public function preUpdate($block)
-    {
-        $jss = array_filter($block->getJavascripts(), function ($js) {
-            return !empty($js);
-        });
-
-        $css = array_filter($block->getStylesheets(), function ($cs) {
-            return !empty($cs);
-        });
-
-        $block->setJavascripts($jss);
-        $block->setStylesheets($css);
-    }
 }
