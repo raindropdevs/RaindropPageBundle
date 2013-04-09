@@ -105,7 +105,7 @@ class PageAdmin extends Admin
     }
 
     public function preUpdate($page) {
-        $page->setName($page->getTitle());
+        $this->prePersist($page);
     }
 
     public function postPersist($page) {
@@ -153,7 +153,6 @@ class PageAdmin extends Admin
             $route->setPath($url);
             $route->setController($this->container->getParameter('raindrop_page.page_controller'));
 
-            // make sure the controller is properly bound
             $orm->flush();
         }
     }
