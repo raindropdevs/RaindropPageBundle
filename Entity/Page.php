@@ -3,7 +3,7 @@
 namespace Raindrop\PageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Raindrop\RoutingBundle\Entity\Route;
+use Raindrop\RoutingBundle\Routing\Base\RouteObjectInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Raindrop\PageBundle\Entity\Block;
 
@@ -290,7 +290,7 @@ class Page
      * @param \Raindrop\RoutingBundle\Entity\Route $route
      * @return Page
      */
-    public function setRoute(Route $route = null)
+    public function setRoute(RouteObjectInterface $route = null)
     {
         if ($this->getId()) {
             $route->setContent($this);
@@ -309,6 +309,10 @@ class Page
     public function getRoute()
     {
         return $this->route;
+    }
+
+    public function hasRoute() {
+        return $this->route instanceof RouteObjectInterface;
     }
 
     /**
