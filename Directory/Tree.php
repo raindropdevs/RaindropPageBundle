@@ -19,6 +19,10 @@ class Tree {
 
         foreach ($pages as $page) {
 
+            if (!$page->hasRoute()) {
+                continue;
+            }
+
             if ($page->getRoute()->getPath() == '/') {
                 $this->root->setPageId($page->getId());
             }
