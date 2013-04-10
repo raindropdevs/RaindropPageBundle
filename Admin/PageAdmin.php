@@ -138,6 +138,12 @@ class PageAdmin extends Admin
             $route = $page->getRoute();
 
             if (!$route) {
+                $route = $orm
+                    ->getRepository($this->container->getParameter('raindrop_routing_bundle.route_object_class'))
+                    ->findOneByPath($url);
+            }
+
+            if (!$route) {
                 $route = new Route;
                 $resolver = $this->container
                     ->get('raindrop_routing.content_resolver');
