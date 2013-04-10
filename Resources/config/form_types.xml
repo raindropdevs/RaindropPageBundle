@@ -5,12 +5,24 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="raindrop.page.form.type.array" class="Raindrop\PageBundle\Form\Type\ArrayType">
+        <service id="raindrop.page.form.type.array" class="Raindrop\PageBundle\Form\Type\ExtensibleArrayType">
             <tag name="form.type" alias="extensible_array" />
         </service>
 
         <service id="raindrop.page.form.type.text" class="Raindrop\PageBundle\Form\Type\MultipleTextType">
             <tag name="form.type" alias="multiple_text" />
+        </service>
+
+        <service id="raindrop.page.form.type.nested" class="Raindrop\PageBundle\Form\Type\NestedTextType">
+            <tag name="form.type" alias="nested_text" />
+        </service>
+
+        <service id="raindrop.page.form.type.nested.choice" class="Raindrop\PageBundle\Form\Type\NestedChoiceType">
+            <tag name="form.type" alias="nested_choice" />
+        </service>
+
+        <service id="raindrop.page.form.type.nested_textarea" class="Raindrop\PageBundle\Form\Type\NestedTextareaType">
+            <tag name="form.type" alias="nested_textarea" />
         </service>
     </services>
 

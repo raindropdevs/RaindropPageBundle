@@ -41,12 +41,28 @@
             <call method="setTranslationDomain">
                 <argument>RaindropPageBundle</argument>
             </call>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
 
         <service id="raindrop.admin.blockVariable" class="Raindrop\PageBundle\Admin\BlockVariableAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="block_variable"/>
+            <tag name="sonata.admin" manager_type="orm" group="page" label="block variable"/>
             <argument />
             <argument>Raindrop\PageBundle\Entity\BlockVariable</argument>
+            <argument>SonataAdminBundle:CRUD</argument>
+            <call method="setTranslationDomain">
+                <argument>RaindropPageBundle</argument>
+            </call>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="raindrop.admin.block_config" class="Raindrop\PageBundle\Admin\BlockConfigAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="page" label="block config"/>
+            <argument />
+            <argument>Raindrop\PageBundle\Entity\BlockConfig</argument>
             <argument>SonataAdminBundle:CRUD</argument>
             <call method="setTranslationDomain">
                 <argument>RaindropPageBundle</argument>

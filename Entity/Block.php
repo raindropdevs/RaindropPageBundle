@@ -84,6 +84,8 @@ class Block extends BaseBlock
      */
     protected $entityManager;
 
+    protected $resolver;
+
     /**
      * Get id
      *
@@ -105,25 +107,17 @@ class Block extends BaseBlock
         return $this->entityManager;
     }
 
+    public function setResolver($resolver) {
+        $this->resolver = $resolver;
+    }
+
+    public function getResolver() {
+        return $this->resolver;
+    }
+
     public function getSettings() {
-        $return = array();
 
-        foreach ($this->getVariables() as $variable) {
-
-            if ($variable->getType() == 'entity') {
-                $options = $variable->getOptions();
-                if ($variable->getContent()) {
-                    $return [$variable->getName()]= $this
-                            ->entityManager
-                            ->getRepository($options['model'])
-                            ->find($variable->getContent());
-                }
-            } else {
-                $return [$variable->getName()]= $variable->getContent();
-            }
-        }
-
-        return $return;
+        return $this->resolver->resolve($this->getVariables());
     }
 
     public function getType() {

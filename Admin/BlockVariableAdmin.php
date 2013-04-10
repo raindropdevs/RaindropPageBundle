@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\DependencyInjection\Container;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class BlockVariableAdmin extends Admin
 {
@@ -23,12 +24,11 @@ class BlockVariableAdmin extends Admin
         switch ($this->getSubject()->getType()) {
             case 'entity':
                 $options = $this->getSubject()->getOptions();
-
                 $orm = $this->container->get('doctrine.orm.default_entity_manager');
                 $allEntities = $orm->getRepository($options['model'])->findAll();
 
                 $choices = array();
-                $getter = 'get' . Container::camelize($options['human_identifier']);
+                $getter = 'get' . Container::camelize($options['human-identifier']);
 
                 array_walk($allEntities, function ($entity) use (&$choices, $getter) {
                     $choices [$entity->getId()]= $entity->$getter();

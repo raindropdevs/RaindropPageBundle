@@ -7,14 +7,21 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Raindrop\PageBundle\Form\EventListener\AddAssetsFieldSubscriber;
+use Symfony\Component\DependencyInjection\Container;
+use Raindrop\PageBundle\Form\EventListener\AddBlockVariablesSubscriber;
 
 class BlockAdmin extends Admin
 {
-    protected $blockService;
+    protected $blockService, $container;
 
     public function setBlockService($blockService) {
         $this->blockService = $blockService;
     }
+
+    public function setContainer($container) {
+        $this->container = $container;
+    }
+
 
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -22,18 +29,75 @@ class BlockAdmin extends Admin
                 ->add('name', null, array('required' => true))
         ;
 
-        $formMapper
-            ->add('variables', 'sonata_type_collection',
-                array(
-                    'by_reference' => false
-                ), array(
-                    'edit' => 'inline',
-                    'inline' => 'table'
-                ))
-            ;
+        $variables = $this->getSubject()->getVariables();
+        foreach ($variables as $variable) {
+            $this->mapVariables($formMapper, $variable);
+        }
 
         $builder = $formMapper->getFormBuilder();
         $builder->addEventSubscriber(new AddAssetsFieldSubscriber($builder->getFormFactory()));
+        $builder->addEventSubscriber(new AddBlockVariablesSubscriber($builder->getFormFactory()));
+    }
+
+    protected function mapVariables($formMapper, $variable) {
+        $options = $variable->getOptions();
+
+        switch ($variable->getType()) {
+            case 'entity':
+                $orm = $this->container->get('doctrine.orm.default_entity_manager');
+                $allEntities = $orm->getRepository($options['model'])->findAll();
+
+                $choices = array();
+                $getter = 'get' . Container::camelize($options['human-identifier']);
+
+                array_walk($allEntities, function ($entity) use (&$choices, $getter) {
+                    $choices [$entity->getId()]= $entity->$getter();
+                });
+
+                $formMapper
+                    ->add($variable->getName() . ':content', 'nested_choice', array(
+                        'label' => $options['label'],
+                        'required' => true,
+                        'choices' => $choices,
+                        'data' => $variable->getContent() ?: '',
+                        'mapped' => false,
+                        'nested_name' => '[variables][' . $variable->getName() . '][content]'
+                    ));
+
+                break;
+            case 'text':
+                // required is set as default parameter to true.
+                if (!isset($options['required'])) {
+                    $options['required'] = true;
+                }
+
+                $formMapper
+                    ->add($variable->getName() . ':content', 'nested_text', array(
+                        'data' => $variable->getContent() ?: '',
+                        'nested_name' => '[variables][' . $variable->getName() . '][content]',
+                        'mapped' => false,
+                        'attr' => array(
+                            'class' => 'span5'
+                        )
+                    ));
+            case 'textarea':
+                // required is set as default parameter to true.
+                if (!isset($options['required'])) {
+                    $options['required'] = true;
+                }
+
+                $formMapper
+                    ->add($variable->getName() . ':content', 'nested_textarea', array(
+                        'data' => $variable->getContent() ?: '',
+                        'nested_name' => '[variables][' . $variable->getName() . '][content]',
+                        'mapped' => false,
+                        'attr' => array(
+                            'class' => 'span5'
+                        )
+                    ));
+            default:
+                break;
+        }
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -50,5 +114,40 @@ class BlockAdmin extends Admin
             ->addIdentifier('page')
             ->addIdentifier('template')
         ;
+    }
+
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'RaindropPageBundle:Block:block_editor.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
+    public function postUpdate($block) {
+        $query = $this->container->get('request')->query->all();
+        $uniqid = $query['uniqid'];
+        $requestParams = $this->container->get('request')->request->all();
+        $formParams = $requestParams[$uniqid];
+
+        if (isset($formParams['variables'])) {
+            $variables = $formParams['variables'];
+            $orm = $this->container->get('doctrine.orm.default_entity_manager');
+            $blockVariablesRepo = $orm->getRepository('Raindrop\PageBundle\Entity\BlockVariable');
+
+            if (!empty($variables)) {
+                foreach ($variables as $name => $content) {
+                    $previous = $blockVariablesRepo->findOnyByNameAndBlock($name, $block);
+                    if ($previous) {
+                        $previous->setContent($content['content']);
+                    }
+                }
+            }
+        }
+        $orm->flush();
     }
 }

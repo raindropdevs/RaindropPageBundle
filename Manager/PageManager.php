@@ -26,7 +26,7 @@ class PageManager {
             $templateRepo = $this->orm
                 ->getRepository($this->twigEntityClass);
             $tpl = $templateRepo->findOneByName($params[1]);
-            $tpl->setUpdated(new \DateTime);
+            $tpl->setUpdatedValue();
             $this->orm->flush();
         }
     }

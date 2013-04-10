@@ -1,18 +1,38 @@
 {% block extensible_array_widget %}
     {% spaceless %}
-        {% if expanded %}
-            <ul {{ block('widget_container_attributes') }}>
-            {% for child in form %}
-                <li>
-                    {{ form_widget(child) }}
-                    {{ form_label(child) }}
-                </li>
+
+        <div class="controls control-group">
+
+            <select class="raindropFormAddFieldSelect">
+                <option value="text">text</option>
+                <option value="entity">entity</option>
+                <option value="service">service</option>
+            </select>
+
+            <input class="raindropFormAddFieldName" style="margin-left:10px;" type="text" name="field_name" />
+
+            <a class="btn raindropFormAddFieldButton" style="margin-left:10px;" class="btn" onclick="raindropFormAddField(this)" href="javascript:;">Add text field</a>
+        </div>
+
+        <div class="raindropFormAddFieldContainer control-group" {{ block('widget_container_attributes') }} data-prototype="{{ form_row(prototype)|e }}">
+
+            {% for group, children in form_widgets %}
+                <div>
+                    <div class="controls raindropLabelContainer">
+                        <a class="pull-left" onclick="raindropFormRemoveField(this)"><i class="icon-remove"></i></a>
+                        <label><strong>{{ group }}</strong></label>
+                    </div>
+                    {% for name in children %}
+                    <div class="controls sonata-ba-field sonata-ba-field-standard-natural raindropInput">
+                        {{ form_label(form[name]) }}
+                        {{ form_widget(form[name]) }}
+                    </div>
+                    {% endfor %}
+                </div>
             {% endfor %}
-            </ul>
-        {% else %}
-            {# just let the choice widget render the select tag #}
-            {{ block('choice_widget') }}
-        {% endif %}
+
+        </div>
+        {% include 'RaindropPageBundle:Form:extensible_array_js.html.twig' %}
     {% endspaceless %}
 {% endblock %}
 
@@ -24,3 +44,20 @@
         <input class="span5" type="text" {{ block('widget_attributes') }} value="" />
     {% endspaceless %}
 {% endblock %}
+
+{% block nested_choice_widget %}
+{% spaceless %}
+    {% if expanded %}
+        {{ block('choice_widget_expanded') }}
+    {% else %}
+        {{ block('choice_widget_collapsed') }}
+    {% endif %}
+{% endspaceless %}
+{% endblock nested_choice_widget %}
+
+
+{% block nested_textarea_widget %}
+{% spaceless %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{% endspaceless %}
+{% endblock nested_textarea_widget %}

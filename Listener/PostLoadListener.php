@@ -7,18 +7,21 @@ use Raindrop\PageBundle\Entity\Block;
 
 class PostLoadListener {
 
-    protected $emBound = false;
+    protected $variablesResolver;
+
+    public function __construct($variablesResolver) {
+        $this->variablesResolver = $variablesResolver;
+    }
 
     public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
 
         if ($entity instanceof Block) {
             /**
              * Use entity manager to retrieve related entity
              */
-            $entity->setEntityManager($entityManager);
+            $entity->setResolver($this->variablesResolver);
         }
     }
 }

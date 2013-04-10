@@ -58,7 +58,10 @@ class BlockManager {
             $config = new BlockVariable;
             $config->setName($name);
             $config->setType($options['type']);
-            $config->setOptions($options['options']);
+
+            if (isset($options['options'])) {
+                $config->setOptions($options['options']);
+            }
 
             $return []= $config;
         }

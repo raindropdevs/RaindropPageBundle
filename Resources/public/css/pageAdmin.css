@@ -142,3 +142,15 @@
 .page-layout-container {
     padding-bottom: 120px;
 }
+
+.raindropLabelContainer {
+    margin-top: 6px;
+}
+
+.form-horizontal .raindropInput .raindropLabel {
+    text-align: left;
+}
+
+.raindropInput {
+    margin-top: 10px;
+}

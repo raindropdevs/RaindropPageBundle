@@ -6,7 +6,11 @@
 
     <parameters>
         <parameter key="raindrop_page_bundle.page_class">Raindrop\PageBundle\Entity\Page</parameter>
+        <parameter key="raindrop_page_bundle.block_class">Raindrop\PageBundle\Entity\Block</parameter>
+        <parameter key="raindrop_page_bundle.block_variable_class">Raindrop\PageBundle\Entity\BlockVariable</parameter>
         <parameter key="raindrop_page_bundle.page_repository_class">Raindrop\PageBundle\Entity\PageRepository</parameter>
+        <parameter key="raindrop_page_bundle.block_repository_class">Raindrop\PageBundle\Entity\BlockRepository</parameter>
+        <parameter key="raindrop_page_bundle.block_variable_repository_class">Raindrop\PageBundle\Entity\BlockVariableRepository</parameter>
         <parameter key="raindrop_page.base_action">RaindropPageBundle:Page:index</parameter>
         <parameter key="raindrop_page.page_controller">RaindropPageBundle:Page:index</parameter>
     </parameters>
@@ -28,6 +32,10 @@
 
         <service id="raindrop_page.block_repository" factory-service="doctrine.orm.entity_manager" factory-method="getRepository" class="%raindrop_page_bundle.block_repository_class%">
             <argument>%raindrop_page_bundle.block_class%</argument>
+        </service>
+
+        <service id="raindrop_page.block_variable_repository" factory-service="doctrine.orm.entity_manager" factory-method="getRepository" class="%raindrop_page_bundle.block_variable_repository_class%">
+            <argument>%raindrop_page_bundle.block_variable_class%</argument>
         </service>
 
         <service id="raindrop_page.page.manager" class="Raindrop\PageBundle\Manager\PageManager">
@@ -53,6 +61,7 @@
 
         <service id="raindrop_page.postload_listener" class="Raindrop\PageBundle\Listener\PostLoadListener">
             <tag name="doctrine.event_listener" event="postLoad"></tag>
+            <argument type="service" id="raindrop.page.variable_resolver" />
         </service>
 
         <service id="raindrop_page.cache_reader" class="Raindrop\PageBundle\Directory\CacheReader">
@@ -72,6 +81,12 @@
         <service id="raindrop.page.intl.country.provider" class="Raindrop\PageBundle\Admin\Providers\CountryProvider" />
 
         <service id="raindrop.page.intl.culture.provider" class="Raindrop\PageBundle\Admin\Providers\CultureProvider" />
+
+        <service id="raindrop.page.variable_resolver" class="Raindrop\PageBundle\Resolver\Resolver">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
 
     </services>
 

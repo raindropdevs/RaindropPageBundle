@@ -5,7 +5,7 @@ namespace Raindrop\PageBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Raindrop\PageBundle\Entity\BlockVariableRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="block_variable")
  */
