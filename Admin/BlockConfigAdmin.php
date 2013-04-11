@@ -31,7 +31,8 @@ class BlockConfigAdmin extends Admin {
                 ->add('description', null, array('required' => false))
                 ->add('options', 'extensible_array', array(
                     'required' => false,
-                    'data' => $this->getSubject()->getOptions()
+                    'data' => $this->getSubject()->getOptions(),
+                    'label' => 'Block variables'
                 ));
         ;
 
