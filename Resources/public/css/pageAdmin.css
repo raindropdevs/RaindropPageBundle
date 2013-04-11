@@ -144,9 +144,13 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 120px;
+    width: 100%;
     height: 36px;
     background: #F6F4F0;
+}
+
+.pageBlockToolbar .label {
+    margin: 8px 0 0 8px;
 }
 
 .page-layout-container {
