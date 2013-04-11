@@ -37,7 +37,7 @@ class AdminDashboardLoader implements BlockLoaderInterface
         return $block;
     }
 
-    public function getSettings() {
-        return array();
+    public function getSettings($configuration) {
+        return $configuration['settings'];
     }
 }

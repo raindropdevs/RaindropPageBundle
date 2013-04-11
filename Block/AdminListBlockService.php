@@ -24,7 +24,7 @@ class AdminListBlockService extends BaseBlockService
     {
         $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
 
-        return $this->renderResponse('RaindropPageBundle:Block:dashboard_block.html.twig', array(
+        return $this->renderResponse($settings['template'], array(
             'block'     => $block,
             'settings'  => $settings
         ), $response);
