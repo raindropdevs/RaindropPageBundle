@@ -35,7 +35,16 @@ class BlockAdmin extends Admin
         }
 
         $builder = $formMapper->getFormBuilder();
+
+        /**
+         * Adds assets input fields and cleans up data on submit.
+         */
         $builder->addEventSubscriber(new AddAssetsFieldSubscriber($builder->getFormFactory()));
+        
+        /**
+         * following listener does nothing but unset 'variables'
+         * array key before binding to skip validation
+         */
         $builder->addEventSubscriber(new AddBlockVariablesSubscriber($builder->getFormFactory()));
     }
 
