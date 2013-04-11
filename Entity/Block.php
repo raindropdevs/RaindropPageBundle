@@ -44,12 +44,12 @@ class Block extends BaseBlock
     protected $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="parent", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="parent", cascade={"persist", "remove", "merge"})
      */
     protected $children;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\BlockVariable", mappedBy="block", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\BlockVariable", mappedBy="block", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     protected $variables;
 
@@ -67,6 +67,11 @@ class Block extends BaseBlock
      * @ORM\Column(type="array")
      */
     protected $stylesheets;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $layout;
 
     /**
      * @ORM\Column(type="datetime")
@@ -507,5 +512,38 @@ class Block extends BaseBlock
     public function getStylesheets()
     {
         return $this->stylesheets;
+    }
+
+    /**
+     * Set layout
+     *
+     * @param string $layout
+     * @return Block
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * Get layout
+     *
+     * @return string
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    public function isRenderable() {
+        $settings = $this->getSettings();
+        foreach ($settings as $name => $value) {
+            if (empty($value)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

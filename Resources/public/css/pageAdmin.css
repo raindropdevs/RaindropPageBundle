@@ -28,30 +28,40 @@
     padding: 8px;
 }
 
-#tabLayout .row-fluid.draggable-source-block .span12 {
+.row-fluid.draggable-source-block .span12 {
     padding: 0 8px;
     text-align: center;
 }
 
-#tabLayout .row-fluid.draggable-source-block .span12 p {
+.row-fluid.draggable-source-block .span12 p {
     margin: 4px 0 0;
 }
 
-#tabLayout .row-fluid.draggable-source-block .span12 a.pull-left {
+.row-fluid.draggable-source-block .span12 a.pull-left {
     margin-top: 5px;
     display: none;
 }
 
-#tabLayout .row-fluid.draggable-source-block:hover .span12 a.pull-left {
+.row-fluid.draggable-source-block:hover .span12 a.pull-left {
     display: block;
 }
 
+.row-fluid .block-source {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin: 10px 20px 0 0;
+    z-index: 10;
+}
+
+.block-source .row-fluid.hover,
 #tabLayout .row-fluid.hover {
     background: #F6F4F0;
 }
 
-#tabLayout .row-fluid.draggable-source-block.fixed-width-200 {
-    width: 400px;
+.row-fluid.draggable-source-block.fixed-width-200 {
+    width: 260px;
+    float: right;
 }
 
 #tabLayout .row-fluid.draggable-block .close {
@@ -80,11 +90,11 @@
 
 .draggable-block,
 .draggable-source-block {
-    border: solid 1px #ccc;
+    /*border: solid 1px #ccc;*/
     position: relative;
 }
 
-#tabLayout .draggable-source-block {
+.draggable-source-block {
     background: #ffffcc;
 }
 
@@ -106,9 +116,9 @@
 }
 
 #tabLayout .ui-sortable-placeholder {
-    border: dashed 1px #ddd;
+    /*border: dashed 1px #ddd;*/
     background: #ffffcc;
-    width: 667px;
+    width: 430px;
     height: 41px;
     margin-top: 12px;
 }
@@ -153,4 +163,9 @@
 
 .raindropInput {
     margin-top: 10px;
+}
+
+.raindropRemoveIcon {
+    margin-top: 4px;
+    padding-right: 10px;
 }

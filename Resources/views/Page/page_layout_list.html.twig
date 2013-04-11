@@ -1,34 +1,22 @@
-<div class="span12 page-layout">
-    {% for block in object.getChildren() %}
-        <div id="block-{{ block.getId() }}" data-block="{{ block.getType() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
 
-            <div class="span12">{{ sonata_block_render(block) }}</div>
-            <div class="pageBlockToolbar">
-                <a title="Delete block" data-toggle="modal" data-content="
-                   WARNING: You are about to delete the block, its variables and all its children.<br><br><a href='javascript:pageAdmin.removePopover({{ block.getId() }});'>Cancel</a>  <a href='javascript:pageAdmin.removeBlock({{ block.getId() }});' class='pull-right btn btn-danger'>Delete</a><br>
-                   " class="pull-right remove-popover raindrop_tips" href="#" data-original-title="Confirm"><i class="icon-remove"></i></a>
-
-                {#<a class="close raindrop_tips" title="Delete block and all children"><i class="icon-remove"></i></a>#}
-
-                <a title="Edit content" class="pull-right raindrop_tips" data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">
-                    <i class="icon-pencil"></i>
-                </a>
-
-                <a title="Drag me" class="drag-drop pull-right raindrop_tips"><i class="icon-resize-vertical"></i></a>
-            </div>
-
-
-            {#
-            <div class="span4">
-                <p>{{ block.getName() }}</p>
-            </div>
-            <div class="span5">
-                <p>{{ block.getTemplate() }}</p>
-            </div>
-            #}
-        </div>
-    {% endfor %}
+<div class="row-fluid">
+    <div class="span4"></div>
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'top' } %}
 </div>
+<div class="row-fluid">
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'left' } %}
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'content' } %}
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'right' } %}
+</div>
+<div class="row-fluid">
+    <div class="span4"></div>
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'bottom' } %}
+</div>
+
+
+
+
+
 
 {# Twitter bootstrap modal wrapper #}
 {% for block in object.getChildren() %}

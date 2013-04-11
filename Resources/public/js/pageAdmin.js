@@ -127,6 +127,11 @@ var pageAdmin = (function () {
              */
             this.setupModal();
 
+            /*
+             * Setup "Add block button" to show list up
+             */
+            this.setupBlockButton();
+
             $(".raindrop_tips").tooltip();
         },
 
@@ -144,6 +149,13 @@ var pageAdmin = (function () {
                        $("#block-" + id).remove();
                    }
                }
+            });
+        },
+
+        setupBlockButton: function () {
+            var $button = $(".raindrop-add-block-button");
+            $button.click(function(){
+                $(".block-source").toggle();
             });
         },
 
@@ -192,7 +204,7 @@ var pageAdmin = (function () {
         },
 
         setupPopover: function () {
-            $(".row-fluid.draggable-block:not(.hover-bound)")
+            $(".draggable-block:not(.popover-bound)")
                 .addClass('hover-bound')
                 .find('.remove-popover')
                     .popover({
@@ -230,19 +242,24 @@ var pageAdmin = (function () {
                 });
 
             // let the trash be droppable, accepting the gallery items
-            $(".page-layout")
+            $(".page-layout, .top-layout, .bottom-layout, .left-layout, .right-layout")
                 .sortable({
                     placeholder: "ui-sortable-placeholder",
                     helper: "clone",
                     cursor: "move",
+                    connectWith: ".raindrop-layout-droppable",
                     distance: 5,
                     stop: function( event, ui ) {
+                        $block = ui.item;
+                        $target = $block.parent();
 
                         var post_data = {
-                            ids: []
+                            ids: [],
+                            move: $block.data('id'),
+                            to: $target.data('target')
                         }
 
-                        $(".page-layout .draggable-block")
+                        $(".raindrop-layout-droppable .draggable-block")
                             .each(function(){
                                 post_data.ids.push($(this).data('id'));
                             });
@@ -250,30 +267,36 @@ var pageAdmin = (function () {
                         $.ajax({
                             url: globalConfig.orderBlocksPath,
                             type: "POST",
-                            data: post_data
+                            data: post_data,
+                            error: function (data, asd) {
+                                data = JSON.parse(data.responseText);
+                                alert(data.error);
+                            }
                         });
                     }
                 });
 
             $(".page-layout").disableSelection();
 
-            $(".page-layout")
+            $(".page-layout, .top-layout, .bottom-layout, .left-layout, .right-layout")
                 .droppable({
-                    accept: "#tabLayout .draggable-source-block",
+                    accept: ".draggable-source-block",
                     activeClass: "ui-state-highlight",
                     drop: function( event, ui ) {
-                        pageAdmin.addBlockToLayout( ui.draggable );
+                        pageAdmin.addBlockToLayout( ui.draggable, event.target );
                     }
                 });
         },
 
-        addBlockToLayout: function (draggable) {
-
+        addBlockToLayout: function (draggable, target) {
 
             var url = globalConfig.addBlockPath;
 
+            // replace template url with proper value
+            var real_url = url.replace('block_type', draggable.data('block')) + '/' + $(target).data('target');
+
             $.ajax({
-                url: url.replace('block_type', draggable.data('block')),
+                url: real_url,
                 type: 'GET',
                 success: function (returnData) {
                     if (returnData.result) {

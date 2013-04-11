@@ -1,0 +1,7 @@
+<div class="span4 top-layout raindrop-layout-droppable" data-target="{{ layout }}">
+    {% for block in object.getChildren() %}
+        {% if block.getLayout() == layout %}
+            {% include 'RaindropPageBundle:Page:page_block.html.twig' with { 'block': block } %}
+        {% endif %}
+    {% endfor %}
+</div>

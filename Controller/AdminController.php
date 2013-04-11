@@ -42,27 +42,33 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/admin/page/add/block/{page_id}/{type}", name="raindrop_admin_add_block")
+     * @Route("/admin/page/add/block/{page_id}/{type}/{layout}", name="raindrop_admin_add_block", defaults={"layout" = "center"})
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addBlockAction() {
-        $result = false;
-        $page_id = $this->get('request')->get('page_id');
-        $block_type = $this->get('request')->get('type');
 
-        $orm = $this
-                ->get('doctrine.orm.default_entity_manager');
+        try {
+            $result = false;
+            $page_id = $this->get('request')->get('page_id');
+            $block_type = $this->get('request')->get('type');
+            $block_layout_position = $this->get('request')->get('layout');
 
-        $page = $orm
-                ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
-                ->find($page_id);
+            $orm = $this
+                    ->get('doctrine.orm.default_entity_manager');
 
-        if ($page) {
-            $this->get('raindrop_page.block.manager')
-                    ->createBlock($page, $block_type);
+            $page = $orm
+                    ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
+                    ->find($page_id);
 
-            $result = true;
+            if ($page) {
+                $this->get('raindrop_page.block.manager')
+                        ->createBlock($page, $block_type, $block_layout_position);
+
+                $result = true;
+            }
+        } catch (\Exception $e) {
+            return new JsonResponse(array('error' => $e->getMessage()), 500);
         }
 
         return new JsonResponse(array('result' => $result));
@@ -76,19 +82,23 @@ class AdminController extends Controller
      */
     public function orderBlocksAction() {
 
-        $result = false;
-        $page_id = $this->get('request')->get('page_id');
+        try {
+            $result = false;
+            $page_id = $this->get('request')->get('page_id');
 
-        $page = $this->getPage($page_id);
+            $page = $this->getPage($page_id);
 
-        if ($page) {
-            $this->get('raindrop_page.block.manager')
-                    ->reorderBlocks($page, $this->get('request')->get('ids'));
+            if ($page) {
+                $this->get('raindrop_page.block.manager')
+                        ->reorderBlocks($page, $this->get('request')->get('ids'));
 
-            $this->get('raindrop_page.page.manager')
-                ->updatePageLayoutTimestamp($page);
+                $this->get('raindrop_page.block.manager')
+                    ->moveBlock($this->get('request')->get('move'), $this->get('request')->get('to'));
 
-            $result = true;
+                $result = true;
+            }
+        } catch (\Exception $e) {
+            return new JsonResponse(array('error' => $e->getMessage()), 500);
         }
         return new JsonResponse(array('result' => $result));
     }
