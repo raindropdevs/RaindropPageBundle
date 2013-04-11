@@ -30,6 +30,7 @@ class BlockAdmin extends Admin
         ;
 
         $variables = $this->getSubject()->getVariables();
+
         foreach ($variables as $variable) {
             $this->mapVariables($formMapper, $variable);
         }
@@ -40,7 +41,7 @@ class BlockAdmin extends Admin
          * Adds assets input fields and cleans up data on submit.
          */
         $builder->addEventSubscriber(new AddAssetsFieldSubscriber($builder->getFormFactory()));
-        
+
         /**
          * following listener does nothing but unset 'variables'
          * array key before binding to skip validation
@@ -64,7 +65,7 @@ class BlockAdmin extends Admin
                 });
 
                 $formMapper
-                    ->add($variable->getName() . ':content', 'nested_choice', array(
+                    ->add($variable->getName(), 'nested_choice', array(
                         'label' => $options['label'],
                         'required' => true,
                         'choices' => $choices,
@@ -81,7 +82,7 @@ class BlockAdmin extends Admin
                 }
 
                 $formMapper
-                    ->add($variable->getName() . ':content', 'nested_text', array(
+                    ->add($variable->getName(), 'nested_text', array(
                         'data' => $variable->getContent() ?: '',
                         'nested_name' => '[variables][' . $variable->getName() . '][content]',
                         'mapped' => false,
@@ -96,7 +97,7 @@ class BlockAdmin extends Admin
                 }
 
                 $formMapper
-                    ->add($variable->getName() . ':content', 'nested_textarea', array(
+                    ->add($variable->getName(), 'nested_textarea', array(
                         'data' => $variable->getContent() ?: '',
                         'nested_name' => '[variables][' . $variable->getName() . '][content]',
                         'mapped' => false,
