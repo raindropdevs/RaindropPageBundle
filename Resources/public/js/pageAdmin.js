@@ -153,10 +153,11 @@ var pageAdmin = (function () {
         },
 
         setupBlockButton: function () {
-            var $button = $(".raindrop-add-block-button");
-            $button.click(function(){
-                $(".block-source").toggle();
-            });
+            $(".raindrop-add-block-button:not(.click-bound)")
+                .addClass('click-bound')
+                .click(function(){
+                    $(".block-source").toggle();
+                });
         },
 
         setupModal: function () {
