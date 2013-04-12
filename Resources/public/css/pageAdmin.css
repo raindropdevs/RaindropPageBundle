@@ -11,8 +11,9 @@
 }
 
 #tabLayout .draggable-block {
-    background: #E6F1F6;
+    background: #ABD7EB;
     min-height: 40px;
+    padding-top: 36px;
 
     /*box-shadow: 0 1px 2px #ddd;*/
 }
@@ -39,7 +40,7 @@
 
 .row-fluid.draggable-source-block .span12 a.pull-left {
     margin-top: 5px;
-    display: none;
+    /*display: none;*/
 }
 
 .row-fluid.draggable-source-block:hover .span12 a.pull-left {
@@ -54,9 +55,13 @@
     z-index: 10;
 }
 
+.raindrop-layout-droppable {
+    background: #E6F1F6;
+}
+
 .block-source .row-fluid.hover,
 #tabLayout .row-fluid.hover {
-    background: #F6F4F0;
+    background: #F0BBBB;
 }
 
 .row-fluid.draggable-source-block.fixed-width-200 {
@@ -118,7 +123,7 @@
 #tabLayout .ui-sortable-placeholder {
     /*border: dashed 1px #ddd;*/
     background: #ffffcc;
-    width: 430px;
+    width: 438px;
     height: 41px;
     margin-top: 12px;
 }
@@ -140,13 +145,13 @@
 }
 
 .pageBlockToolbar {
-    display: none;
+    /*display: none;*/
     position: absolute;
     top: 0;
     right: 0;
     width: 100%;
     height: 36px;
-    background: #F6F4F0;
+    /*background: #E6F1F6;*/
 }
 
 .pageBlockToolbar .label {

@@ -7,32 +7,7 @@
         </div>
     {% else %}
 
-        <div class="row-fluid">
 
-            <div class="row-fluid">
-                <div class="btn-group pull-right">
-                    <a class="btn btn-small" target="_blank" href="{{ path('raindrop_admin_preview_page', { page_id: object.getId() }) }}">Preview</a>
-
-                    <a class="btn btn-small raindrop-add-block-button">Add block</a>
-                </div>
-            </div>
-
-            <div class="span4 block-source">
-                {% for blockType in admin.getBlockProvider().provide() %}
-                    <div title="{{ blockType.getDescription() }}" data-block="{{ blockType.getType() }}" class="raindrop_tips row-fluid draggable-source-block fixed-width-200">
-                        <div class="span12">
-                            <div class="span1">
-                                <a class="drag-drop pull-left"><i class="icon-circle-arrow-left"></i></a>
-                            </div>
-                            <div class="span10">
-                                <p>{{ blockType.getType() }}</p>
-                            </div>
-                            <div class="span1"></div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
 
         <div class="tabbable">
             <ul class="nav nav-tabs">
@@ -47,9 +22,38 @@
             <div class="tab-content">
 
 
+
                 <div class="tab-pane {% if not app.request.get('meta') %}active{% endif %}" id="tabLayout">
 
-                    <div class="span12 page-layout-container">
+                    <div class="row-fluid">
+
+                        <div class="row-fluid">
+                            <div class="btn-group pull-right">
+                                <a class="btn btn-small" target="_blank" href="{{ path('raindrop_admin_preview_page', { page_id: object.getId() }) }}">Preview</a>
+
+                                <a class="btn btn-small raindrop-add-block-button">Add block</a>
+                            </div>
+                        </div>
+
+                        <div class="span4 block-source">
+                            {% for blockType in admin.getBlockProvider().provide() %}
+                                <div title="{{ blockType.getDescription() }}" data-block="{{ blockType.getType() }}" class="raindrop_tips row-fluid draggable-source-block fixed-width-200">
+                                    <div class="span12">
+                                        <div class="span1">
+                                            <a class="drag-drop pull-left"><i class="icon-circle-arrow-left"></i></a>
+                                        </div>
+                                        <div class="span10">
+                                            <p>{{ blockType.getType() }}</p>
+                                        </div>
+                                        <div class="span1"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="row-fluid page-layout-container">
                         {% include 'RaindropPageBundle:Page:page_layout_list.html.twig' %}
                     </div>
 
