@@ -125,12 +125,22 @@ class ExtensibleArrayType extends AbstractType
         foreach ($form as $widget) {
             $name = $widget->getName();
             $arr = explode(':', $name);
+            $fieldName = $arr[0];
+            $type = $arr[1];
 
-            if (!isset($groups[$arr[0]])) {
-                $groups[$arr[0]] = array();
+            if (!isset($groups[$fieldName])) {
+                $groups[$fieldName] = array(
+                    'type' => $fieldName,
+                    'children' => array()
+                );
             }
 
-            $groups[$arr[0]] []= $widget->getName();
+            // utilizzo il tipo per formattare la label
+            if ($type === 'type') {
+                $groups[$fieldName]['type']= $widget->getData();
+            }
+
+            $groups[$fieldName]['children'][]= $widget->getName();
         }
 
         $view->vars['form_widgets'] = $groups;

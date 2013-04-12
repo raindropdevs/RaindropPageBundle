@@ -27,41 +27,24 @@
                                 label
                                 input (for field name)
                          */
-                        $innerContainer = $('<div/>');
 
-                        $labelDiv = $('<div/>', {
-                            "class": "controls raindropLabelContainer"
-                        });
-                        $labelDiv.append($('<a/>', {
-                            "html": '<i class="icon-remove" />',
-                            "onclick": "raindropFormRemoveField(this)",
-                            "class": "pull-left"
-                        }));
-                        $labelDiv.append('<label><strong>' + fieldName + '</strong></label>');
+                        var $groupContainer = raindropFormTemplates.groupContainer();
 
-                        $div = $('<div/>', {
-                            "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
-                        });
+                        var $labelContainer = raindropFormTemplates.groupLabelContainer();
+                        $labelContainer.append(raindropFormTemplates.removeButton());
+                        $labelContainer.append(raindropFormTemplates.groupLabel(fieldName, 'text'));
 
-                        $div.append($('<label/>', {
-                            'for': sonataFormName + '_' + numFields + '_type',
-                            'html': 'type',
-                            'class': 'span2 raindropLabel'
-                        }));
+                        var $div = raindropFormTemplates.variablesContainer();
+                        $div.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Form type'));
+                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'textarea'));
 
-                        $div.append($('<input/>', {
-                            'name': sonataFormName + '[options]' + '[' + fieldName + '][type]',
-                            'value': 'textarea',
-                            'id': sonataFormName + '_' + numFields + '_type',
-                            'class': 'span5',
-                            'type': 'text'
-                        }));
+                        numFields++;
 
-                        $innerContainer
-                            .append($labelDiv)
+                        $groupContainer
+                            .append($labelContainer)
                             .append($div)
                             ;
-                        container.append($innerContainer);
+                        container.append($groupContainer);
                         break;
                     case 'entity':
                         /*
@@ -78,111 +61,100 @@
                                 label
                                 input (for human identifier field)
                          */
-                        $innerContainer = $('<div/>');
+                        var $groupContainer = raindropFormTemplates.groupContainer();
+                        var $labelContainer = raindropFormTemplates.groupLabelContainer();
+                        $labelContainer.append(raindropFormTemplates.removeButton());
+                        $labelContainer.append(raindropFormTemplates.groupLabel(fieldName, 'entity'));
 
-                        $labelDiv = $('<div/>', {
-                            "class": "controls raindropLabelContainer"
-                        });
-                        $labelDiv.append($('<a/>', {
-                            "html": '<i class="icon-remove" />',
-                            "onclick": "raindropFormRemoveField(this)",
-                            "class": "pull-left"
-                        }));
-                        $labelDiv.append('<label><strong>' + fieldName + '</strong></label>');
-
-                        $div = $('<div/>', {
-                            "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
-                        });
-
-                        $div.append($('<label/>', {
-                            'for': sonataFormName + '_' + numFields + '_type',
-                            'html': 'type',
-                            'class': 'span2 raindropLabel'
-                        }));
-
-                        $div.append($('<input/>', {
-                            'name': sonataFormName + '[options]' + '[' + fieldName + '][type]',
-                            'value': 'object',
-                            'id': sonataFormName + '_' + numFields + '_type',
-                            'class': 'span5',
-                            'type': 'text'
-                        }));
+                        var $div = raindropFormTemplates.variablesContainer();
+                        $div.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Form type'));
+                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'entity'));
 
                         numFields++;
 
-                        $div2 = $('<div/>', {
-                            "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
-                        });
-
-                        $div2.append($('<label/>', {
-                            'for': sonataFormName + '_' + numFields + '_options_model',
-                            'html': 'Model name',
-                            'class': 'span2 raindropLabel'
-                        }));
-
-                        $div2.append($('<input/>', {
-                            'name': sonataFormName + '[options]' + '[' + fieldName + '][options][model]',
-                            'value': '',
-                            'id': sonataFormName + '_' + numFields + '_options_model',
-                            'class': 'span5',
-                            'type': 'text'
-                        }));
+                        var $div2 = raindropFormTemplates.variablesContainer();
+                        $div2.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Model'));
+                        $div2.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields));
 
                         numFields++;
 
-                        $div3 = $('<div/>', {
-                            "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
-                        });
-
-                        $div3.append($('<label/>', {
-                            'for': sonataFormName + '_' + numFields + '_options_label',
-                            'html': 'Label',
-                            'class': 'span2 raindropLabel'
-                        }));
-
-                        $div3.append($('<input/>', {
-                            'name': sonataFormName + '[options]' + '[' + fieldName + '][options][label]',
-                            'value': '',
-                            'id': sonataFormName + '_' + numFields + '_options_label',
-                            'class': 'span5',
-                            'type': 'text'
-                        }));
+                        var $div3 = raindropFormTemplates.variablesContainer();
+                        $div3.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Label'));
+                        $div3.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields));
 
                         numFields++;
 
-                        $div4 = $('<div/>', {
-                            "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
-                        });
+                        var $div4 = raindropFormTemplates.variablesContainer();
+                        $div4.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Human-identifier'));
+                        $div4.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields));
 
-                        $div4.append($('<label/>', {
-                            'for': sonataFormName + '_' + numFields + '_options_identifier',
-                            'html': 'Human identifier',
-                            'class': 'span2 raindropLabel'
-                        }));
-
-                        $div4.append($('<input/>', {
-                            'name': sonataFormName + '[options]' + '[' + fieldName + '][options][human-identifier]',
-                            'value': '',
-                            'id': sonataFormName + '_' + numFields + '_options_identifier',
-                            'class': 'span5',
-                            'type': 'text'
-                        }));
-
-                        $innerContainer
-                            .append($labelDiv)
+                        $groupContainer
+                            .append($labelContainer)
                             .append($div)
                             .append($div2)
                             .append($div3)
                             .append($div4)
                             ;
-                        container.append($innerContainer);
+                        container.append($groupContainer);
 
                         break;
                 }
             }
 
             var raindropFormRemoveField = function (elem) {
-                //
                 $(elem).parent().parent().remove();
             }
+
+            var raindropFormTemplates = (function () {
+                return {
+                    'groupContainer': function () {
+                        return $('<div/>');
+                    },
+
+                    'variablesContainer': function () {
+                        return $('<div/>', {
+                            "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
+                        });
+                    },
+
+                    'groupLabelContainer': function () {
+                        return $('<div/>', {
+                            "class": "controls raindropLabelContainer"
+                        });
+                    },
+
+                    'groupLabel': function (fieldName, type) {
+                        return $('<label/>', {
+                            'html' : '<strong>' + fieldName  + ' (type: ' + type + ')</strong>'
+                        });
+                    },
+
+                    'label': function (sonataFormName, numFields, type, label) {
+                        return $('<label/>', {
+                            'for': sonataFormName + '_' + numFields + '_options_' + type,
+                            'html': label,
+                            'class': 'span2 raindropLabel'
+                        })
+                    },
+
+                    'input': function (sonataFormName, fieldName, numFields, type) {
+                        return $('<input/>', {
+                            'name': sonataFormName + '[options]' + '[' + fieldName + '][' + type + ']',
+                            'value': type,
+                            'id': sonataFormName + '_' + numFields + '_type',
+                            'class': 'span5',
+                            'type': 'text'
+                        });
+                    },
+
+                    'removeButton': function () {
+                        return $('<a/>', {
+                            "html": '<i class="icon-remove" />',
+                            "onclick": "raindropFormRemoveField(this)",
+                            "class": "pull-left raindropRemoveIcon raindrop_tips",
+                            "title": "Remove this variable"
+                        });
+                    }
+                };
+            }());
         </script>

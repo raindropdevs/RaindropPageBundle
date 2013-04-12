@@ -19,10 +19,10 @@
             {% for group, children in form_widgets %}
                 <div>
                     <div class="controls raindropLabelContainer">
-                        <a title="Remove this field" class="pull-left raindropRemoveIcon raindrop_tips" onclick="raindropFormRemoveField(this)"><i class="icon-remove"></i></a>
-                        <label><strong>{{ group }}</strong></label>
+                        <a title="Remove this variable" class="pull-left raindropRemoveIcon raindrop_tips" onclick="raindropFormRemoveField(this)"><i class="icon-remove"></i></a>
+                        <label><strong>{{ group }} (type: {{ children['type'] }})</strong></label>
                     </div>
-                    {% for name in children %}
+                    {% for label, name in children['children'] %}
                     <div class="controls sonata-ba-field sonata-ba-field-standard-natural raindropInput">
                         {{ form_label(form[name]) }}
                         {{ form_widget(form[name]) }}
@@ -62,7 +62,7 @@
 {% endspaceless %}
 {% endblock nested_textarea_widget %}
 
-    
+
 {% block nested_text_widget %}
 {% spaceless %}
     {% set type = type|default('text') %}

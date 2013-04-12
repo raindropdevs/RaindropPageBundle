@@ -71,36 +71,29 @@ class BlockAdmin extends Admin
                         'choices' => $choices,
                         'data' => $variable->getContent() ?: '',
                         'mapped' => false,
+                        'required' => $options['required'],
                         'nested_name' => '[variables][' . $variable->getName() . '][content]'
                     ));
 
                 break;
             case 'text':
-                // required is set as default parameter to true.
-                if (!isset($options['required'])) {
-                    $options['required'] = true;
-                }
-
                 $formMapper
                     ->add($variable->getName(), 'nested_text', array(
                         'data' => $variable->getContent() ?: '',
                         'nested_name' => '[variables][' . $variable->getName() . '][content]',
                         'mapped' => false,
+                        'required' => $options['required'],
                         'attr' => array(
                             'class' => 'span5'
                         )
                     ));
             case 'textarea':
-                // required is set as default parameter to true.
-                if (!isset($options['required'])) {
-                    $options['required'] = true;
-                }
-
                 $formMapper
                     ->add($variable->getName(), 'nested_textarea', array(
                         'data' => $variable->getContent() ?: '',
                         'nested_name' => '[variables][' . $variable->getName() . '][content]',
                         'mapped' => false,
+                        'required' => $options['required'],
                         'attr' => array(
                             'class' => 'span5'
                         )
