@@ -52,6 +52,10 @@ class BlockAdmin extends Admin
     protected function mapVariables($formMapper, $variable) {
         $options = $variable->getOptions();
 
+        if (!isset($options['required'])) {
+            $options['required'] = false;
+        }
+
         switch ($variable->getType()) {
             case 'entity':
                 $orm = $this->container->get('doctrine.orm.default_entity_manager');
