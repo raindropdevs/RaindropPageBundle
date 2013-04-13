@@ -22,14 +22,22 @@ class Resolver {
 
         foreach ($variables as $variable) {
 
+            /**
+             * and assign to array only if not empty
+             * resolve $variable->getContent() to $content
+             */
             switch ($variable->getType()) {
                 case 'entity':
-                    $return [$variable->getName()]= $this->resolveEntity($variable);
+                    $content = $this->resolveEntity($variable);
                     break;
                 case 'text':
                 case 'textarea':
-                    $return [$variable->getName()]= $variable->getContent();
+                    $content = $variable->getContent();
                     break;
+            }
+
+            if (!empty($content)) {
+                $return[$variable->getName()] = $content;
             }
         }
         return $return;
@@ -45,6 +53,8 @@ class Resolver {
                     ->getRepository($options['model'])
                     ->find($variable->getContent());
         }
+
+        return null;
     }
 }
 
