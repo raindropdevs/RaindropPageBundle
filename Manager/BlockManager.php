@@ -24,7 +24,7 @@ class BlockManager {
         $block->setPage($page);
 
         $blockConfig = $this->getBlockConfig($type);
-        $block->setTemplate('database:' . $blockConfig->getTemplate());
+        $block->setTemplate($blockConfig->getTemplate());
 
         $variables = $this->createBlockVariables($blockConfig, $block);
         $block->setVariables($variables);
