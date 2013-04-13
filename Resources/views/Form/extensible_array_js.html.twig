@@ -16,6 +16,7 @@
 
                 switch (type) {
                     case 'text':
+                    case 'textarea':
 
                         /*
                          * Creates a structure like this
@@ -36,7 +37,7 @@
 
                         var $div = raindropFormTemplates.variablesContainer();
                         $div.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Form type'));
-                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'textarea'));
+                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', type));
 
                         numFields++;
 
@@ -68,25 +69,25 @@
 
                         var $div = raindropFormTemplates.variablesContainer();
                         $div.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Form type'));
-                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'entity'));
+                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', type));
 
                         numFields++;
 
                         var $div2 = raindropFormTemplates.variablesContainer();
                         $div2.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Model'));
-                        $div2.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields));
+                        $div2.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'model'));
 
                         numFields++;
 
                         var $div3 = raindropFormTemplates.variablesContainer();
                         $div3.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Label'));
-                        $div3.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields));
+                        $div3.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'label'));
 
                         numFields++;
 
                         var $div4 = raindropFormTemplates.variablesContainer();
                         $div4.append(raindropFormTemplates.label(sonataFormName, numFields, 'textarea', 'Human-identifier'));
-                        $div4.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields));
+                        $div4.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'human-indentifier'));
 
                         $groupContainer
                             .append($labelContainer)
@@ -137,11 +138,11 @@
                         })
                     },
 
-                    'input': function (sonataFormName, fieldName, numFields, type) {
+                    'input': function (sonataFormName, fieldName, numFields, type, value) {
                         return $('<input/>', {
                             'name': sonataFormName + '[options]' + '[' + fieldName + '][' + type + ']',
-                            'value': type,
-                            'id': sonataFormName + '_' + numFields + '_type',
+                            'value': value,
+                            'id': sonataFormName + '_' + numFields + '_' + type,
                             'class': 'span5',
                             'type': 'text'
                         });
