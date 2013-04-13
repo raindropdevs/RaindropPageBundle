@@ -30,10 +30,7 @@ class TemplateBlockService extends BaseBlockService
     {
         $settings = $this->getSettings($block);
 
-        return $this->renderResponse($block->getTemplate(), array(
-            'block'     => $block,
-            'settings'  => $settings
-        ), $response);
+        return $this->renderResponse($block->getTemplate(), $settings, $response);
     }
 
     public function getSettings($block) {
