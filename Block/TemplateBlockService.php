@@ -17,17 +17,27 @@ use Sonata\BlockBundle\Block\BaseBlockService;
  */
 class TemplateBlockService extends BaseBlockService
 {
+    protected $resolver;
+
+    public function setResolver($resolver) {
+        $this->resolver = $resolver;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
+        $settings = $this->getSettings($block);
 
         return $this->renderResponse($block->getTemplate(), array(
             'block'     => $block,
             'settings'  => $settings
         ), $response);
+    }
+
+    public function getSettings($block) {
+        return array_merge($this->getDefaultSettings(), $this->resolver->resolve($block->getVariables()));
     }
 
     /**

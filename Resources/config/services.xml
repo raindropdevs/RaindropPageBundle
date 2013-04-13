@@ -59,11 +59,6 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
-        <service id="raindrop_page.postload_listener" class="Raindrop\PageBundle\Listener\PostLoadListener">
-            <tag name="doctrine.event_listener" event="postLoad"></tag>
-            <argument type="service" id="raindrop.page.variable_resolver" />
-        </service>
-
         <service id="raindrop_page.cache_reader" class="Raindrop\PageBundle\Directory\CacheReader">
             <argument>%kernel.cache_dir%</argument>
         </service>

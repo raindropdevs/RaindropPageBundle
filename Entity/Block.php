@@ -89,8 +89,6 @@ class Block extends BaseBlock
      */
     protected $entityManager;
 
-    protected $resolver;
-
     /**
      * Get id
      *
@@ -110,19 +108,6 @@ class Block extends BaseBlock
 
     public function getEntityManager() {
         return $this->entityManager;
-    }
-
-    public function setResolver($resolver) {
-        $this->resolver = $resolver;
-    }
-
-    public function getResolver() {
-        return $this->resolver;
-    }
-
-    public function getSettings() {
-
-        return $this->resolver->resolve($this->getVariables());
     }
 
     public function getType() {
@@ -538,9 +523,10 @@ class Block extends BaseBlock
     }
 
     public function isRenderable() {
-        $settings = $this->getSettings();
-        foreach ($settings as $name => $value) {
-            if (empty($value)) {
+        $variables = $this->getVariables();
+        foreach ($variables as $variable) {
+            $content = $variable->getContent();
+            if (empty($content)) {
                 return false;
             }
         }

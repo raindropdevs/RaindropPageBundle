@@ -76,6 +76,9 @@
             <tag name="sonata.block" />
             <argument>raindrop_page.block.service.template</argument>
             <argument type="service" id="templating" />
+            <call method="setResolver">
+                <argument type="service" id="raindrop.page.variable_resolver" />
+            </call>
         </service>
 
         <service id="raindrop_page.block.manager" class="Raindrop\PageBundle\Manager\BlockManager">
