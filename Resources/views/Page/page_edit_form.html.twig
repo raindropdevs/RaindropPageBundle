@@ -29,7 +29,7 @@
 
                         <div class="row-fluid">
                             <div class="btn-group pull-right">
-                                <a class="btn btn-small" target="_blank" href="{{ path('raindrop_admin_preview_page', { page_id: object.getId() }) }}">Preview</a>
+                                <a class="btn btn-small" target="_blank" href="{{ admin.generateUrl('preview', { id: object.getId() }) }}">Preview</a>
 
                                 <a class="btn btn-small raindrop-add-block-button">Add block</a>
                             </div>

@@ -163,14 +163,4 @@ class AdminController extends Controller
         return $this->render('RaindropPageBundle:Block:block_preview.html.twig', array('block' => $block));
     }
 
-    /**
-     * @Route("/admin/page/preview/page/{page_id}", name="raindrop_admin_preview_page")
-     * @Secure(roles="ROLE_ADMIN")
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function pagePreview() {
-        $page_id = $this->get('request')->get('page_id');
-        $page = $this->getPage($page_id);
-        return $this->render($page->getLayout(), array('blocks' => $page->getChildren()));
-    }
 }

@@ -37,6 +37,11 @@ class PageAdmin extends Admin
         return $this->blockProvider;
     }
 
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('preview', $this->getRouterIdParameter().'/view');
+    }
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
