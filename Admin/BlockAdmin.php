@@ -91,6 +91,7 @@ class BlockAdmin extends Admin
                             'class' => 'span5'
                         )
                     ));
+                break;
             case 'textarea':
                 $formMapper
                     ->add($variable->getName(), 'nested_textarea', array(
