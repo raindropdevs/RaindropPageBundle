@@ -245,7 +245,7 @@ var pageAdmin = (function () {
             // let the trash be droppable, accepting the gallery items
             $(".page-layout, .top-layout, .bottom-layout, .left-layout, .right-layout")
                 .sortable({
-                    placeholder: "ui-sortable-placeholder",
+//                    placeholder: "ui-sortable-placeholder",
                     helper: "clone",
                     cursor: "move",
                     connectWith: ".raindrop-layout-droppable",
@@ -315,6 +315,13 @@ var pageAdmin = (function () {
                     }
                 }
             })
+        },
+
+        switchToColor: function (elem, color) {
+            $(elem).parents(".modal")
+            .css({
+                "background-color": color
+            });
         }
     };
 }());

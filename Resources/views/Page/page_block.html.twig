@@ -10,11 +10,13 @@
            WARNING: You are about to delete the block, its variables and all its children.<br><br><a href='javascript:pageAdmin.removePopover({{ block.getId() }});'>Cancel</a>  <a href='javascript:pageAdmin.removeBlock({{ block.getId() }});' class='pull-right btn btn-danger'>Delete</a><br>
            " class="pull-right remove-popover raindrop_tips" href="#" data-original-title="Confirm"><i class="icon-remove"></i></a>
 
-        {#<a class="close raindrop_tips" title="Delete block and all children"><i class="icon-remove"></i></a>#}
+        <a data-toggle="modal" data-target="#previewModal{{ block.getId() }}" href="{{ path('raindrop_admin_preview_block', { 'id': block.getId() }) }}" title="Preview" class="raindrop-block-preview pull-right raindrop_tips"><i class="icon-eye-open"></i></a>
 
         <a title="Edit content" class="pull-right raindrop_tips" data-toggle="modal" href="{{ path('admin_raindrop_page_block_edit', { id: block.getId() }) }}" data-target="#editModal{{ block.getId() }}">
             <i class="icon-pencil"></i>
         </a>
+
+
 {#
         <a title="{{ block.getName() }}" class="pull-right raindrop_tips"><i class="icon-info-sign"></i></a>
 

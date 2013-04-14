@@ -187,3 +187,9 @@
     margin-top: 4px;
     padding-right: 10px;
 }
+
+.raindrop-block-btn-group {
+    position:fixed;
+    top:4px;
+    left:20px;
+}

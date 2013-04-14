@@ -1,1 +1,13 @@
-{{ sonata_block_render(block) }}
+
+<div class="btn-group raindrop-block-btn-group">
+    <a class="btn" onclick="pageAdmin.switchToColor(this, '#FFFFFF')">WHITE</a>
+    <a class="btn" onclick="pageAdmin.switchToColor(this, '#CCCCCC')">LIGHT GREY</a>
+    <a class="btn" onclick="pageAdmin.switchToColor(this, '#888888')">GREY</a>
+    <a class="btn" onclick="pageAdmin.switchToColor(this, '#333333')">DARK GREY</a>
+    <a class="btn" onclick="pageAdmin.switchToColor(this, '#000000')">BLACK</a>
+</div>
+
+<div class="row-fluid raindrop-block-preview-bg">
+    {{ sonata_block_render(block) }}
+</div>
+
