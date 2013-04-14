@@ -13,9 +13,9 @@
 #tabLayout .draggable-block {
     background: #ABD7EB;
     min-height: 40px;
-    padding-top: 36px;
-
-    /*box-shadow: 0 1px 2px #ddd;*/
+    padding: 36px 10px 0;
+    width: 97%;
+    box-shadow: 0 1px 5px #ccc;
 }
 
 #tabLayout .page-layout {
@@ -55,8 +55,10 @@
     z-index: 10;
 }
 
-.raindrop-layout-droppable {
+.page-layout-container .raindrop-layout-droppable {
     background: #E6F1F6;
+    min-height: 50px;
+    padding: 10px;
 }
 
 .block-source .row-fluid.hover,
@@ -123,7 +125,7 @@
 #tabLayout .ui-sortable-placeholder {
     /*border: dashed 1px #ddd;*/
     background: #ffffcc;
-    width: 438px;
+    width: 418px;
     height: 41px;
     margin-top: 12px;
 }
