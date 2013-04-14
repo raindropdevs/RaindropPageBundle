@@ -42,7 +42,7 @@ class Page
     protected $locale;
 
     /**
-     * @ORM\OneToOne(targetEntity="Raindrop\RoutingBundle\Entity\Route")
+     * @ORM\ManyToOne(targetEntity="Raindrop\RoutingBundle\Entity\Route")
      */
     protected $route;
 
