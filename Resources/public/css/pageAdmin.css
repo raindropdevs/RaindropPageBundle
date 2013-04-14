@@ -14,8 +14,15 @@
     background: #ABD7EB;
     min-height: 40px;
     padding: 36px 10px 0;
-    width: 97%;
     box-shadow: 0 1px 5px #ccc;
+}
+
+#tabLayout .span6 .draggable-block {
+    width: 97%;
+}
+
+#tabLayout .span3 .draggable-block {
+    width: 93%;
 }
 
 #tabLayout .page-layout {
@@ -124,10 +131,10 @@
 
 #tabLayout .ui-sortable-placeholder {
     /*border: dashed 1px #ddd;*/
-    background: #ffffcc;
-    width: 418px;
-    height: 41px;
-    margin-top: 12px;
+    /*background: #ffffcc;*/
+    /*width: 418px;*/
+    /*height: 41px;*/
+    /*margin-top: 12px;*/
 }
 
 #tabMeta .sonata-ba-field-standard-natural input {
