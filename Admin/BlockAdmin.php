@@ -25,9 +25,9 @@ class BlockAdmin extends Admin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper
-                ->add('name', null, array('required' => true))
-        ;
+//        $formMapper
+//                ->add('name', null, array('required' => true))
+//        ;
 
         $variables = $this->getSubject()->getVariables();
 
@@ -40,7 +40,7 @@ class BlockAdmin extends Admin
         /**
          * Adds assets input fields and cleans up data on submit.
          */
-        $builder->addEventSubscriber(new AddAssetsFieldSubscriber($builder->getFormFactory()));
+//        $builder->addEventSubscriber(new AddAssetsFieldSubscriber($builder->getFormFactory()));
 
         /**
          * following listener does nothing but unset 'variables'
