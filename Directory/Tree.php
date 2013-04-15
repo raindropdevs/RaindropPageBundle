@@ -39,7 +39,7 @@ class Tree {
 
                 if (!empty($dir)) {
                     if (!$current->hasChild($dir)) {
-                        $node = new Node($dir, $current);
+                        $node = new Node($dir, $current, $page->getTitle());
 
                         if ($node->getPath() == $page->getRoute()->getPath()) {
                             $node->setPageId($page->getId());
@@ -90,6 +90,6 @@ class Tree {
     }
 
     public function getTree() {
-
+        return $this->root;
     }
 }

@@ -2,13 +2,20 @@
 
 namespace Raindrop\PageBundle\Directory;
 
-class Node {
+use Knp\Menu\NodeInterface;
+
+/**
+ * This class is used to represent website tree.
+ */
+class Node implements NodeInterface {
 
     const ROOT = '__ROOT__';
 
     protected $path;
 
     protected $name;
+
+    protected $label;
 
     protected $title;
 
@@ -18,8 +25,15 @@ class Node {
 
     protected $children = array();
 
-    public function __construct($name, $parent = self::ROOT) {
+    public function __construct($name, $parent = self::ROOT, $label = null) {
         $this->name = $name;
+
+        if ($label) {
+            $this->setLabel($label);
+        } else {
+            $this->setLabel($name);
+        }
+
         $this->parent = $parent;
         $this->initPath();
     }
@@ -52,6 +66,14 @@ class Node {
 
     public function setName($name) {
         $this->name = $name;
+    }
+
+    public function setLabel($label) {
+        $this->label = $label;
+    }
+
+    public function getLabel() {
+        return $this->label;
     }
 
     public function setTitle($title) {
@@ -110,6 +132,13 @@ class Node {
         $this->children[$node->getName()] = $node;
 
         return $this;
+    }
+
+    public function getOptions() {
+        return array(
+            'uri' => $this->getPath(),
+            'label' => $this->getLabel()
+        );
     }
 
     public function toArray() {
