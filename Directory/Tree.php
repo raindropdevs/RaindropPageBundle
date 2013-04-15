@@ -6,14 +6,15 @@ use Raindrop\PageBundle\Directory\Node;
 
 class Tree {
 
-    protected $pagesRepository, $root;
+    protected $pagesRepository, $root, $session;
 
-    public function __construct($pagesRepository) {
+    public function __construct($pagesRepository, $session) {
         $this->pagesRepository = $pagesRepository;
+        $this->session = $session;
     }
 
     public function buildTree() {
-        $pages = $this->pagesRepository->findAll();
+        $pages = $this->pagesRepository->findByCountry($this->session->get('raindrop:admin:country'));
 
         $this->root = new Node(Node::ROOT);
 
@@ -47,6 +48,15 @@ class Tree {
                         }
 
                         $current->addChild($node);
+                    }
+
+                    /**
+                     * In this case node has already been registered as parent
+                     * of another node but not marked as actual page, this fixes.
+                     */
+                    if ($current->getPath() . "/{$dir}" == $page->getRoute()->getPath()) {
+                        $current->getChild($dir)->setPageId($page->getId());
+                        $current->getChild($dir)->setTitle($page->getTitle());
                     }
 
                     $current = $current->getChild($dir);
