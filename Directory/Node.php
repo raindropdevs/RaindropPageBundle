@@ -137,7 +137,10 @@ class Node implements NodeInterface {
     public function getOptions() {
         return array(
             'uri' => $this->getPath(),
-            'label' => $this->getLabel()
+            'label' => $this->getLabel(),
+            'childrenAttributes' => array(
+                'class' => 'links'
+            )
         );
     }
 
