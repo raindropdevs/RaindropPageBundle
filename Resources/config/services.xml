@@ -13,6 +13,11 @@
         <parameter key="raindrop_page_bundle.block_variable_repository_class">Raindrop\PageBundle\Entity\BlockVariableRepository</parameter>
         <parameter key="raindrop_page.base_action">RaindropPageBundle:Page:index</parameter>
         <parameter key="raindrop_page.page_controller">RaindropPageBundle:Page:index</parameter>
+        <parameter key="raindrop_page.menu_container_class">links</parameter>
+        <parameter key="raindrop_page.culture_provider">Raindrop\PageBundle\Admin\Providers\CultureProvider</parameter>
+        <parameter key="raindrop_page.country_provider">Raindrop\PageBundle\Admin\Providers\CountryProvider</parameter>
+        <parameter key="raindrop_page.intl_provider">Raindrop\PageBundle\Admin\Providers\IntlProvider</parameter>
+        <parameter key="raindrop_page.page_renderer">Raindrop\PageBundle\Renderer\PageRenderer</parameter>
     </parameters>
 
     <services>
@@ -52,6 +57,7 @@
 
         <service id="raindrop_page.directory_tree" class="Raindrop\PageBundle\Directory\Tree">
             <argument type="service" id="raindrop_page.page_repository" />
+            <argument type="service" id="session" />
         </service>
 
         <service id="raindrop.page.seo.listener" class="Raindrop\PageBundle\HttpKernel\FilterControllerSeoPageEvent">
@@ -68,19 +74,23 @@
             <tag name="twig.extension" />
         </service>
 
-        <service id="raindrop.page.intl.provider" class="Raindrop\PageBundle\Admin\Providers\IntlProvider">
-            <argument type="service" id="raindrop.page.intl.country.provider" />
+        <service id="raindrop.page.intl.provider" class="%raindrop_page.intl_provider%">
             <argument type="service" id="raindrop.page.intl.culture.provider" />
+            <argument type="service" id="raindrop.page.intl.country.provider" />
         </service>
 
-        <service id="raindrop.page.intl.country.provider" class="Raindrop\PageBundle\Admin\Providers\CountryProvider" />
+        <service id="raindrop.page.intl.country.provider" class="%raindrop_page.country_provider%" />
 
-        <service id="raindrop.page.intl.culture.provider" class="Raindrop\PageBundle\Admin\Providers\CultureProvider" />
+        <service id="raindrop.page.intl.culture.provider" class="%raindrop_page.culture_provider%" />
 
         <service id="raindrop.page.variable_resolver" class="Raindrop\PageBundle\Resolver\Resolver">
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>
+        </service>
+
+        <service id="raindrop.page.renderer" class="%raindrop_page.page_renderer%">
+            <argument type="service" id="service_container" />
         </service>
 
     </services>

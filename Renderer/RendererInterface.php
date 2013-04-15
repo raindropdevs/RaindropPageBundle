@@ -4,6 +4,6 @@ namespace Raindrop\PageBundle\Renderer;
 
 
 
-interface Renderer {
+interface RendererInterface {
     public function getLayout();
 }
