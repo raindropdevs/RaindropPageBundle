@@ -327,7 +327,7 @@ class Page
      * __toString method
      */
     public function __toString() {
-        return $this->name;
+        return (string) $this->name;
     }
 
 
