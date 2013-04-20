@@ -92,6 +92,18 @@ class Node implements NodeInterface {
         return $this->page_id;
     }
 
+    public function setMenuId($menu_id) {
+        $this->menu_id = $menu_id;
+    }
+
+    public function getMenuId() {
+        return $this->menu_id;
+    }
+
+    public function hasMenuId() {
+        return !empty($this->menu_id);
+    }
+
     public function getParent() {
         return $this->parent;
     }

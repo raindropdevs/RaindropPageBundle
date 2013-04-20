@@ -40,6 +40,7 @@ class PageAdmin extends Admin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('preview', $this->getRouterIdParameter().'/view');
+        $collection->add('country_switch', 'country/{country}');
     }
 
     protected function configureFormFields(FormMapper $formMapper)
@@ -106,6 +107,7 @@ class PageAdmin extends Admin
     }
 
     public function prePersist($page) {
+        $page->setCountry($this->container->get('session')->get('raindrop:admin:country'));
         $page->setName($page->getTitle());
     }
 

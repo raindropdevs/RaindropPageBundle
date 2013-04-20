@@ -1,0 +1,18 @@
+{% extends 'RaindropPageBundle:Block:dashboard_block.html.twig' %}
+
+{% block title %}{{ 'Switch country'|trans }}{% endblock %}
+
+{% block content %}
+
+    <div class="btn-group">
+        {% for country_code in raindrop_intl_provider.getCountries() %}
+            <a class="btn" href="{{ path('raindrop_admin_switch_country', { 'country': country_code }) }}">{{ country_code }}</a>
+        {% endfor %}
+    </div>
+
+    <br><br>
+
+    {% if raindrop_admin_current_country is not empty %}
+        <strong>Selected: <a>{{ raindrop_admin_current_country }}</a></strong>
+    {% endif %}
+{% endblock %}

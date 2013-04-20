@@ -1,0 +1,63 @@
+/*
+    Document   : menuAdmi
+    Created on : Apr 18, 2013, 1:03:22 AM
+    Author     : teito
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root {
+    display: block;
+}
+
+.draggable-source-page {
+    /*border: solid 1px #ccc;*/
+    position: relative;
+}
+
+.draggable-source-page {
+    background: #ffffcc;
+}
+
+.row-fluid.draggable-source-page .span12 {
+    padding: 0 8px;
+    text-align: center;
+}
+
+.row-fluid.draggable-source-page .span12 p {
+    margin: 4px 0 0;
+}
+
+.row-fluid.draggable-source-page .span12 a.pull-left {
+    margin-top: 5px;
+    /*display: none;*/
+}
+
+.row-fluid.draggable-source-page:hover .span12 a.pull-left {
+    display: block;
+}
+
+#tabLayout .row-fluid.draggable-source-page {
+    margin-top: 2px;
+}
+
+.row-fluid.draggable-source-page.fixed-width-200 {
+    width: 260px;
+    float: right;
+}
+
+.page-source .row-fluid.hover {
+    background: #F0BBBB;
+}
+
+.row-fluid .page-source {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin: 10px 20px 0 0;
+    z-index: 10;
+}
+
+ul.droppable {
+    min-height: 36px;
+}

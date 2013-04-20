@@ -4,25 +4,17 @@ namespace Raindrop\PageBundle\Admin\Providers;
 
 class IntlProvider {
 
-    protected $countryProvider, $cultureProvider;
+    protected $i18nProvider;
 
-    public function __construct($cultureProvider, $countryProvider) {
-        $this->cultureProvider = $cultureProvider;
-        $this->countryProvider = $countryProvider;
+    public function __construct($i18nProvider) {
+        $this->i18nProvider = $i18nProvider;
     }
 
-    public function getCulture() {
-        $this->cultureProvider->provide();
+    public function getCultures($country) {
+        return $this->i18nProvider->getCultures($country);
     }
 
-    public function getCountry() {
-        $this->countryProvider->provide();
-    }
-
-    public function provide() {
-        return array(
-            'culture' => $this->getCulture(),
-            'country' => $this->getCountry(),
-        );
+    public function getCountries() {
+        return $this->i18nProvider->getAllowedCountries();
     }
 }

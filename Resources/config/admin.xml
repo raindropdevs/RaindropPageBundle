@@ -72,6 +72,19 @@
             </call>
         </service>
 
+        <service id="raindrop.admin.menu" class="Raindrop\PageBundle\Admin\MenuAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="page" label="menu"/>
+            <argument />
+            <argument>Raindrop\PageBundle\Entity\Menu</argument>
+            <argument>RaindropPageBundle:MenuCRUD</argument>
+            <call method="setTranslationDomain">
+                <argument>RaindropPageBundle</argument>
+            </call>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
         <service id="raindrop_page.block.service.template" class="Raindrop\PageBundle\Block\TemplateBlockService">
             <tag name="sonata.block" />
             <argument>raindrop_page.block.service.template</argument>

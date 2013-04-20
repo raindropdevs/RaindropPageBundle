@@ -6,9 +6,11 @@
 
     <parameters>
         <parameter key="raindrop_page_bundle.page_class">Raindrop\PageBundle\Entity\Page</parameter>
+        <parameter key="raindrop_page_bundle.menu_class">Raindrop\PageBundle\Entity\Menu</parameter>
         <parameter key="raindrop_page_bundle.block_class">Raindrop\PageBundle\Entity\Block</parameter>
         <parameter key="raindrop_page_bundle.block_variable_class">Raindrop\PageBundle\Entity\BlockVariable</parameter>
         <parameter key="raindrop_page_bundle.page_repository_class">Raindrop\PageBundle\Entity\PageRepository</parameter>
+        <parameter key="raindrop_page_bundle.menu_repository_class">Raindrop\PageBundle\Entity\MenuRepository</parameter>
         <parameter key="raindrop_page_bundle.block_repository_class">Raindrop\PageBundle\Entity\BlockRepository</parameter>
         <parameter key="raindrop_page_bundle.block_variable_repository_class">Raindrop\PageBundle\Entity\BlockVariableRepository</parameter>
         <parameter key="raindrop_page.base_action">RaindropPageBundle:Page:index</parameter>
@@ -43,9 +45,18 @@
             <argument>%raindrop_page_bundle.block_variable_class%</argument>
         </service>
 
+        <service id="raindrop_page.menu_repository" factory-service="doctrine.orm.entity_manager" factory-method="getRepository" class="%raindrop_page_bundle.menu_repository_class%">
+            <argument>%raindrop_page_bundle.menu_class%</argument>
+        </service>
+
         <service id="raindrop_page.page.manager" class="Raindrop\PageBundle\Manager\PageManager">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%raindrop_twig_loader_bundle.entity_class%</argument>
+        </service>
+
+        <service id="raindrop_page.menu.manager" class="Raindrop\PageBundle\Manager\MenuManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>Raindrop\PageBundle\Entity\MenuEntry</argument>
         </service>
 
         <service id="raindrop_page.tree.warmer" class="Raindrop\PageBundle\HttpKernel\WebsiteTreeWarmer" public="false">
@@ -75,13 +86,8 @@
         </service>
 
         <service id="raindrop.page.intl.provider" class="%raindrop_page.intl_provider%">
-            <argument type="service" id="raindrop.page.intl.culture.provider" />
-            <argument type="service" id="raindrop.page.intl.country.provider" />
+            <argument type="service" id="raindrop_locale.allowed_locales.provider" />
         </service>
-
-        <service id="raindrop.page.intl.country.provider" class="%raindrop_page.country_provider%" />
-
-        <service id="raindrop.page.intl.culture.provider" class="%raindrop_page.culture_provider%" />
 
         <service id="raindrop.page.variable_resolver" class="Raindrop\PageBundle\Resolver\Resolver">
             <call method="setContainer">

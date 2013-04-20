@@ -78,6 +78,10 @@ class Page
      */
     protected $metas_http_equiv;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\MenuEntry", mappedBy="page")
+     */
+    protected $menus;
 
     /**
      * @ORM\Column(type="datetime")
@@ -483,5 +487,28 @@ class Page
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set menus
+     *
+     * @param string $menus
+     * @return Page
+     */
+    public function setMenus($menus)
+    {
+        $this->menus = $menus;
+
+        return $this;
+    }
+
+    /**
+     * Get menus
+     *
+     * @return string
+     */
+    public function getMenus()
+    {
+        return $this->menus;
     }
 }

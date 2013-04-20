@@ -13,8 +13,11 @@ class Tree {
         $this->session = $session;
     }
 
-    public function buildTree() {
-        $pages = $this->pagesRepository->findByCountry($this->session->get('raindrop:admin:country'));
+    public function buildTree($pages = null) {
+
+        if (is_null($pages)) {
+            $pages = $this->pagesRepository->findByCountry($this->session->get('raindrop:admin:country'));
+        }
 
         $this->root = new Node(Node::ROOT);
 
@@ -45,6 +48,11 @@ class Tree {
                         if ($node->getPath() == $page->getRoute()->getPath()) {
                             $node->setPageId($page->getId());
                             $node->setTitle($page->getTitle());
+
+                            $menus = $page->getMenus();
+                            if (count($menus) == 1) {
+                                $node->setMenuId($menus[0]->getId());
+                            }
                         }
 
                         $current->addChild($node);

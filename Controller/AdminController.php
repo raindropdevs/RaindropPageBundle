@@ -163,4 +163,19 @@ class AdminController extends Controller
         return $this->render('RaindropPageBundle:Block:block_preview.html.twig', array('block' => $block));
     }
 
+    /**
+     * @Route("/admin/page/switch/country/{country}", name="raindrop_admin_switch_country")
+     * @Secure(roles="ROLE_ADMIN")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function switchCountryAction() {
+        $country = $this->get('request')->get('country');
+
+        /**
+         * @TODO: check if country is valid
+         */
+
+        $this->get('session')->set('raindrop:admin:country', $country);
+        return $this->redirect($this->get('router')->generate('sonata_admin_dashboard'));
+    }
 }

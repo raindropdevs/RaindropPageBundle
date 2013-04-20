@@ -32,6 +32,15 @@
 {% block side_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active'}, 'list') }}{% endblock %}
 
 {% block list_table %}
+
+    {% if raindrop_admin_current_country is not empty %}
+        <h4><strong>Current country:</strong> <a>{{ raindrop_admin_current_country }}</a></h4>
+        <br>
+    {% else %}
+        <h4><div class="alert alert-error">No country selected.</div></h4>
+        <br>
+    {% endif %}
+
     {% set batchactions = admin.batchactions %}
     <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" style="margin-bottom: 100px;">
         <div class="row-fluid">
@@ -44,6 +53,13 @@
             </div>
         </div>
     </form>
+    <script>
+    var globalConfig = {
+        createPageUrl: '{{ admin.generateUrl('create') }}',
+        editPageUrl: '{{ admin.generateUrl('edit', { id: 0 }) }}',
+        deletePageUrl: '{{ admin.generateUrl('delete', { id: 0 }) }}'
+    };
+    </script>
 {% endblock %}
 
 
@@ -76,12 +92,5 @@
                 </div>
             </fieldset>
         </form>
-    <script>
-    var globalConfig = {
-        createPageUrl: '{{ admin.generateUrl('create') }}',
-        editPageUrl: '{{ admin.generateUrl('edit', { id: 0 }) }}',
-        deletePageUrl: '{{ admin.generateUrl('delete', { id: 0 }) }}'
-    };
-    </script>
     {% endif %}
 {% endblock %}

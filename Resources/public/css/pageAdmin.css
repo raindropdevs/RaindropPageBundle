@@ -54,6 +54,15 @@
     display: block;
 }
 
+#tabLayout .row-fluid.draggable-source-block {
+    margin-top: 2px;
+}
+
+.row-fluid.draggable-source-block.fixed-width-200 {
+    width: 260px;
+    float: right;
+}
+
 .row-fluid .block-source {
     display: none;
     position: absolute;
@@ -71,11 +80,6 @@
 .block-source .row-fluid.hover,
 #tabLayout .row-fluid.hover {
     background: #F0BBBB;
-}
-
-.row-fluid.draggable-source-block.fixed-width-200 {
-    width: 260px;
-    float: right;
 }
 
 #tabLayout .row-fluid.draggable-block .close {
@@ -123,10 +127,6 @@
 
 #tabLayout .draggable-block p {
     margin: 0;
-}
-
-#tabLayout .row-fluid.draggable-source-block {
-    margin-top: 2px;
 }
 
 #tabLayout .ui-sortable-placeholder {

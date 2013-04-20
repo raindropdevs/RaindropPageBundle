@@ -1,0 +1,11 @@
+<li {% if node.hasMenuId() is not empty %}data-id="{{ node.getMenuId() }}"{% endif %}>
+    <a title="{{ node.getTitle() }}" href="javascript:;">{{ node.getPath() }}</a>
+
+    {% if node.getChildren() is not empty %}
+        <ul class="sortable">
+            {% for child in node.getChildren() %}
+                {% include 'RaindropPageBundle:Menu:menu_list.html.twig' with { 'node': child } %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

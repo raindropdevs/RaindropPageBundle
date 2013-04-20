@@ -24,13 +24,37 @@ class PageManager {
         if (substr($layout, 0, strlen(DatabaseTwigLoader::DATABASE_ID)) == DatabaseTwigLoader::DATABASE_ID) {
             $templateName = substr($layout, strlen(DatabaseTwigLoader::DATABASE_ID));
             $templateRepo = $this
-                ->orm
-                ->getRepository($this->twigEntityClass);
+                ->getTemplateRepository();
             $tpl = $templateRepo->findOneByName($templateName);
             if ($tpl) {
                 $tpl->setUpdatedValue();
                 $this->orm->flush();
             }
         }
+    }
+
+    public function getTemplateRepository() {
+        return $this->orm->getRepository($this->twigEntityClass);
+    }
+
+    public function getRepository() {
+        return $this->orm->getRepository('RaindropPageBundle:Page');
+    }
+
+    public function getPagesForMenu($menu) {
+        return $this->getRepository()->getPagesForMenu($menu);
+    }
+
+    public function getCurrentMenu($name, $country) {
+        return $this->getRepository()->getCurrentMenu($name, $country);
+    }
+
+    public function getCountryPages($country) {
+        $q = $this->getRepository()->createQueryBuilder('m')
+            ->select('m')
+            ->where('m.country = :country AND m.route is not null')
+            ->setParameter('country', $country)
+        ;
+        return $q->getQuery()->getResult();
     }
 }
