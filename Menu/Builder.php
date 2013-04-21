@@ -23,8 +23,7 @@ class Builder implements ContainerAwareInterface {
 
     public function mainMenu(FactoryInterface $factory, array $options) {
 
-        $current_route = $this->container->get('router')->getRouteCollection()->get($this->container->get('request')->get('_route'));
-        $page = $current_route->getContent();
+        $page = $this->container->get('raindrop.page.renderer')->guessPage();
         $country = $page->getCountry();
 
         $locale = $this->container->get('request')->get('_locale');

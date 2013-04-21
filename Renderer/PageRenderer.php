@@ -3,6 +3,8 @@
 namespace Raindrop\PageBundle\Renderer;
 
 use Raindrop\PageBundle\Renderer\RendererInterface;
+use Raindrop\RoutingBundle\Entity\Route;
+use Raindrop\PageBundle\Entity\Page;
 
 class PageRenderer implements RendererInterface {
 
@@ -92,29 +94,33 @@ class PageRenderer implements RendererInterface {
      * Try to find out if current route points to a page entity.
      * @return null
      */
-    protected function guessPage() {
+    public function guessPage() {
         $route = $this->container->get('router')
                 ->getRouteCollection()
                 ->get($this->container->get('request')->get('_route'));
 
         if ($route instanceof Route) {
-            return $route->getContent();
-        }
-
-        $id = $this->container->get('request')->get('page_id');
-        if ($id) {
-            $orm = $this
-                ->container
-                ->get('doctrine.orm.default_entity_manager');
-            $page = $orm
-                ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
-                ->find($id);
-            if ($page) {
+            $page = $route->getContent();
+            if ($page instanceof Page) {
                 return $page;
             }
         }
 
+        $id = $this->container->get('request')->get('id');
 
+        if ($id) {
+            $orm = $this
+                ->container
+                ->get('doctrine.orm.default_entity_manager');
+
+            $page = $orm
+                ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
+                ->find($id);
+
+            if ($page instanceof Page) {
+                return $page;
+            }
+        }
 
         return null;
     }
