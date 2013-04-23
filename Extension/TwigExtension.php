@@ -35,7 +35,8 @@ class TwigExtension extends \Twig_Extension {
 
     public function getGlobals() {
         return array(
-            'raindrop_intl_provider' => $this->container->get('raindrop.page.intl.provider')
+            'raindrop_intl_provider' => $this->container->get('raindrop.page.intl.provider'),
+            'raindrop_admin_current_country' => $this->container->get('session')->get('raindrop:admin:country')
         );
     }
 
