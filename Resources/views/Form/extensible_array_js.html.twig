@@ -1,161 +1,222 @@
 
-        <script>
-            var raindropFormAddField = function (elem) {
-                var type = $(elem).parent().find('.raindropFormAddFieldSelect').val();
-                var container = $(elem).parent().parent().find('.raindropFormAddFieldContainer');
-                var prototype = container.data('prototype');
-                var inputName = $(prototype).find('input').attr('name');
-                var sonataFormName = inputName.substr(0, inputName.indexOf('['));
-                var fieldName = $(elem).parent().find(".raindropFormAddFieldName").val();
-                var numFields = container.find('.raindropInput').length;
+<script>
+var raindropFormAddField = function (elem) {
+    var type = $(elem).parent().find('.raindropFormAddFieldSelect').val();
+    var container = $(elem).parent().parent().find('.raindropFormAddFieldContainer');
+    var prototype = container.data('prototype');
+    var inputName = $(prototype).find('input').attr('name');
+    var sonataFormName = inputName.substr(0, inputName.indexOf('['));
+    var fieldName = $(elem).parent().find(".raindropFormAddFieldName").val();
+    var numFields = container.find('.raindropInput').length;
 
-                if (fieldName === '') {
-                    alert('Field name cannot be empty');
-                    return;
-                }
+    if (fieldName === '') {
+        alert('Field name cannot be empty');
+        return;
+    }
 
-                switch (type) {
-                    case 'text':
-                    case 'textarea':
+    switch (type) {
+        case 'text':
+        case 'textarea':
 
-                        /*
-                         * Creates a structure like this
-                           div
-                             div
-                                label
-                                a.remove
-                             div
-                                label
-                                input (for field name)
-                         */
+            /*
+             * Creates a structure like this
+               div
+                 div
+                    label
+                    a.remove
+                 div
+                    label
+                    input (for field name)
+             */
 
-                        var $groupContainer = raindropFormTemplates.groupContainer();
+            var $groupContainer = raindropFormTemplates.groupContainer();
 
-                        var $labelContainer = raindropFormTemplates.groupLabelContainer();
-                        $labelContainer.append(raindropFormTemplates.removeButton());
-                        $labelContainer.append(raindropFormTemplates.groupLabel(fieldName, 'text'));
+            var $labelContainer = raindropFormTemplates.groupLabelContainer();
+            $labelContainer.append(raindropFormTemplates.removeButton());
+            $labelContainer.append(raindropFormTemplates.groupLabel(fieldName, 'text'));
 
-                        var $div = raindropFormTemplates.variablesContainer();
-                        $div.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'type', 'Form type'));
-                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', type));
+            var $div = raindropFormTemplates.variablesContainer();
+            $div.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'type', 'Field type'));
+            $div.append(raindropFormTemplates.select(sonataFormName, fieldName, numFields, 'type', ['text', 'textarea']));
 
-                        numFields++;
+            numFields++;
 
-                        $groupContainer
-                            .append($labelContainer)
-                            .append($div)
-                            ;
-                        container.append($groupContainer);
-                        break;
-                    case 'entity':
-                        /*
-                         * Creates a structure like this
-                           div
-                             div1
-                                label
-                                a.remove
-                             div2
-                                label
-                                input (for model field)
-                                label
-                                input (for label field)
-                                label
-                                input (for human identifier field)
-                         */
-                        var $groupContainer = raindropFormTemplates.groupContainer();
-                        var $labelContainer = raindropFormTemplates.groupLabelContainer();
-                        $labelContainer.append(raindropFormTemplates.removeButton());
-                        $labelContainer.append(raindropFormTemplates.groupLabel(fieldName, 'entity'));
+            $groupContainer
+                .append($labelContainer)
+                .append($div)
+                ;
+            container.prepend($groupContainer);
+            break;
+        case 'service':
 
-                        var $div = raindropFormTemplates.variablesContainer();
-                        $div.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'type', 'Form type'));
-                        $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', type));
 
-                        numFields++;
+            /*
+             * Creates a structure like this
+               div
+                 div
+                    label
+                    a.remove
+                 div
+                    label
+                    input (for field name)
+             */
+            var $groupContainer = raindropFormTemplates.groupContainer();
 
-                        var $div2 = raindropFormTemplates.variablesContainer();
-                        $div2.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'model', 'Model'));
-                        $div2.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'model'));
+            var $labelContainer = raindropFormTemplates.groupLabelContainer();
+            $labelContainer.append(raindropFormTemplates.removeButton());
+            $labelContainer.append(raindropFormTemplates.groupLabel(fieldName, 'service'));
 
-                        numFields++;
+            var $div = raindropFormTemplates.variablesContainer();
+            $div.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'type', 'Variable type'));
+            $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', 'service'));
 
-                        var $div3 = raindropFormTemplates.variablesContainer();
-                        $div3.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'label', 'Label'));
-                        $div3.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'label'));
+            numFields++;
 
-                        numFields++;
+            $groupContainer
+                .append($labelContainer)
+                .append($div)
+                ;
+            container.prepend($groupContainer);
+            break;
+        case 'entity':
+            /*
+             * Creates a structure like this
+               div
+                 div1
+                    label
+                    a.remove
+                 div2
+                    label
+                    input (for model field)
+                    label
+                    input (for label field)
+                    label
+                    input (for human identifier field)
+             */
+            var $groupContainer = raindropFormTemplates.groupContainer();
+            var $labelContainer = raindropFormTemplates.groupLabelContainer();
+            $labelContainer.append(raindropFormTemplates.removeButton());
+            $labelContainer.append(raindropFormTemplates.groupLabel(fieldName, 'entity'));
 
-                        var $div4 = raindropFormTemplates.variablesContainer();
-                        $div4.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields,'human-indentifier', 'Human-identifier'));
-                        $div4.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'human-indentifier'));
+            var $div = raindropFormTemplates.variablesContainer();
+            $div.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'type', 'Variable type'));
+            $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', 'entity'));
 
-                        $groupContainer
-                            .append($labelContainer)
-                            .append($div)
-                            .append($div2)
-                            .append($div3)
-                            .append($div4)
-                            ;
-                        container.append($groupContainer);
+            numFields++;
 
-                        break;
+            var $div2 = raindropFormTemplates.variablesContainer();
+            $div2.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'label', 'Form label'));
+            $div2.append(raindropFormTemplates.inputNested(sonataFormName, fieldName, numFields, 'label'));
+
+            numFields++;
+
+            var $div3 = raindropFormTemplates.variablesContainer();
+            $div3.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'model', 'Model'));
+            $div3.append(raindropFormTemplates.inputNested(sonataFormName, fieldName, numFields, 'model'));
+
+            numFields++;
+
+            var $div4 = raindropFormTemplates.variablesContainer();
+            $div4.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields,'human-indentifier', 'Human readable property'));
+            $div4.append(raindropFormTemplates.inputNested(sonataFormName, fieldName, numFields, 'human-identifier'));
+
+            $groupContainer
+                .append($labelContainer)
+                .append($div)
+                .append($div2)
+                .append($div3)
+                .append($div4)
+                ;
+            container.prepend($groupContainer);
+
+            break;
+    }
+}
+
+var raindropFormRemoveField = function (elem) {
+    $(elem).parent().parent().remove();
+}
+
+var raindropFormTemplates = (function () {
+    return {
+        'groupContainer': function () {
+            return $('<div/>');
+        },
+
+        'variablesContainer': function () {
+            return $('<div/>', {
+                "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
+            });
+        },
+
+        'groupLabelContainer': function () {
+            return $('<div/>', {
+                "class": "controls raindropLabelContainer"
+            });
+        },
+
+        'groupLabel': function (fieldName, type) {
+            return $('<label/>', {
+                'html' : '<strong>' + fieldName  + ' (type: ' + type + ')</strong>'
+            });
+        },
+
+        'label': function (sonataFormName, fieldName, numFields, type, value) {
+            return $('<label/>', {
+                'for': sonataFormName + '_options_' + fieldName + ':' + type,
+                'html': value,
+                'class': 'span2 raindropLabel'
+            })
+        },
+
+        'input': function (sonataFormName, fieldName, numFields, type, value) {
+            return $('<input/>', {
+                'name': sonataFormName + '[options]' + '[' + fieldName + '][' + type + ']',
+                'value': value,
+                'id': sonataFormName + '_options_' + fieldName + ':' + type,
+                'class': 'span5',
+                'type': 'text'
+            });
+        },
+
+        'inputNested': function (sonataFormName, fieldName, numFields, type, value) {
+            return $('<input/>', {
+                'name': sonataFormName + '[options]' + '[' + fieldName + '][options][' + type + ']',
+                'value': value,
+                'id': sonataFormName + '_options_' + fieldName + ':' + type,
+                'class': 'span5',
+                'type': 'text'
+            });
+        },
+
+        'select': function (sonataFormName, fieldName, numFields, type, options) {
+            var selectElement = $('<select/>', {
+                'name': sonataFormName + '[options]' + '[' + fieldName + '][' + type + ']',
+                'id': sonataFormName + '_options_' + fieldName + ':' + type,
+                'class': 'span5'
+            });
+
+            var opt;
+            for (opt in options) {
+                if (options.hasOwnProperty(opt)) {
+                    selectElement.append($('<option/>', {
+                        text: options[opt],
+                        value: options[opt]
+                    }));
                 }
             }
 
-            var raindropFormRemoveField = function (elem) {
-                $(elem).parent().parent().remove();
-            }
+            return selectElement;
+        },
 
-            var raindropFormTemplates = (function () {
-                return {
-                    'groupContainer': function () {
-                        return $('<div/>');
-                    },
-
-                    'variablesContainer': function () {
-                        return $('<div/>', {
-                            "class": "controls sonata-ba-field sonata-ba-field-standard-natural raindropInput"
-                        });
-                    },
-
-                    'groupLabelContainer': function () {
-                        return $('<div/>', {
-                            "class": "controls raindropLabelContainer"
-                        });
-                    },
-
-                    'groupLabel': function (fieldName, type) {
-                        return $('<label/>', {
-                            'html' : '<strong>' + fieldName  + ' (type: ' + type + ')</strong>'
-                        });
-                    },
-
-                    'label': function (sonataFormName, fieldName, numFields, type, value) {
-                        return $('<label/>', {
-                            'for': sonataFormName + '_options_' + fieldName + ':' + type,
-                            'html': value,
-                            'class': 'span2 raindropLabel'
-                        })
-                    },
-
-                    'input': function (sonataFormName, fieldName, numFields, type, value) {
-                        return $('<input/>', {
-                            'name': sonataFormName + '[options]' + '[' + fieldName + '][' + type + ']',
-                            'value': value,
-                            'id': sonataFormName + '_options_' + fieldName + ':' + type,
-                            'class': 'span5',
-                            'type': 'text'
-                        });
-                    },
-
-                    'removeButton': function () {
-                        return $('<a/>', {
-                            "html": '<i class="icon-remove" />',
-                            "onclick": "raindropFormRemoveField(this)",
-                            "class": "pull-left raindropRemoveIcon raindrop_tips",
-                            "title": "Remove this variable"
-                        });
-                    }
-                };
-            }());
-        </script>
+        'removeButton': function () {
+            return $('<a/>', {
+                "html": '<i class="icon-remove" />',
+                "onclick": "raindropFormRemoveField(this)",
+                "class": "pull-left raindropRemoveIcon raindrop_tips",
+                "title": "Remove this variable"
+            });
+        }
+    };
+}());
+</script>

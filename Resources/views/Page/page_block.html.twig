@@ -1,8 +1,8 @@
-<div id="block-{{ block.getId() }}" data-block="{{ block.getType() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
+<div id="block-{{ block.getId() }}" data-block="{{ block.getName() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
     {% if block.isRenderable() %}
-    <div class="span12">
-        {{ sonata_block_render(block) }}
-    </div>
+        <div class="span12">
+            {{ sonata_block_render(block) }}
+        </div>
     {% endif %}
     <div class="pageBlockToolbar">
         <span class="label label-inverse">{{ block.getName() }}</span>

@@ -99,6 +99,14 @@
             <argument type="service" id="service_container" />
         </service>
 
+        <service id="raindrop_page.services.provider" class="Raindrop\PageBundle\Admin\Providers\ServicesProvider">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="raindrop_page.container.data.collector" class="Raindrop\PageBundle\Admin\Providers\ContainerDataCollector">
+            <argument type="service" id="kernel" />
+        </service>
+
     </services>
 
 </container>

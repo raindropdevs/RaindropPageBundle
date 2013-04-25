@@ -57,24 +57,65 @@ class ExtensibleArrayType extends AbstractType
     }
 
     protected function addGroup($name, $config) {
+
         // type options
-        $this->builder->add($name . ':type', 'nested_text', array(
-            'label' => 'Type',
-            'nested_name' => '[options][' . $name . '][type]',
-            'data' => $config['type'],
-            'attr' => array(
-                'class' => 'span5'
-            ),
-            'label_attr' => array(
-                'class' => 'span2 raindropLabel'
-            )
-        ));
 
         // form field options
         switch ($config['type']) {
             case 'text':
+            case 'textarea':
+                $this->builder->add($name . ':type', 'nested_choice', array(
+                    'label' => 'Field type',
+                    'nested_name' => '[options][' . $name . '][type]',
+                    'data' => $config['type'],
+                    'choices' => array(
+                        'text' => 'text',
+                        'textarea' => 'textarea'
+                    ),
+                    'attr' => array(
+                        'class' => 'span5'
+                    ),
+                    'label_attr' => array(
+                        'class' => 'span2 raindropLabel'
+                    )
+                ));
+                break;
+            case 'service':
+                $this->builder->add($name . ':type', 'nested_text', array(
+                    'label' => 'Field type',
+                    'nested_name' => '[options][' . $name . '][type]',
+                    'data' => $config['type'],
+                    'attr' => array(
+                        'class' => 'span5'
+                    ),
+                    'label_attr' => array(
+                        'class' => 'span2 raindropLabel'
+                    )
+                ));
                 break;
             case 'entity':
+                $this->builder->add($name . ':type', 'nested_text', array(
+                    'label' => 'Field type',
+                    'nested_name' => '[options][' . $name . '][type]',
+                    'data' => $config['type'],
+                    'attr' => array(
+                        'class' => 'span5'
+                    ),
+                    'label_attr' => array(
+                        'class' => 'span2 raindropLabel'
+                    )
+                ));
+                $this->builder->add($name . ':options:label', 'nested_text', array(
+                    'label' => 'Form label',
+                    'nested_name' => '[options][' . $name . '][options][label]',
+                    'data' => $config['options']['label'],
+                    'attr' => array(
+                        'class' => 'span5'
+                    ),
+                    'label_attr' => array(
+                        'class' => 'span2 raindropLabel'
+                    )
+                ));
                 $this->builder->add($name . ':options:model', 'nested_text', array(
                     'label' => 'Model',
                     'nested_name' => '[options][' . $name . '][options][model]',
@@ -86,19 +127,8 @@ class ExtensibleArrayType extends AbstractType
                         'class' => 'span2 raindropLabel'
                     )
                 ));
-                $this->builder->add($name . ':options:label', 'nested_text', array(
-                    'label' => 'Label',
-                    'nested_name' => '[options][' . $name . '][options][label]',
-                    'data' => $config['options']['label'],
-                    'attr' => array(
-                        'class' => 'span5'
-                    ),
-                    'label_attr' => array(
-                        'class' => 'span2 raindropLabel'
-                    )
-                ));
                 $this->builder->add($name . ':options:human-identifier', 'nested_text', array(
-                    'label' => 'Human identifier',
+                    'label' => 'Human readable property',
                     'nested_name' => '[options][' . $name . '][options][human-identifier]',
                     'data' => $config['options']['human-identifier'],
                     'attr' => array(

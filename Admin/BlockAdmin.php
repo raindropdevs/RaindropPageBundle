@@ -57,6 +57,18 @@ class BlockAdmin extends Admin
         }
 
         switch ($variable->getType()) {
+            case 'service':
+                $services = $this->container->get('raindrop_page.services.provider')->provide();
+                $formMapper
+                    ->add($variable->getName(), 'nested_choice', array(
+                        'required' => true,
+                        'choices' => $services,
+                        'data' => $variable->getContent() ?: '',
+                        'mapped' => false,
+                        'required' => $options['required'],
+                        'nested_name' => '[variables][' . $variable->getName() . '][content]'
+                    ));
+                break;
             case 'entity':
                 $orm = $this->container->get('doctrine.orm.default_entity_manager');
                 $allEntities = $orm->getRepository($options['model'])->findAll();
