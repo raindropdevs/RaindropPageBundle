@@ -44,4 +44,18 @@ class LayoutProvider {
 
         return $return;
     }
+
+    public function databaseTemplateChoiceList() {
+        $templates = $this
+            ->repository->findByType('block')
+        ;
+
+        $return = array();
+
+        array_walk($templates, function ($template) use (&$return) {
+            $return['database:' . $template->getName()] = $template->getName();
+        });
+
+        return $return;
+    }
 }

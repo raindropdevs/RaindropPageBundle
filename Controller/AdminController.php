@@ -42,7 +42,7 @@ class AdminController extends Controller
 
 
     /**
-     * @Route("/admin/page/add/block/{page_id}/{type}/{layout}", name="raindrop_admin_add_block", defaults={"layout" = "center"})
+     * @Route("/admin/page/add/block/{page_id}/{name}/{layout}", name="raindrop_admin_add_block", defaults={"layout" = "center"})
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -51,7 +51,7 @@ class AdminController extends Controller
         try {
             $result = false;
             $page_id = $this->get('request')->get('page_id');
-            $block_type = $this->get('request')->get('type');
+            $block_name = $this->get('request')->get('name');
             $block_layout_position = $this->get('request')->get('layout');
 
             $orm = $this
@@ -63,7 +63,7 @@ class AdminController extends Controller
 
             if ($page) {
                 $this->get('raindrop_page.block.manager')
-                        ->createBlock($page, $block_type, $block_layout_position);
+                        ->createBlock($page, $block_name, $block_layout_position);
 
                 $result = true;
             }

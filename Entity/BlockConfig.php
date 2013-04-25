@@ -32,11 +32,6 @@ class BlockConfig
     /**
      * @ORM\Column
      */
-    protected $type;
-
-    /**
-     * @ORM\Column
-     */
     protected $template;
 
     /**
@@ -85,29 +80,6 @@ class BlockConfig
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return BlockConfig
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**

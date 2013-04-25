@@ -16,14 +16,14 @@ class BlockManager {
         $this->pageManager = $pageManager;
     }
 
-    public function createBlock($page, $type, $block_layout_position) {
+    public function createBlock($page, $block_config_name, $block_layout_position) {
         $block = new Block;
         $this->orm->persist($block);
 
-        $block->setName($type);
         $block->setPage($page);
 
-        $blockConfig = $this->getBlockConfig($type);
+        $blockConfig = $this->getBlockConfig($block_config_name);
+        $block->setName($block_config_name);
         $block->setTemplate($blockConfig->getTemplate());
 
         $variables = $this->createBlockVariables($blockConfig, $block);
@@ -48,9 +48,9 @@ class BlockManager {
         return $block;
     }
 
-    protected function getBlockConfig($type) {
+    protected function getBlockConfig($block_config_name) {
         $repo = $this->orm->getRepository('Raindrop\PageBundle\Entity\BlockConfig');
-        return $repo->findOneByType($type);
+        return $repo->findOneByName($block_config_name);
     }
 
     protected function createBlockVariables($blockConfig, $block) {

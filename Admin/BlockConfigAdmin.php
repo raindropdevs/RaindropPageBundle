@@ -25,9 +25,13 @@ class BlockConfigAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('name', null, array('required' => false))
-                ->add('type', null, array('required' => true))
-                ->add('template', null, array('required' => true))
+                ->add('name', null, array('required' => true))
+                ->add('template', 'choice', array(
+                    'required' => true,
+                    'choices' => $this->container
+                        ->get('raindrop.admin.layout.provider')
+                        ->databaseTemplateChoiceList()
+                ))
                 ->add('description', null, array('required' => false))
                 ->add('options', 'extensible_array', array(
                     'required' => false,
