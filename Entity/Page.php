@@ -511,4 +511,27 @@ class Page
     {
         return $this->menus;
     }
+
+    /**
+     * Add menus
+     *
+     * @param \Raindrop\PageBundle\Entity\MenuEntry $menus
+     * @return Page
+     */
+    public function addMenu(\Raindrop\PageBundle\Entity\MenuEntry $menus)
+    {
+        $this->menus[] = $menus;
+    
+        return $this;
+    }
+
+    /**
+     * Remove menus
+     *
+     * @param \Raindrop\PageBundle\Entity\MenuEntry $menus
+     */
+    public function removeMenu(\Raindrop\PageBundle\Entity\MenuEntry $menus)
+    {
+        $this->menus->removeElement($menus);
+    }
 }
