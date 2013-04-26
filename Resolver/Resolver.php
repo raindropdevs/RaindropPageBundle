@@ -34,6 +34,9 @@ class Resolver {
                 case 'textarea':
                     $content = $variable->getContent();
                     break;
+                case 'service':
+                    $content = $this->resolveService($variable);
+                    break;
             }
 
             if (!empty($content)) {
@@ -55,6 +58,13 @@ class Resolver {
         }
 
         return null;
+    }
+
+    protected function resolveService($variable) {
+        $service_id = $variable->getContent();
+        if ($service_id) {
+            return $this->container->get($service_id);
+        }
     }
 }
 
