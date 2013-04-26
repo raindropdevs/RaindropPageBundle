@@ -89,7 +89,7 @@
             <argument type="service" id="raindrop_locale.allowed_locales.provider" />
         </service>
 
-        <service id="raindrop.page.variable_resolver" class="Raindrop\PageBundle\Resolver\Resolver">
+        <service id="raindrop.page.variable_resolver" class="Raindrop\PageBundle\Resolver\ResolverFactory">
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>

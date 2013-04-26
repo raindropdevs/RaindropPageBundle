@@ -7,7 +7,7 @@ namespace Raindrop\PageBundle\Resolver;
  *
  * @author teito
  */
-class Resolver {
+class ResolverFactory {
 
     protected $container;
 
@@ -27,44 +27,25 @@ class Resolver {
              * resolve $variable->getContent() to $content
              */
             switch ($variable->getType()) {
-                case 'entity':
-                    $content = $this->resolveEntity($variable);
-                    break;
                 case 'text':
                 case 'textarea':
-                    $content = $variable->getContent();
+                    $resolver = new SimpleResolver();
+                    break;
+                case 'entity':
+                    $resolver = new EntityResolver($this->container);
                     break;
                 case 'service':
-                    $content = $this->resolveService($variable);
+                    $resolver = new ServiceResolver($this->container);
                     break;
             }
+
+            $content = $resolver->resolve($variable);
 
             if (!empty($content)) {
                 $return[$variable->getName()] = $content;
             }
         }
         return $return;
-    }
-
-    protected function resolveEntity($variable) {
-        $orm = $this->container
-                ->get('doctrine.orm.default_entity_manager');
-
-        $options = $variable->getOptions();
-        if ($variable->getContent()) {
-            return $orm
-                    ->getRepository($options['model'])
-                    ->find($variable->getContent());
-        }
-
-        return null;
-    }
-
-    protected function resolveService($variable) {
-        $service_id = $variable->getContent();
-        if ($service_id) {
-            return $this->container->get($service_id);
-        }
     }
 }
 
