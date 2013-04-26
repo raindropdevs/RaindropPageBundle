@@ -117,7 +117,7 @@ var raindropFormAddField = function (elem) {
             numFields++;
 
             var $div4 = raindropFormTemplates.variablesContainer();
-            $div4.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields,'human-indentifier', 'Human readable property'));
+            $div4.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields,'human-indentifier', 'Human readable field'));
             $div4.append(raindropFormTemplates.inputNested(sonataFormName, fieldName, numFields, 'human-identifier'));
 
             $groupContainer
@@ -140,7 +140,9 @@ var raindropFormRemoveField = function (elem) {
 var raindropFormTemplates = (function () {
     return {
         'groupContainer': function () {
-            return $('<div/>');
+            return $('<div/>', {
+                "class": "raindropFormGroup"
+            });
         },
 
         'variablesContainer': function () {

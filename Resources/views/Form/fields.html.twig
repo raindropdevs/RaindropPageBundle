@@ -17,7 +17,7 @@
         <div class="raindropFormAddFieldContainer control-group" {{ block('widget_container_attributes') }} data-prototype="{{ form_row(prototype)|e }}">
 
             {% for group, children in form_widgets %}
-                <div>
+                <div class="raindropFormGroup">
                     <div class="controls raindropLabelContainer">
                         <a title="Remove this variable" class="pull-left raindropRemoveIcon raindrop_tips" onclick="raindropFormRemoveField(this)"><i class="icon-remove"></i></a>
                         <label><strong>{{ group }} (type: {{ children['type'] }})</strong></label>

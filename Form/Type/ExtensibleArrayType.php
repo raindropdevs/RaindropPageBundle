@@ -128,7 +128,7 @@ class ExtensibleArrayType extends AbstractType
                     )
                 ));
                 $this->builder->add($name . ':options:human-identifier', 'nested_text', array(
-                    'label' => 'Human readable property',
+                    'label' => 'Human readable field',
                     'nested_name' => '[options][' . $name . '][options][human-identifier]',
                     'data' => $config['options']['human-identifier'],
                     'attr' => array(
