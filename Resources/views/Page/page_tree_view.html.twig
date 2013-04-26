@@ -45,11 +45,13 @@
     <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" style="margin-bottom: 100px;">
         <div class="row-fluid">
             <div class="span12">
-                <li id="rootElement">
-                    <ul>
-                        {% include 'RaindropPageBundle:Page:node.html.twig' with { node: root, indent: 1 } %}
-                    </ul>
-                </li>
+                <ul id="rootUl">
+                    <li id="rootElement">
+                        <ul>
+                            {% include 'RaindropPageBundle:Page:node.html.twig' with { node: root, indent: 1 } %}
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </form>
@@ -65,6 +67,7 @@
 
 
 {% block list_filters %}
+    {#
     {% if admin.datagrid.filters %}
         <form class="sonata-filter-form {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hide' : '' }}" action="{{ admin.generateUrl('list') }}" method="GET">
             <fieldset class="filter_legend">
@@ -93,4 +96,5 @@
             </fieldset>
         </form>
     {% endif %}
+    #}
 {% endblock %}
