@@ -39,16 +39,9 @@ class PageController extends Controller
      */
     public function indexAction($content)
     {
-        $response = $this->getBaseResponse($content);
-
-        if ($response->isNotModified($this->getRequest())) {
-            // return the 304 Response immediately
-            return $response;
-        }
-
-        return $this->render($content->getLayout(), array(
-            'blocks' => $content->getChildren()
-        ), $response);
+        return $this
+            ->get('raindrop.page.renderer')
+            ->render($content);
     }
 
     /**

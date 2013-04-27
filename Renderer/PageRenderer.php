@@ -5,6 +5,8 @@ namespace Raindrop\PageBundle\Renderer;
 use Raindrop\PageBundle\Renderer\RendererInterface;
 use Raindrop\RoutingBundle\Entity\Route;
 use Raindrop\PageBundle\Entity\Page;
+use Symfony\Component\HttpFoundation\Response;
+use Raindrop\PageBundle\Renderer\RenderableObjectInterface;
 
 class PageRenderer implements RendererInterface {
 
@@ -14,14 +16,59 @@ class PageRenderer implements RendererInterface {
         $this->container = $container;
     }
 
+    /**
+     * Renders a page using the same logic as the base symfony 2 controller.
+     *
+     * @param \Raindrop\PageBundle\Renderer\RenderableObjectInterface $page
+     * @return type
+     */
+    public function render(RenderableObjectInterface $object) {
+        return $this->container
+            ->get('templating')
+            ->renderResponse(
+                $this->getLayout($object),
+                $this->getParameters($object),
+                $this->getBaseResponse($object)
+            )
+            ;
+    }
+
+    protected function getLayout($object) {
+        if ($object instanceof Page) {
+            return $object->getLayout();
+        }
+        return null;
+    }
+
+    protected function getParameters($object) {
+        return $object->getParameters();
+    }
+
     public function setPage($page) {
         $this->page = $page;
 
         return $this;
     }
 
-    public function getLayout() {
-        return $this->page->getLayout();
+    protected function getBaseResponse($object) {
+        $response = new Response;
+
+        if ($this->container->getParameter('kernel.environment') !== 'prod') {
+            return $response;
+        }
+
+        $response->setPublic();
+
+        $lastModified = $object->getLastModified();
+        if (!$lastModified instanceof \DateTime) {
+            $date = new \DateTime();
+            $date->setTimestamp($lastModified);
+            $lastModified = $date;
+        }
+
+        $response->setLastModified();
+        $response->headers->set('Expires', gmdate("D, d M Y H:i:s", time() + $object->getExpiresAfter()) . " GMT");
+        return $response;
     }
 
     public function renderJavascript() {
@@ -95,6 +142,11 @@ class PageRenderer implements RendererInterface {
      * @return null
      */
     public function guessPage() {
+
+        if (!empty($this->page)) {
+            return $this->page;
+        }
+
         $route = $this->container->get('router')
                 ->getRouteCollection()
                 ->get($this->container->get('request')->get('_route'));
@@ -102,6 +154,7 @@ class PageRenderer implements RendererInterface {
         if ($route instanceof Route) {
             $page = $route->getContent();
             if ($page instanceof Page) {
+                $this->page = $page;
                 return $page;
             }
         }
@@ -118,6 +171,7 @@ class PageRenderer implements RendererInterface {
                 ->find($id);
 
             if ($page instanceof Page) {
+                $this->page = $page;
                 return $page;
             }
         }

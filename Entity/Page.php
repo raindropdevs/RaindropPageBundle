@@ -6,13 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Raindrop\RoutingBundle\Routing\Base\RouteObjectInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Raindrop\PageBundle\Entity\Block;
+use Raindrop\PageBundle\Renderer\RenderableObjectInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Raindrop\PageBundle\Entity\PageRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="pages")
  */
-class Page
+class Page implements RenderableObjectInterface
 {
     /**
      * @ORM\Id
@@ -82,6 +83,13 @@ class Page
      * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\MenuEntry", mappedBy="page")
      */
     protected $menus;
+
+    /**
+     * @ORM\Column(nullable=true)
+     *
+     * @var type
+     */
+    protected $expiresAfter;
 
     /**
      * @ORM\Column(type="datetime")
@@ -521,7 +529,7 @@ class Page
     public function addMenu(\Raindrop\PageBundle\Entity\MenuEntry $menus)
     {
         $this->menus[] = $menus;
-    
+
         return $this;
     }
 
@@ -533,5 +541,41 @@ class Page
     public function removeMenu(\Raindrop\PageBundle\Entity\MenuEntry $menus)
     {
         $this->menus->removeElement($menus);
+    }
+
+    /**
+     * Set expiresAfter
+     *
+     * @param string $expiresAfter
+     * @return Page
+     */
+    public function setExpiresAfter($expiresAfter)
+    {
+        $this->expiresAfter = $expiresAfter;
+
+        return $this;
+    }
+
+    /**
+     * Get expiresAfter
+     *
+     * @return string
+     */
+    public function getExpiresAfter()
+    {
+        /**
+         * On empty expiresAfter, default is one week
+         */
+        if (empty($this->expiresAfter)) {
+            return 86400 * 7;
+        }
+
+        return $this->expiresAfter;
+    }
+
+    public function getParameters() {
+        return array(
+            'blocks' => $this->getChildren()
+        );
     }
 }

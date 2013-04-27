@@ -30,6 +30,7 @@ class PageCRUDController extends CRUDController
             'root' => $treeBuilder->buildTree()->toArray()
         ));
     }
+
     public function previewAction() {
         $page_id = $this->get('request')->get('id');
             $orm = $this
@@ -38,6 +39,9 @@ class PageCRUDController extends CRUDController
         $page = $orm
                 ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
                 ->find($page_id);
-        return $this->render($page->getLayout(), array('blocks' => $page->getChildren()));
+
+        return $this
+            ->get('raindrop.page.renderer')
+            ->render($page);
     }
 }
