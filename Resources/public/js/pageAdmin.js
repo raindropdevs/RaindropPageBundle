@@ -1,4 +1,13 @@
 
+(function($){
+    $.fn.setCursorToTextEnd = function() {
+        $initialVal = this.val();
+        this.val('');
+        this.val($initialVal);
+    };
+})(jQuery);
+
+
 var pageAdmin = (function () {
 
     /*
@@ -133,6 +142,8 @@ var pageAdmin = (function () {
             this.setupBlockButton();
 
             $(".raindrop_tips").tooltip();
+
+            this.focusOnUrl();
         },
 
         removePopover: function (id) {
@@ -150,6 +161,12 @@ var pageAdmin = (function () {
                    }
                }
             });
+        },
+
+        focusOnUrl: function () {
+            if (window.location.href.indexOf('parent=') !== -1) {
+                $(".raindropPageBundleUrl").eq(0).focus().setCursorToTextEnd();
+            }
         },
 
         setupBlockButton: function () {

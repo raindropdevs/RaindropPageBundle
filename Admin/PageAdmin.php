@@ -46,7 +46,12 @@ class PageAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('title', null, array('required' => true))
+                ->add('title', null, array(
+                    'required' => true,
+                    'attr' => array(
+                        'class' => 'span5'
+                    ),
+                ))
                 ->add('layout', 'choice', array(
                     'required' => true,
                     'choices' => $this->layoutProvider->provide(),
@@ -56,8 +61,8 @@ class PageAdmin extends Admin
 
         $urlValue = '';
         $parent = $this->container->get('request')->get('parent');
-        if ($parent) {
-            $urlValue = $parent . '/<name>';
+        if ($parent && $parent != '/') {
+            $urlValue = $parent . '/';
         }
 
         $builder = $formMapper->getFormBuilder();
