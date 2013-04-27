@@ -115,6 +115,7 @@ class BlockAdmin extends Admin
                             'class' => 'span5'
                         )
                     ));
+                break;
             default:
                 break;
         }
