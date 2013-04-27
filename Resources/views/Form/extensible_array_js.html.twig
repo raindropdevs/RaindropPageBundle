@@ -68,7 +68,7 @@ var raindropFormAddField = function (elem) {
 
             var $div = raindropFormTemplates.variablesContainer();
             $div.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'type', 'Variable type'));
-            $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', 'service'));
+            $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', 'service', true));
 
             numFields++;
 
@@ -100,7 +100,7 @@ var raindropFormAddField = function (elem) {
 
             var $div = raindropFormTemplates.variablesContainer();
             $div.append(raindropFormTemplates.label(sonataFormName, fieldName, numFields, 'type', 'Variable type'));
-            $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', 'entity'));
+            $div.append(raindropFormTemplates.input(sonataFormName, fieldName, numFields, 'type', 'entity', true));
 
             numFields++;
 
@@ -171,14 +171,21 @@ var raindropFormTemplates = (function () {
             })
         },
 
-        'input': function (sonataFormName, fieldName, numFields, type, value) {
-            return $('<input/>', {
+        'input': function (sonataFormName, fieldName, numFields, type, value, readonly = false) {
+
+            var config = {
                 'name': sonataFormName + '[options]' + '[' + fieldName + '][' + type + ']',
                 'value': value,
                 'id': sonataFormName + '_options_' + fieldName + ':' + type,
                 'class': 'span5',
                 'type': 'text'
-            });
+            };
+
+            if (readonly) {
+                config.readonly = true;
+            }
+
+            return $('<input/>', config);
         },
 
         'inputNested': function (sonataFormName, fieldName, numFields, type, value) {

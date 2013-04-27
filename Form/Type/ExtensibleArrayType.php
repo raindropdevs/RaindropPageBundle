@@ -86,7 +86,8 @@ class ExtensibleArrayType extends AbstractType
                     'nested_name' => '[options][' . $name . '][type]',
                     'data' => $config['type'],
                     'attr' => array(
-                        'class' => 'span5'
+                        'class' => 'span5',
+                        'readonly' => true
                     ),
                     'label_attr' => array(
                         'class' => 'span2 raindropLabel'
@@ -99,7 +100,8 @@ class ExtensibleArrayType extends AbstractType
                     'nested_name' => '[options][' . $name . '][type]',
                     'data' => $config['type'],
                     'attr' => array(
-                        'class' => 'span5'
+                        'class' => 'span5',
+                        'readonly' => true
                     ),
                     'label_attr' => array(
                         'class' => 'span2 raindropLabel'
