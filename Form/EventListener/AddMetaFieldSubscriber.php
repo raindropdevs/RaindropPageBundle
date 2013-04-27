@@ -54,7 +54,10 @@ class AddMetaFieldSubscriber implements EventSubscriberInterface {
                 $data ? $data->$getter() : array(),
                 array(
                     'required' => false,
-                    'keys' => $keys
+                    'keys' => $keys,
+                    'attr' => array(
+                        'class' => 'raindropMeta'
+                    )
                 )
             ));
         }

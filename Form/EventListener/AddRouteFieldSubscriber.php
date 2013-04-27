@@ -48,6 +48,12 @@ class AddRouteFieldSubscriber implements EventSubscriberInterface
             }
         }
 
-        $form->add($this->factory->createNamed('url', 'text', $url, array('property_path' => false, 'data' => $url)));
+        $form->add($this->factory->createNamed('url', 'text', $url, array(
+            'property_path' => false,
+            'data' => $url,
+            'attr' => array(
+                'class' => 'span5 raindropPageBundleUrl'
+            ),
+        )));
     }
 }
