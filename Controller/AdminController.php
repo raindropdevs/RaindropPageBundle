@@ -178,4 +178,23 @@ class AdminController extends Controller
         $this->get('session')->set('raindrop:admin:country', $country);
         return $this->redirect($this->get('router')->generate('sonata_admin_dashboard'));
     }
+
+    public function showBlockVariablesAction($template, $children) {
+
+        $variables = $this->get('raindrop.twig_loader.variable_extractor')->extract($template);
+
+        $alreadyBound = array();
+        array_walk($children, function ($child, $index) use (&$alreadyBound) {
+            $alreadyBound []= $index;
+        });
+
+        $variablesLeft = array_filter($variables, function ($var) use ($alreadyBound) {
+            return !in_array($var, $alreadyBound);
+        });
+
+        return $this->render('RaindropPageBundle:Block:template_variables.html.twig', array(
+            'variables' => $variablesLeft,
+            'alreadyBound' => $alreadyBound
+        ));
+    }
 }

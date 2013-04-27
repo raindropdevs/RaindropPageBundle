@@ -64,7 +64,7 @@ class BlockConfigAdmin extends Admin {
     {
         switch ($name) {
             case 'edit':
-                return 'RaindropPageBundle:Block:block_editor.html.twig';
+                return 'RaindropPageBundle:Block:block_config_editor.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
