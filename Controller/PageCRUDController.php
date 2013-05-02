@@ -4,9 +4,6 @@ namespace Raindrop\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\SecurityExtraBundle\Annotation\Secure;
-
 class PageCRUDController extends CRUDController
 {
     public function listAction()
@@ -31,7 +28,8 @@ class PageCRUDController extends CRUDController
         ));
     }
 
-    public function previewAction() {
+    public function previewAction()
+    {
         $page_id = $this->get('request')->get('id');
             $orm = $this
                 ->get('doctrine.orm.default_entity_manager');

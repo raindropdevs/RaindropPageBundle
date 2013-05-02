@@ -11,16 +11,17 @@ use Raindrop\PageBundle\Entity\Page;
  *
  * @author teito
  */
-class FilterControllerSeoPageEvent {
-
+class FilterControllerSeoPageEvent
+{
     protected $container;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
     }
 
-    public function onKernelController(FilterControllerEvent $event) {
-
+    public function onKernelController(FilterControllerEvent $event)
+    {
         $request = $event->getRequest();
 
         /**
@@ -53,9 +54,8 @@ class FilterControllerSeoPageEvent {
         }
     }
 
-    public function get($service) {
+    public function get($service)
+    {
         return $this->container->get($service);
     }
 }
-
-?>

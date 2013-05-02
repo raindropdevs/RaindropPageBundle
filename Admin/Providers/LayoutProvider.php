@@ -5,15 +5,17 @@ namespace Raindrop\PageBundle\Admin\Providers;
 /**
  * This class provides layout for the admin edit page.
  */
-class LayoutProvider {
-
+class LayoutProvider
+{
     protected $repository;
 
-    public function __construct($repository) {
+    public function __construct($repository)
+    {
         $this->repository = $repository;
     }
 
-    protected function getAll() {
+    protected function getAll()
+    {
         $result = $this->createQueryForAll()
                 ->getQuery()
                 ->getScalarResult();
@@ -25,7 +27,8 @@ class LayoutProvider {
         return $result;
     }
 
-    protected function createQueryForAll() {
+    protected function createQueryForAll()
+    {
         return $this->repository
                 ->createQueryBuilder('t')
                 ->select('t.name')
@@ -34,7 +37,8 @@ class LayoutProvider {
             ;
     }
 
-    public function provide() {
+    public function provide()
+    {
         $rawList = $this->getAll();
 
         $return = array();
@@ -45,7 +49,8 @@ class LayoutProvider {
         return $return;
     }
 
-    public function databaseTemplateChoiceList() {
+    public function databaseTemplateChoiceList()
+    {
         $templates = $this
             ->repository->findByType('block')
         ;

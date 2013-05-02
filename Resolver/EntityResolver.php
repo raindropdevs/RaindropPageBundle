@@ -8,14 +8,16 @@ use Raindrop\PageBundle\Resolver\ResolverInterface;
  *
  * @author teito
  */
-class EntityResolver implements ResolverInterface {
-
-    public function __construct($container) {
+class EntityResolver implements ResolverInterface
+{
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
     //put your code here
-    public function resolve($variable) {
+    public function resolve($variable)
+    {
         $orm = $this->container
                 ->get('doctrine.orm.default_entity_manager');
 
@@ -29,5 +31,3 @@ class EntityResolver implements ResolverInterface {
         return null;
     }
 }
-
-?>

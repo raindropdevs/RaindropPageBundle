@@ -4,17 +4,18 @@ namespace Raindrop\PageBundle\Directory;
 
 use Raindrop\PageBundle\Directory\Node;
 
-class Tree {
-
+class Tree
+{
     protected $pagesRepository, $root, $session;
 
-    public function __construct($pagesRepository, $session) {
+    public function __construct($pagesRepository, $session)
+    {
         $this->pagesRepository = $pagesRepository;
         $this->session = $session;
     }
 
-    public function buildTree($pages = null) {
-
+    public function buildTree($pages = null)
+    {
         if (is_null($pages)) {
             $pages = $this->pagesRepository->findByCountry($this->session->get('raindrop:admin:country'));
         }
@@ -75,15 +76,16 @@ class Tree {
         return $this;
     }
 
-    public function fromRootArray($root) {
-
+    public function fromRootArray($root)
+    {
         $this->root = new Node(Node::ROOT);
         $this->importChildren($this->root, $root);
 
         return $this;
     }
 
-    public function importChildren($node, $array) {
+    public function importChildren($node, $array)
+    {
         foreach ($array['children'] as $child) {
             $node->addChild(new Node($child['name'], $node));
 
@@ -93,21 +95,25 @@ class Tree {
         }
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return $this->root->toArray();
     }
 
-    public function dumpGraph() {
+    public function dumpGraph()
+    {
         echo $this->root->dumpGraph();
     }
 
-    public function getCleanPathArray($path) {
+    public function getCleanPathArray($path)
+    {
         return array_filter(explode("/", $path), function ($element) {
             return !empty($element);
         });
     }
 
-    public function getTree() {
+    public function getTree()
+    {
         return $this->root;
     }
 }

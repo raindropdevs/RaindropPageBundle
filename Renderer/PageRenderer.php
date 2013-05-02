@@ -8,21 +8,23 @@ use Raindrop\PageBundle\Entity\Page;
 use Symfony\Component\HttpFoundation\Response;
 use Raindrop\PageBundle\Renderer\RenderableObjectInterface;
 
-class PageRenderer implements RendererInterface {
-
+class PageRenderer implements RendererInterface
+{
     protected $page, $container;
 
-    public function __construct($container) {
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
     /**
      * Renders a page using the same logic as the base symfony 2 controller.
      *
-     * @param \Raindrop\PageBundle\Renderer\RenderableObjectInterface $page
+     * @param  \Raindrop\PageBundle\Renderer\RenderableObjectInterface $page
      * @return type
      */
-    public function render(RenderableObjectInterface $object) {
+    public function render(RenderableObjectInterface $object)
+    {
         return $this->container
             ->get('templating')
             ->renderResponse(
@@ -33,24 +35,29 @@ class PageRenderer implements RendererInterface {
             ;
     }
 
-    protected function getLayout($object) {
+    protected function getLayout($object)
+    {
         if ($object instanceof Page) {
             return $object->getLayout();
         }
+
         return null;
     }
 
-    protected function getParameters($object) {
+    protected function getParameters($object)
+    {
         return $object->getParameters();
     }
 
-    public function setPage($page) {
+    public function setPage($page)
+    {
         $this->page = $page;
 
         return $this;
     }
 
-    protected function getBaseResponse($object) {
+    protected function getBaseResponse($object)
+    {
         $response = new Response;
 
         if ($this->container->getParameter('kernel.environment') !== 'prod') {
@@ -68,10 +75,12 @@ class PageRenderer implements RendererInterface {
 
         $response->setLastModified();
         $response->headers->set('Expires', gmdate("D, d M Y H:i:s", time() + $object->getExpiresAfter()) . " GMT");
+
         return $response;
     }
 
-    public function renderJavascript() {
+    public function renderJavascript()
+    {
         $blocks = $this->getPageBlocks();
 
         if (!count($blocks)) {
@@ -100,7 +109,8 @@ class PageRenderer implements RendererInterface {
         return '<script src="'. $path .'" type="text/javascript"></script>';
     }
 
-    public function renderStylesheet() {
+    public function renderStylesheet()
+    {
         $blocks = $this->getPageBlocks();
 
         if (empty($blocks)) {
@@ -129,11 +139,13 @@ class PageRenderer implements RendererInterface {
         return '<link rel="stylesheet" type="text/css" href="'. $path .'" />';
     }
 
-    protected function getPageBlocks() {
+    protected function getPageBlocks()
+    {
         $page = $this->guessPage();
         if (!$page instanceof Page) {
             return array();
         }
+
         return $page->getChildren();
     }
 
@@ -141,8 +153,8 @@ class PageRenderer implements RendererInterface {
      * Try to find out if current route points to a page entity.
      * @return null
      */
-    public function guessPage() {
-
+    public function guessPage()
+    {
         if (!empty($this->page)) {
             return $this->page;
         }
@@ -155,6 +167,7 @@ class PageRenderer implements RendererInterface {
             $page = $route->getContent();
             if ($page instanceof Page) {
                 $this->page = $page;
+
                 return $page;
             }
         }
@@ -172,6 +185,7 @@ class PageRenderer implements RendererInterface {
 
             if ($page instanceof Page) {
                 $this->page = $page;
+
                 return $page;
             }
         }

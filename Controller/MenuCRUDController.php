@@ -4,8 +4,6 @@ namespace Raindrop\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MenuCRUDController extends CRUDController
@@ -103,7 +101,8 @@ class MenuCRUDController extends CRUDController
         ));
     }
 
-    public function appendAction() {
+    public function appendAction()
+    {
         $request = $this->get('request');
 
         $menu_id = $request->get('menu_id');
@@ -120,7 +119,8 @@ class MenuCRUDController extends CRUDController
         return new JsonResponse(array('result' => true));
     }
 
-    public function reorderAction() {
+    public function reorderAction()
+    {
         try {
             $request = $this->get('request');
 

@@ -5,7 +5,6 @@ namespace Raindrop\PageBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
@@ -13,7 +12,8 @@ use Assetic\Asset\FileAsset;
 class PageController extends Controller
 {
 
-    protected function getBaseResponse($object, $expiresAfter = 86400) {
+    protected function getBaseResponse($object, $expiresAfter = 86400)
+    {
         $response = new Response;
 
         if ($this->container->getParameter('kernel.environment') !== 'prod') {
@@ -31,6 +31,7 @@ class PageController extends Controller
 
         $response->setLastModified();
         $response->headers->set('Expires', gmdate("D, d M Y H:i:s", time() + $expiresAfter) . " GMT");
+
         return $response;
     }
 
@@ -47,8 +48,8 @@ class PageController extends Controller
     /**
      * @Route("/assets/combined/{type}/{assets}", name="raindrop_combined_assets", requirements={ "assets" = ".+" })
      */
-    public function assetsAction() {
-
+    public function assetsAction()
+    {
         $files = explode(",", $this->get('request')->get('assets'));
         $type = $this->get('request')->get('type');
 

@@ -9,7 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="raindrop_menu")
  */
-class Menu {
+class Menu
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -40,7 +41,7 @@ class Menu {
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Menu
      */
     public function setName($name)
@@ -63,7 +64,7 @@ class Menu {
     /**
      * Set country
      *
-     * @param string $country
+     * @param  string $country
      * @return Menu
      */
     public function setCountry($country)
@@ -83,7 +84,8 @@ class Menu {
         return $this->country;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return (string) $this->getName() . ' - ' . $this->getCountry();
     }
 }

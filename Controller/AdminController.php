@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Raindrop\PageBundle\Entity\Block;
 
 class AdminController extends Controller
@@ -19,8 +18,8 @@ class AdminController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function ajaxUrlCheck() {
-
+    public function ajaxUrlCheck()
+    {
         $name = $this->get('request')->get('url');
         $route = $this
             ->get('raindrop_routing.route_repository')
@@ -40,14 +39,13 @@ class AdminController extends Controller
         return new JsonResponse(array('available' => $available, 'page' => $page_title));
     }
 
-
     /**
      * @Route("/admin/page/add/block/{page_id}/{name}/{layout}", name="raindrop_admin_add_block", defaults={"layout" = "center"})
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function addBlockAction() {
-
+    public function addBlockAction()
+    {
         try {
             $result = false;
             $page_id = $this->get('request')->get('page_id');
@@ -74,14 +72,13 @@ class AdminController extends Controller
         return new JsonResponse(array('result' => $result));
     }
 
-
     /**
      * @Route("/admin/page/order/blocks/{page_id}", name="raindrop_admin_order_blocks")
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function orderBlocksAction() {
-
+    public function orderBlocksAction()
+    {
         try {
             $result = false;
             $page_id = $this->get('request')->get('page_id');
@@ -100,10 +97,12 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return new JsonResponse(array('error' => $e->getMessage()), 500);
         }
+
         return new JsonResponse(array('result' => $result));
     }
 
-    protected function getPage($id) {
+    protected function getPage($id)
+    {
         $orm = $this
                 ->get('doctrine.orm.default_entity_manager');
 
@@ -112,7 +111,8 @@ class AdminController extends Controller
                 ->find($id);
     }
 
-    protected function getBlock($id) {
+    protected function getBlock($id)
+    {
         $orm = $this
                 ->get('doctrine.orm.default_entity_manager');
 
@@ -126,7 +126,8 @@ class AdminController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function removeBlockAction() {
+    public function removeBlockAction()
+    {
         $block_id = $this->get('request')->get('block_id');
 
         $result = $this->get('raindrop_page.block.manager')
@@ -140,7 +141,8 @@ class AdminController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function reloadLayoutAction() {
+    public function reloadLayoutAction()
+    {
         $page_id = $this->get('request')->get('page_id');
         $page = $this->getPage($page_id);
 
@@ -157,9 +159,11 @@ class AdminController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function blockPreview() {
+    public function blockPreview()
+    {
         $block_id = $this->get('request')->get('id');
         $block = $this->getBlock($block_id);
+
         return $this->render('RaindropPageBundle:Block:block_preview.html.twig', array('block' => $block));
     }
 
@@ -168,7 +172,8 @@ class AdminController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function switchCountryAction() {
+    public function switchCountryAction()
+    {
         $country = $this->get('request')->get('country');
 
         /**
@@ -176,11 +181,12 @@ class AdminController extends Controller
          */
 
         $this->get('session')->set('raindrop:admin:country', $country);
+
         return $this->redirect($this->get('router')->generate('sonata_admin_dashboard'));
     }
 
-    public function showBlockVariablesAction($template, $children) {
-
+    public function showBlockVariablesAction($template, $children)
+    {
         $variables = $this->get('raindrop.twig_loader.variable_extractor')->extract($template);
 
         $alreadyBound = array();

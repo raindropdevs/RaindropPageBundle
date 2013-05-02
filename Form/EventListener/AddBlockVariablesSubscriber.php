@@ -6,16 +6,14 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\DependencyInjection\Container;
-
 
 /**
  * Description of AddAssetsFieldSubscriber
  *
  * @author teito
  */
-class AddBlockVariablesSubscriber implements EventSubscriberInterface {
-
+class AddBlockVariablesSubscriber implements EventSubscriberInterface
+{
     public function __construct(FormFactoryInterface $factory)
     {
         $this->factory = $factory;
@@ -30,7 +28,8 @@ class AddBlockVariablesSubscriber implements EventSubscriberInterface {
         );
     }
 
-    public function preBind(FormEvent $event) {
+    public function preBind(FormEvent $event)
+    {
         $data = $event->getData();
         $form = $event->getForm();
 
@@ -42,4 +41,3 @@ class AddBlockVariablesSubscriber implements EventSubscriberInterface {
         $event->setData($data);
     }
 }
-

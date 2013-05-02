@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Raindrop\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,8 @@ class TemplateBlockService extends BaseBlockService
 {
     protected $resolver;
 
-    public function setResolver($resolver) {
+    public function setResolver($resolver)
+    {
         $this->resolver = $resolver;
     }
 
@@ -33,7 +33,8 @@ class TemplateBlockService extends BaseBlockService
         return $this->renderResponse($block->getTemplate(), $settings, $response);
     }
 
-    public function getSettings($block) {
+    public function getSettings($block)
+    {
         return array_merge($this->getDefaultSettings(), $this->resolver->resolve($block->getVariables()));
     }
 

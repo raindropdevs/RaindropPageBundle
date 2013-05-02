@@ -9,8 +9,7 @@ use Raindrop\PageBundle\Resolver\ResolverInterface;
  *
  * @author teito
  */
-interface ResolverInterface {
+interface ResolverInterface
+{
     public function resolve($variable);
 }
-
-?>

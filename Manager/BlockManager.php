@@ -7,16 +7,18 @@ use Raindrop\PageBundle\Entity\BlockConfig;
 use Raindrop\PageBundle\Entity\BlockVariable;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class BlockManager {
-
+class BlockManager
+{
     protected $orm;
 
-    public function __construct($orm, $pageManager) {
+    public function __construct($orm, $pageManager)
+    {
         $this->orm = $orm;
         $this->pageManager = $pageManager;
     }
 
-    public function createBlock($page, $block_config_name, $block_layout_position) {
+    public function createBlock($page, $block_config_name, $block_layout_position)
+    {
         $block = new Block;
         $this->orm->persist($block);
 
@@ -39,7 +41,6 @@ class BlockManager {
 //            $variable->setBlock($block);
 //        });
 
-
         // update template last modified as the content has changed
         // NO MORE NEEDED (maybe...)
 //        $this->pageManager->updatePageLayoutTimestamp($page);
@@ -48,12 +49,15 @@ class BlockManager {
         return $block;
     }
 
-    protected function getBlockConfig($block_config_name) {
+    protected function getBlockConfig($block_config_name)
+    {
         $repo = $this->orm->getRepository('Raindrop\PageBundle\Entity\BlockConfig');
+
         return $repo->findOneByName($block_config_name);
     }
 
-    protected function createBlockVariables($blockConfig, $block) {
+    protected function createBlockVariables($blockConfig, $block)
+    {
         $return = new ArrayCollection;
 
         foreach ($blockConfig->getOptions() as $name => $options) {
@@ -72,8 +76,8 @@ class BlockManager {
         return $return;
     }
 
-
-    public function reorderBlocks($page, $ids) {
+    public function reorderBlocks($page, $ids)
+    {
         if (!is_array($ids)) {
             return;
         }
@@ -88,7 +92,8 @@ class BlockManager {
         });
     }
 
-    public function moveBlock($id, $layout) {
+    public function moveBlock($id, $layout)
+    {
         $orm = $this->orm;
         $block = $orm
                 ->getRepository('Raindrop\PageBundle\Entity\Block')
@@ -97,7 +102,8 @@ class BlockManager {
         $orm->flush();
     }
 
-    public function removeBlock($id) {
+    public function removeBlock($id)
+    {
         $block = $this->orm
                 ->getRepository('Raindrop\PageBundle\Entity\Block')
                 ->find($id);

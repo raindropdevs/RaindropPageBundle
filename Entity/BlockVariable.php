@@ -56,7 +56,7 @@ class BlockVariable
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string   $type
      * @return BlockVar
      */
     public function setType($type)
@@ -79,7 +79,7 @@ class BlockVariable
     /**
      * Set content
      *
-     * @param string $content
+     * @param  string   $content
      * @return BlockVar
      */
     public function setContent($content)
@@ -102,7 +102,7 @@ class BlockVariable
     /**
      * Set block
      *
-     * @param \Raindrop\PageBundle\Entity\Block $block
+     * @param  \Raindrop\PageBundle\Entity\Block $block
      * @return BlockVariable
      */
     public function setBlock(\Raindrop\PageBundle\Entity\Block $block = null)
@@ -125,7 +125,7 @@ class BlockVariable
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string        $name
      * @return BlockVariable
      */
     public function setName($name)
@@ -148,7 +148,7 @@ class BlockVariable
     /**
      * Set options
      *
-     * @param array $options
+     * @param  array         $options
      * @return BlockVariable
      */
     public function setOptions($options)

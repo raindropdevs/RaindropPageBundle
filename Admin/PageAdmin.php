@@ -17,23 +17,27 @@ class PageAdmin extends Admin
 
     protected $container, $layoutProvider, $blockProvider;
 
-    public function setContainer($container) {
+    public function setContainer($container)
+    {
         $this->container = $container;
     }
 
-    public function setLayoutProvider($layoutProvider) {
+    public function setLayoutProvider($layoutProvider)
+    {
         $this->layoutProvider = $layoutProvider;
 
         return $this;
     }
 
-    public function setBlockProvider($blockProvider) {
+    public function setBlockProvider($blockProvider)
+    {
         $this->blockProvider = $blockProvider;
 
         return $this;
     }
 
-    public function getBlockProvider() {
+    public function getBlockProvider()
+    {
         return $this->blockProvider;
     }
 
@@ -111,16 +115,19 @@ class PageAdmin extends Admin
         }
     }
 
-    public function prePersist($page) {
+    public function prePersist($page)
+    {
         $page->setCountry($this->container->get('session')->get('raindrop:admin:country'));
         $page->setName($page->getTitle());
     }
 
-    public function preUpdate($page) {
+    public function preUpdate($page)
+    {
         $this->prePersist($page);
     }
 
-    public function postPersist($page) {
+    public function postPersist($page)
+    {
         $this->setRelatedRoute($page);
     }
 
@@ -175,7 +182,8 @@ class PageAdmin extends Admin
         }
     }
 
-    protected function updateRelatedLayout($page) {
+    protected function updateRelatedLayout($page)
+    {
         $this->container
                 ->get('raindrop_page.page.manager')
                 ->updatePageLayoutTimestamp($page);

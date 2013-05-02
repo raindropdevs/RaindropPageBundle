@@ -8,8 +8,8 @@ namespace Raindrop\PageBundle\Renderer;
  *
  * @author teito
  */
-interface RenderableObjectInterface {
-
+interface RenderableObjectInterface
+{
     /**
      * Must return valid twig template.
      */
@@ -32,5 +32,3 @@ interface RenderableObjectInterface {
      */
     public function getExpiresAfter();
 }
-
-?>

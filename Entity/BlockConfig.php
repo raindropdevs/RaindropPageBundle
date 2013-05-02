@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Raindrop\PageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -62,7 +61,7 @@ class BlockConfig
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string      $name
      * @return BlockConfig
      */
     public function setName($name)
@@ -85,7 +84,7 @@ class BlockConfig
     /**
      * Set template
      *
-     * @param string $template
+     * @param  string      $template
      * @return BlockConfig
      */
     public function setTemplate($template)
@@ -108,7 +107,7 @@ class BlockConfig
     /**
      * Set options
      *
-     * @param array $options
+     * @param  array       $options
      * @return BlockConfig
      */
     public function setOptions($options)
@@ -128,7 +127,8 @@ class BlockConfig
         return $this->options;
     }
 
-    public function toJson() {
+    public function toJson()
+    {
         return json_encode(array(
             'name' => $this->getName(),
             'type' => $this->getType(),
@@ -139,7 +139,7 @@ class BlockConfig
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string      $description
      * @return BlockConfig
      */
     public function setDescription($description)
@@ -159,14 +159,15 @@ class BlockConfig
         return $this->description;
     }
 
-    public function hasJavascripts() {
+    public function hasJavascripts()
+    {
         return !empty($this->javascripts);
     }
 
     /**
      * Set javascripts
      *
-     * @param array $javascripts
+     * @param  array $javascripts
      * @return Block
      */
     public function setJavascripts($javascripts)
@@ -186,14 +187,15 @@ class BlockConfig
         return $this->javascripts;
     }
 
-    public function hasStylesheets() {
+    public function hasStylesheets()
+    {
         return !empty($this->stylesheets);
     }
 
     /**
      * Set stylesheets
      *
-     * @param array $stylesheets
+     * @param  array $stylesheets
      * @return Block
      */
     public function setStylesheets($stylesheets)
@@ -213,7 +215,8 @@ class BlockConfig
         return $this->stylesheets;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return (string) $this->getName();
     }
 }

@@ -12,7 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class BlockVariableRepository extends EntityRepository
 {
-    public function findOnyByNameAndBlock($name, $block) {
+    public function findOnyByNameAndBlock($name, $block)
+    {
         $q = $this->createQueryBuilder('q')
                 ->where('q.name = :name AND q.block = :block')
                 ->setParameters(array(
@@ -20,6 +21,7 @@ class BlockVariableRepository extends EntityRepository
                     ':block' => $block
                 ))
                 ;
+
         return $q->getQuery()->getOneOrNullResult();
     }
 }

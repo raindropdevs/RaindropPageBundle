@@ -9,7 +9,7 @@ class BlockCRUDController extends CRUDController
 {
     /**
      * i have to extend whole controller and overwrite entire method. no good. - teo
-     * @param type $id
+     * @param  type                  $id
      * @return type
      * @throws NotFoundHttpException
      * @throws AccessDeniedException
@@ -64,6 +64,7 @@ class BlockCRUDController extends CRUDController
                         'id' =>  $object->getPage()->getId()
                     )));
                 }
+
                 return $this->redirectTo($object);
             }
 

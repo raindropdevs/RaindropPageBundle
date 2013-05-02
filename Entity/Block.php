@@ -102,15 +102,18 @@ class Block extends BaseBlock
     /**
      * @param type $entityManager Doctrine\ORM\EntityManager
      */
-    public function setEntityManager(EntityManager $entityManager) {
+    public function setEntityManager(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         return $this->entityManager;
     }
 
-    public function getType() {
+    public function getType()
+    {
         return 'raindrop_page.block.service.template';
     }
 
@@ -163,7 +166,8 @@ class Block extends BaseBlock
     /**
      * @ORM\PrePersist
      */
-    public function prePersist() {
+    public function prePersist()
+    {
         $this->setCreated(new \DateTime);
     }
 
@@ -171,7 +175,8 @@ class Block extends BaseBlock
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function preUpdate() {
+    public function preUpdate()
+    {
         $this->setUpdated(new \DateTime);
     }
 
@@ -201,7 +206,7 @@ class Block extends BaseBlock
     /**
      * Set template
      *
-     * @param string $template
+     * @param  string $template
      * @return Block
      */
     public function setTemplate($template)
@@ -224,7 +229,7 @@ class Block extends BaseBlock
     /**
      * Set page
      *
-     * @param string $page
+     * @param  string $page
      * @return Block
      */
     public function setPage($page)
@@ -256,7 +261,7 @@ class Block extends BaseBlock
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Block
      */
     public function setName($name)
@@ -279,7 +284,7 @@ class Block extends BaseBlock
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime $created
      * @return Block
      */
     public function setCreated($created)
@@ -302,7 +307,7 @@ class Block extends BaseBlock
     /**
      * Set updated
      *
-     * @param \DateTime $updated
+     * @param  \DateTime $updated
      * @return Block
      */
     public function setUpdated($updated)
@@ -325,7 +330,7 @@ class Block extends BaseBlock
     /**
      * Set parent
      *
-     * @param \Raindrop\PageBundle\Entity\Block $parent
+     * @param  \Raindrop\PageBundle\Entity\Block $parent
      * @return Block
      */
     public function setParent(BlockInterface $parent = null)
@@ -348,7 +353,7 @@ class Block extends BaseBlock
     /**
      * Add children
      *
-     * @param \Raindrop\PageBundle\Entity\Block $children
+     * @param  \Raindrop\PageBundle\Entity\Block $children
      * @return Block
      */
     public function addChildren(BlockInterface $children)
@@ -383,7 +388,7 @@ class Block extends BaseBlock
     /**
      * Add variables
      *
-     * @param \Raindrop\PageBundle\Entity\BlockVariable $variables
+     * @param  \Raindrop\PageBundle\Entity\BlockVariable $variables
      * @return Block
      */
     public function addVariable(BlockVariable $variables)
@@ -418,14 +423,15 @@ class Block extends BaseBlock
      *
      * @param type $variables
      */
-    public function setVariables(ArrayCollection $variables) {
+    public function setVariables(ArrayCollection $variables)
+    {
         $this->variables = $variables;
     }
 
     /**
      * Set position
      *
-     * @param integer $position
+     * @param  integer $position
      * @return Block
      */
     public function setPosition($position)
@@ -445,14 +451,15 @@ class Block extends BaseBlock
         return $this->position;
     }
 
-    public function hasJavascripts() {
+    public function hasJavascripts()
+    {
         return !empty($this->javascripts);
     }
 
     /**
      * Set javascripts
      *
-     * @param array $javascripts
+     * @param  array $javascripts
      * @return Block
      */
     public function setJavascripts($javascripts)
@@ -472,14 +479,15 @@ class Block extends BaseBlock
         return $this->javascripts;
     }
 
-    public function hasStylesheets() {
+    public function hasStylesheets()
+    {
         return !empty($this->stylesheets);
     }
 
     /**
      * Set stylesheets
      *
-     * @param array $stylesheets
+     * @param  array $stylesheets
      * @return Block
      */
     public function setStylesheets($stylesheets)
@@ -502,7 +510,7 @@ class Block extends BaseBlock
     /**
      * Set layout
      *
-     * @param string $layout
+     * @param  string $layout
      * @return Block
      */
     public function setLayout($layout)
@@ -522,7 +530,8 @@ class Block extends BaseBlock
         return $this->layout;
     }
 
-    public function isRenderable() {
+    public function isRenderable()
+    {
         $variables = $this->getVariables();
         foreach ($variables as $variable) {
             $content = $variable->getContent();
@@ -530,6 +539,7 @@ class Block extends BaseBlock
                 return false;
             }
         }
+
         return true;
     }
 }

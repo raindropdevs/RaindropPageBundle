@@ -52,12 +52,10 @@ class Page implements RenderableObjectInterface
      */
     protected $children;
 
-
     /**
      * @ORM\Column
      */
     protected $layout;
-
 
     /**
      * @ORM\Column
@@ -114,7 +112,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Page
      */
     public function setName($name)
@@ -137,7 +135,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string $type
      * @return Page
      */
     public function setType($type)
@@ -160,7 +158,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set locale
      *
-     * @param string $locale
+     * @param  string $locale
      * @return Page
      */
     public function setLocale($locale)
@@ -183,7 +181,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime $created
      * @return Page
      */
     public function setCreated($created)
@@ -206,7 +204,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set updated
      *
-     * @param \DateTime $updated
+     * @param  \DateTime $updated
      * @return Page
      */
     public function setUpdated($updated)
@@ -231,14 +229,15 @@ class Page implements RenderableObjectInterface
      *
      * @return type
      */
-    public function getLastModified() {
+    public function getLastModified()
+    {
         return $this->getUpdated();
     }
 
     /**
      * Set controller on the target route
      *
-     * @param string $controller
+     * @param  string $controller
      * @return Page
      */
     public function setController($controller)
@@ -261,7 +260,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set layout
      *
-     * @param string $layout
+     * @param  string $layout
      * @return Page
      */
     public function setLayout($layout)
@@ -284,7 +283,8 @@ class Page implements RenderableObjectInterface
     /**
      * @ORM\PrePersist
      */
-    public function prePersist() {
+    public function prePersist()
+    {
         $this->setCreated(new \DateTime);
     }
 
@@ -292,14 +292,15 @@ class Page implements RenderableObjectInterface
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function preUpdate() {
+    public function preUpdate()
+    {
         $this->setUpdated(new \DateTime);
     }
 
     /**
      * Set route
      *
-     * @param \Raindrop\RoutingBundle\Entity\Route $route
+     * @param  \Raindrop\RoutingBundle\Entity\Route $route
      * @return Page
      */
     public function setRoute(RouteObjectInterface $route = null)
@@ -323,7 +324,8 @@ class Page implements RenderableObjectInterface
         return $this->route;
     }
 
-    public function hasRoute() {
+    public function hasRoute()
+    {
         return $this->route instanceof RouteObjectInterface;
     }
 
@@ -338,15 +340,15 @@ class Page implements RenderableObjectInterface
     /**
      * __toString method
      */
-    public function __toString() {
+    public function __toString()
+    {
         return (string) $this->name;
     }
-
 
     /**
      * Add children
      *
-     * @param \Raindrop\PageBundle\Entity\Block $children
+     * @param  \Raindrop\PageBundle\Entity\Block $children
      * @return Page
      */
     public function addChildren(Block $children)
@@ -385,7 +387,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return Page
      */
     public function setTitle($title)
@@ -408,7 +410,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set metas_name
      *
-     * @param array $metasName
+     * @param  array $metasName
      * @return Page
      */
     public function setMetasName($metasName)
@@ -431,7 +433,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set metas_property
      *
-     * @param array $metasProperty
+     * @param  array $metasProperty
      * @return Page
      */
     public function setMetasProperty($metasProperty)
@@ -454,7 +456,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set metas_http_equiv
      *
-     * @param array $metasHttpEquiv
+     * @param  array $metasHttpEquiv
      * @return Page
      */
     public function setMetasHttpEquiv($metasHttpEquiv)
@@ -477,7 +479,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set country
      *
-     * @param string $country
+     * @param  string $country
      * @return Page
      */
     public function setCountry($country)
@@ -500,7 +502,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set menus
      *
-     * @param string $menus
+     * @param  string $menus
      * @return Page
      */
     public function setMenus($menus)
@@ -523,7 +525,7 @@ class Page implements RenderableObjectInterface
     /**
      * Add menus
      *
-     * @param \Raindrop\PageBundle\Entity\MenuEntry $menus
+     * @param  \Raindrop\PageBundle\Entity\MenuEntry $menus
      * @return Page
      */
     public function addMenu(\Raindrop\PageBundle\Entity\MenuEntry $menus)
@@ -546,7 +548,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set expiresAfter
      *
-     * @param string $expiresAfter
+     * @param  string $expiresAfter
      * @return Page
      */
     public function setExpiresAfter($expiresAfter)
@@ -573,7 +575,8 @@ class Page implements RenderableObjectInterface
         return $this->expiresAfter;
     }
 
-    public function getParameters() {
+    public function getParameters()
+    {
         return array(
             'blocks' => $this->getChildren()
         );

@@ -8,11 +8,13 @@ class ServiceLoader implements BlockLoaderInterface
 {
     protected $blockRepository;
 
-    public function __construct($blockRepository) {
+    public function __construct($blockRepository)
+    {
         $this->blockRepository = $blockRepository;
     }
 
-    public function support($configuration) {
+    public function support($configuration)
+    {
         if (isset($configuration['type']) && $configuration['type'] == 'raindrop_page.block.service.template') {
             return true;
         }
@@ -20,7 +22,8 @@ class ServiceLoader implements BlockLoaderInterface
         return false;
     }
 
-    public function load($configuration) {
+    public function load($configuration)
+    {
         return $this->blockRepository->findOneByName($configuration['settings']['name']);
     }
 }

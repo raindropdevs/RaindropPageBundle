@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Raindrop\PageBundle\Block;
 
 use Symfony\Component\HttpFoundation\Response;

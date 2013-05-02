@@ -6,16 +6,14 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\DependencyInjection\Container;
-
 
 /**
  * Description of AddAssetsFieldSubscriber
  *
  * @author teito
  */
-class AddAssetsFieldSubscriber implements EventSubscriberInterface {
-
+class AddAssetsFieldSubscriber implements EventSubscriberInterface
+{
     public function __construct(FormFactoryInterface $factory)
     {
         $this->factory = $factory;
@@ -31,8 +29,8 @@ class AddAssetsFieldSubscriber implements EventSubscriberInterface {
         );
     }
 
-    public function preBind(FormEvent $event) {
-
+    public function preBind(FormEvent $event)
+    {
         $data = $event->getData();
 
         $jss = array_filter($data['javascripts'], function ($js) {
@@ -93,5 +91,3 @@ class AddAssetsFieldSubscriber implements EventSubscriberInterface {
 
     }
 }
-
-?>

@@ -7,17 +7,18 @@ namespace Raindrop\PageBundle\Resolver;
  *
  * @author teito
  */
-class ResolverFactory {
-
+class ResolverFactory
+{
     protected $container;
 
-    public function setContainer($container) {
+    public function setContainer($container)
+    {
         $this->container = $container;
     }
 
     //put your code here
-    public function resolve($variables) {
-
+    public function resolve($variables)
+    {
         $return = array();
 
         foreach ($variables as $variable) {
@@ -45,8 +46,7 @@ class ResolverFactory {
                 $return[$variable->getName()] = $content;
             }
         }
+
         return $return;
     }
 }
-
-?>

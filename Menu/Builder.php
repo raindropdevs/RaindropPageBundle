@@ -12,17 +12,19 @@ use Knp\Menu\MenuFactory;
  *
  * @author teito
  */
-class Builder implements ContainerAwareInterface {
+class Builder implements ContainerAwareInterface
+{
     //put your code here
 
     protected $container;
 
-    public function setContainer(ContainerInterface $container = null) {
+    public function setContainer(ContainerInterface $container = null)
+    {
         $this->container = $container;
     }
 
-    public function mainMenu(FactoryInterface $factory, array $options) {
-
+    public function mainMenu(FactoryInterface $factory, array $options)
+    {
         $page = $this->container->get('raindrop.page.renderer')->guessPage();
         $country = $page->getCountry();
 
@@ -41,5 +43,3 @@ class Builder implements ContainerAwareInterface {
         return $factory->createFromNode($menu);
     }
 }
-
-?>

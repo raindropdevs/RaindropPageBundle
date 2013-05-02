@@ -9,11 +9,11 @@ use Raindrop\PageBundle\Resolver\ResolverInterface;
  *
  * @author teito
  */
-class SimpleResolver implements ResolverInterface {
+class SimpleResolver implements ResolverInterface
+{
     //put your code here
-    public function resolve($variable) {
+    public function resolve($variable)
+    {
         return $variable->getContent();
     }
 }
-
-?>

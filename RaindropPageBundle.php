@@ -3,9 +3,7 @@
 namespace Raindrop\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Raindrop\PageBundle\DependencyInjection\Compiler\AddFormFieldsCompiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
 class RaindropPageBundle extends Bundle
 {

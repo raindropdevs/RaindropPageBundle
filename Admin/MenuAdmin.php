@@ -13,7 +13,8 @@ class MenuAdmin extends Admin
 {
     protected $container;
 
-    public function setContainer($container) {
+    public function setContainer($container)
+    {
         $this->container = $container;
     }
 

@@ -5,26 +5,23 @@ namespace Raindrop\PageBundle\Admin\Providers;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Alias;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
 
 /**
  * Description of ServicesProvider
  *
  * @author teito
  */
-class ServicesProvider {
-
+class ServicesProvider
+{
     protected $container;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
     }
 
-    public function provide() {
+    public function provide()
+    {
         $collector = $this->container->get('raindrop_page.container.data.collector');
         $collector->collect(new Request, new Response);
         $services = $collector->getServices();
@@ -36,5 +33,3 @@ class ServicesProvider {
         return $services;
     }
 }
-
-?>

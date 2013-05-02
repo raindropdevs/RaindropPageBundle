@@ -11,7 +11,8 @@ use Raindrop\PageBundle\Entity\Menu;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="raindrop_menu_entry")
  */
-class MenuEntry {
+class MenuEntry
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -44,11 +45,10 @@ class MenuEntry {
         return $this->id;
     }
 
-
     /**
      * Set position
      *
-     * @param integer $position
+     * @param  integer   $position
      * @return MenuEntry
      */
     public function setPosition($position)
@@ -71,7 +71,7 @@ class MenuEntry {
     /**
      * Set page
      *
-     * @param \Raindrop\PageBundle\Entity\Page $page
+     * @param  \Raindrop\PageBundle\Entity\Page $page
      * @return MenuEntry
      */
     public function setPage(Page $page = null)
@@ -94,7 +94,7 @@ class MenuEntry {
     /**
      * Set menu
      *
-     * @param \Raindrop\PageBundle\Entity\Menu $menu
+     * @param  \Raindrop\PageBundle\Entity\Menu $menu
      * @return MenuEntry
      */
     public function setMenu(Menu $menu = null)

@@ -2,8 +2,6 @@
 
 namespace Raindrop\PageBundle\HttpKernel;
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use Symfony\Component\Config\ConfigCache;
@@ -39,7 +37,8 @@ class WebsiteTreeWarmer implements CacheWarmerInterface
         $cache->write(serialize($this->treeBuilder->buildTree()->toArray()));
     }
 
-    public static function getCacheFile() {
+    public static function getCacheFile()
+    {
         return
             DIRECTORY_SEPARATOR . self::BUNDLE_NAMESPACE .
             DIRECTORY_SEPARATOR . self::CACHE_DIR .

@@ -13,8 +13,8 @@ use Symfony\Component\DependencyInjection\Container;
  *
  * @author teito
  */
-class AddMetaFieldSubscriber implements EventSubscriberInterface {
-
+class AddMetaFieldSubscriber implements EventSubscriberInterface
+{
     private $factory, $http_metas;
 
     public function __construct(FormFactoryInterface $factory, $http_metas)
@@ -63,5 +63,3 @@ class AddMetaFieldSubscriber implements EventSubscriberInterface {
         }
     }
 }
-
-?>

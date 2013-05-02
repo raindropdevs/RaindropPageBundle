@@ -11,10 +11,10 @@ use Symfony\Component\Form\FormInterface;
  *
  * @author teito
  */
-class MultipleTextType extends TextType {
-
-    public function buildView(FormView $view, FormInterface $form, array $options) {
-
+class MultipleTextType extends TextType
+{
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
         // it does nothing but maybe one day will do something?
         parent::buildView($view, $form, $options);
 
@@ -22,9 +22,8 @@ class MultipleTextType extends TextType {
     }
 
     //put your code here
-    public function getName() {
+    public function getName()
+    {
         return 'multiple_text';
     }
 }
-
-?>

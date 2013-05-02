@@ -14,11 +14,12 @@ use Raindrop\PageBundle\Form\EventListener\AddOptionsFieldSubscriber;
  *
  * @author teito
  */
-class BlockConfigAdmin extends Admin {
-
+class BlockConfigAdmin extends Admin
+{
     protected $container;
 
-    public function setContainer($container) {
+    public function setContainer($container)
+    {
         $this->container = $container;
     }
 
@@ -75,7 +76,7 @@ class BlockConfigAdmin extends Admin {
     /**
      * Filter empty input
      *
-     * @param type $block
+     * @param  type $block
      * @return type
      */
     public function preUpdate($block)
@@ -99,7 +100,8 @@ class BlockConfigAdmin extends Admin {
      * values after validation and bind.
      * @param type $page
      */
-    public function postPersist($block) {
+    public function postPersist($block)
+    {
         $orm = $this->container->get('doctrine.orm.default_entity_manager');
 
         $query = $this->container->get('request')->query->all();
@@ -114,9 +116,8 @@ class BlockConfigAdmin extends Admin {
 
     }
 
-    public function postUpdate($block) {
+    public function postUpdate($block)
+    {
         $this->postPersist($block);
     }
 }
-
-?>

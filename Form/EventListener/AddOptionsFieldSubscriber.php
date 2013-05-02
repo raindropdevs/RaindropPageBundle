@@ -2,11 +2,8 @@
 
 namespace Raindrop\PageBundle\Form\EventListener;
 
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Event\DataEvent;
 
 /**
@@ -14,8 +11,8 @@ use Symfony\Component\Form\Event\DataEvent;
  *
  * @author teito
  */
-class AddOptionsFieldSubscriber implements EventSubscriberInterface {
-
+class AddOptionsFieldSubscriber implements EventSubscriberInterface
+{
     public static function getSubscribedEvents()
     {
         // Tells the dispatcher that you want to listen on the form.bind
@@ -30,11 +27,10 @@ class AddOptionsFieldSubscriber implements EventSubscriberInterface {
      * data will be retrieved within 'postUpdate/Persist' into admin class.
      * @param \Symfony\Component\Form\Event\DataEvent $event
      */
-    public function preBind(DataEvent $event) {
+    public function preBind(DataEvent $event)
+    {
         $data = $event->getData();
         $data['options'] = array();
         $event->setData($data);
     }
 }
-
-?>

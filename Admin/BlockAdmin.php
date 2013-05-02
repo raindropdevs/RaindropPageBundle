@@ -14,14 +14,15 @@ class BlockAdmin extends Admin
 {
     protected $blockService, $container;
 
-    public function setBlockService($blockService) {
+    public function setBlockService($blockService)
+    {
         $this->blockService = $blockService;
     }
 
-    public function setContainer($container) {
+    public function setContainer($container)
+    {
         $this->container = $container;
     }
-
 
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -49,7 +50,8 @@ class BlockAdmin extends Admin
         $builder->addEventSubscriber(new AddBlockVariablesSubscriber($builder->getFormFactory()));
     }
 
-    protected function mapVariables($formMapper, $variable) {
+    protected function mapVariables($formMapper, $variable)
+    {
         $options = $variable->getOptions();
 
         if (!isset($options['required'])) {
@@ -149,7 +151,8 @@ class BlockAdmin extends Admin
         }
     }
 
-    public function postUpdate($block) {
+    public function postUpdate($block)
+    {
         $query = $this->container->get('request')->query->all();
         $uniqid = $query['uniqid'];
         $requestParams = $this->container->get('request')->request->all();

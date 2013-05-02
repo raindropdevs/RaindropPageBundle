@@ -3,7 +3,6 @@
 namespace Raindrop\PageBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 
 /**
  * Repository to load pages using Doctrine ORM
@@ -11,7 +10,8 @@ use Doctrine\ORM\Query;
  */
 class PageRepository extends EntityRepository
 {
-    public function getPagesForMenu($menu) {
+    public function getPagesForMenu($menu)
+    {
         $q =
         $this->createQueryBuilder('p')
             ->leftJoin('p.menus', 'm')
@@ -19,10 +19,12 @@ class PageRepository extends EntityRepository
             ->setParameter('menu', $menu)
             ->orderBy('m.position', 'ASC')
         ;
+
         return $q->getQuery()->getResult();
     }
 
-    public function getCurrentMenu($name, $country) {
+    public function getCurrentMenu($name, $country)
+    {
         $q =
         $this->createQueryBuilder('p')
             ->leftJoin('p.menus', 'm')
@@ -32,6 +34,7 @@ class PageRepository extends EntityRepository
             ->setParameter('country', $country)
             ->orderBy('m.position', 'ASC')
         ;
+
         return $q->getQuery()->getResult();
     }
 }

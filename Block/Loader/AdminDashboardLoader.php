@@ -9,11 +9,13 @@ class AdminDashboardLoader implements BlockLoaderInterface
 {
     protected $blockRepository;
 
-    public function __construct($blockRepository) {
+    public function __construct($blockRepository)
+    {
         $this->blockRepository = $blockRepository;
     }
 
-    public function support($configuration) {
+    public function support($configuration)
+    {
         if (isset($configuration['type']) && $configuration['type'] == 'raindrop.admin.block.service') {
             return true;
         }
@@ -37,7 +39,8 @@ class AdminDashboardLoader implements BlockLoaderInterface
         return $block;
     }
 
-    public function getSettings($configuration) {
+    public function getSettings($configuration)
+    {
         return $configuration['settings'];
     }
 }

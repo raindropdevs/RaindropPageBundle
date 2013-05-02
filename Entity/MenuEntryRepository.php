@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Raindrop\PageBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;

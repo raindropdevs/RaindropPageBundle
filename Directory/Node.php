@@ -7,8 +7,8 @@ use Knp\Menu\NodeInterface;
 /**
  * This class is used to represent website tree.
  */
-class Node implements NodeInterface {
-
+class Node implements NodeInterface
+{
     const ROOT = '__ROOT__';
 
     protected $path;
@@ -25,7 +25,8 @@ class Node implements NodeInterface {
 
     protected $children = array();
 
-    public function __construct($name, $parent = self::ROOT, $label = null) {
+    public function __construct($name, $parent = self::ROOT, $label = null)
+    {
         $this->name = $name;
 
         if ($label) {
@@ -38,8 +39,8 @@ class Node implements NodeInterface {
         $this->initPath();
     }
 
-    public function initPath() {
-
+    public function initPath()
+    {
         $base = DIRECTORY_SEPARATOR;
         if ($this->parent instanceof Node && $this->parent->getName() != self::ROOT) {
             $base = $this->parent->getPath() . DIRECTORY_SEPARATOR;
@@ -50,73 +51,90 @@ class Node implements NodeInterface {
         $this->setPath($base . $suffix);
     }
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 
-    public function setPath($path) {
+    public function setPath($path)
+    {
         $this->path = $path;
 
         return $this;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this->label = $label;
     }
 
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->label;
     }
 
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = $title;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    public function setPageId($page_id) {
+    public function setPageId($page_id)
+    {
         $this->page_id = $page_id;
     }
 
-    public function getPageId() {
+    public function getPageId()
+    {
         return $this->page_id;
     }
 
-    public function setMenuId($menu_id) {
+    public function setMenuId($menu_id)
+    {
         $this->menu_id = $menu_id;
     }
 
-    public function getMenuId() {
+    public function getMenuId()
+    {
         return $this->menu_id;
     }
 
-    public function hasMenuId() {
+    public function hasMenuId()
+    {
         return !empty($this->menu_id);
     }
 
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
-    public function setParent($parent) {
+    public function setParent($parent)
+    {
         $this->parent = $parent;
     }
 
-    public function hasParent() {
+    public function hasParent()
+    {
         return $this->parent instanceof Node;
     }
 
-    public function getParentPath() {
+    public function getParentPath()
+    {
         if ($this->hasParent()) {
             return $this->getParent()->getPath();
         }
@@ -124,29 +142,35 @@ class Node implements NodeInterface {
         return null;
     }
 
-    public function getChildren() {
+    public function getChildren()
+    {
         return $this->children;
     }
 
-    public function hasChildren() {
+    public function hasChildren()
+    {
         return !empty($this->children);
     }
 
-    public function hasChild($name) {
+    public function hasChild($name)
+    {
         return isset($this->children[$name]);
     }
 
-    public function getChild($name) {
+    public function getChild($name)
+    {
         return $this->children[$name];
     }
 
-    public function addChild($node) {
+    public function addChild($node)
+    {
         $this->children[$node->getName()] = $node;
 
         return $this;
     }
 
-    public function getOptions() {
+    public function getOptions()
+    {
         return array(
             'uri' => $this->getPath(),
             'label' => $this->getLabel(),
@@ -156,8 +180,8 @@ class Node implements NodeInterface {
         );
     }
 
-    public function toArray() {
-
+    public function toArray()
+    {
         $return = array(
             'name' => $this->getName(),
             'path' => $this->getPath(),
@@ -176,8 +200,8 @@ class Node implements NodeInterface {
         return $return;
     }
 
-    public function dumpGraph($indent = 0) {
-
+    public function dumpGraph($indent = 0)
+    {
         $string = '';
 
         if ($indent > 0) {

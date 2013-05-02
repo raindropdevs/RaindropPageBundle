@@ -9,18 +9,18 @@ use Raindrop\PageBundle\Resolver\ResolverInterface;
  *
  * @author teito
  */
-class ServiceResolver implements ResolverInterface {
-
-    public function __construct($container) {
+class ServiceResolver implements ResolverInterface
+{
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
-    public function resolve($variable) {
+    public function resolve($variable)
+    {
         $service_id = $variable->getContent();
         if ($service_id) {
             return $this->container->get($service_id);
         }
     }
 }
-
-?>

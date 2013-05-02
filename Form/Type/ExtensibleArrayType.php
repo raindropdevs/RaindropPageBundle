@@ -39,8 +39,8 @@ class ExtensibleArrayType extends AbstractType
         }
     }
 
-    protected function addNestedGroups($array) {
-
+    protected function addNestedGroups($array)
+    {
         if (empty($array)) {
             return;
         }
@@ -56,8 +56,8 @@ class ExtensibleArrayType extends AbstractType
         }
     }
 
-    protected function addGroup($name, $config) {
-
+    protected function addGroup($name, $config)
+    {
         // type options
 
         // form field options
@@ -178,8 +178,8 @@ class ExtensibleArrayType extends AbstractType
         $view->vars['form_widgets'] = $groups;
     }
 
-    protected function addNestedVars($array, $root = '') {
-
+    protected function addNestedVars($array, $root = '')
+    {
         $vars = array();
 
         foreach ($array as $name => $value) {
