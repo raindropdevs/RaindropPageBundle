@@ -50,6 +50,12 @@ class Tree
                             $node->setPageId($page->getId());
                             $node->setTitle($page->getTitle());
 
+                            /**
+                             * When Tree is used to build menu, pages are
+                             * passed as argument with the menu entity attached
+                             * so we store a reference of the menu into the
+                             * node.
+                             */
                             $menus = $page->getMenus();
                             if (count($menus) == 1) {
                                 $node->setMenuId($menus[0]->getId());

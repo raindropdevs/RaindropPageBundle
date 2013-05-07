@@ -23,6 +23,8 @@ class Node implements NodeInterface
 
     protected $page_id;
 
+    protected $menu_id;
+
     protected $children = array();
 
     public function __construct($name, $parent = self::ROOT, $label = null)
