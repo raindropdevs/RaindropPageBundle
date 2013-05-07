@@ -36,6 +36,16 @@ class MenuEntry
     protected $menu;
 
     /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $image;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $label;
+
+    /**
      * Get id
      *
      * @return integer
@@ -112,5 +122,51 @@ class MenuEntry
     public function getMenu()
     {
         return $this->menu;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return MenuEntry
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set label
+     *
+     * @param string $label
+     * @return MenuEntry
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
     }
 }
