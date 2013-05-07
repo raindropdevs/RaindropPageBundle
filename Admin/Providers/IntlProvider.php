@@ -18,6 +18,6 @@ class IntlProvider
 
     public function getCountries()
     {
-        return $this->i18nProvider->getAllowedCountries();
+        return $this->i18nProvider->getAllowedCountriesAndInternationalCountries();
     }
 }
