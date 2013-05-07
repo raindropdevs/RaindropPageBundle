@@ -6,6 +6,7 @@ use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Knp\Menu\MenuFactory;
+use Raindrop\PageBundle\Directory\Node;
 
 /**
  * Description of Builder
@@ -26,9 +27,9 @@ class Builder implements ContainerAwareInterface
     public function mainMenu(FactoryInterface $factory, array $options)
     {
         $page = $this->container->get('raindrop.page.renderer')->guessPage();
-        $country = $page->getCountry();
+        $country = strtolower($page->getCountry());
 
-        $locale = $this->container->get('request')->get('_locale');
+        $locale = substr($this->container->get('request')->get('_locale'), 0, 2);
 
         $treeBuilder = $this->container->get('raindrop_page.directory_tree');
         $factory = new MenuFactory();
@@ -38,7 +39,14 @@ class Builder implements ContainerAwareInterface
         ;
 
         $root = $treeBuilder->buildTree($pages)->getTree();
-        $menu = $root->getChild($country)->getChild($locale);
+
+        $menu = new Node('dummy');
+
+        if ($root->hasChild($country)) {
+            if ($root->getChild($country)->hasChild($locale)) {
+                $menu = $root->getChild($country)->getChild($locale);
+            }
+        }
 
         return $factory->createFromNode($menu);
     }
