@@ -44,7 +44,7 @@ class Tree
 
                 if (!empty($dir)) {
                     if (!$current->hasChild($dir)) {
-                        $node = new Node($dir, $current, $page->getTitle());
+                        $node = new Node($dir, $current, $dir);
 
                         if ($node->getPath() == $page->getRoute()->getPath()) {
                             $node->setPageId($page->getId());
@@ -61,7 +61,7 @@ class Tree
 
                     /**
                      * In this case node has already been registered as parent
-                     * of another node but not marked as actual page, this fixes.
+                     * of another node but not marked as a real page, this fixes.
                      */
                     if ($current->getPath() . "/{$dir}" == $page->getRoute()->getPath()) {
                         $current->getChild($dir)->setPageId($page->getId());
