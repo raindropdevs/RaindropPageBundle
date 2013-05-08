@@ -49,7 +49,6 @@ class Tree
                         // if this "node" is a real page, mark it.
                         if ($node->getPath() == $page->getRoute()->getPath()) {
                             $node->setPageId($page->getId());
-                            $node->setTitle($page->getTitle());
 
                             /**
                              * When Tree is used to build menu, pages are
@@ -61,6 +60,9 @@ class Tree
                             if (count($menus) == 1) {
                                 $node->setMenuId($menus[0]->getId());
                                 $node->setImage($menus[0]->getImagePath());
+                                $node->setTitle($menus[0]->getLabelString());
+                            } else {
+                                $node->setTitle($page->getTitle());
                             }
                         }
 
