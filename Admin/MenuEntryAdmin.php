@@ -45,6 +45,9 @@ class MenuEntryAdmin extends Admin
             ->addIdentifier('label', null, array(
                 'template' => 'RaindropPageBundle:Menu:menu_admin_list_label.html.twig'
             ))
+            ->addIdentifier('image', null, array(
+                'template' => 'RaindropPageBundle:Menu:menu_admin_list_image.html.twig'
+            ))
         ;
     }
 
