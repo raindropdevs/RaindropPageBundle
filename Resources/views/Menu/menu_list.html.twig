@@ -1,5 +1,5 @@
-<li {% if node.hasMenuId() is not empty %}data-id="{{ node.getMenuId() }}"{% endif %}>
-    <a title="{{ node.getTitle() }}" href="javascript:;">{{ node.getPath() }}</a>
+<li {% if node.hasMenuId() %}data-id="{{ node.getMenuId() }}"{% endif %}>
+    <a title="{{ node.getTitle() }}" href="{% if node.hasMenuId() %}{{ path('admin_raindrop_page_menuentry_edit', { id: node.getMenuId() }) }}{% else %}javascript:;{% endif %}">{{ node.getPath() }}</a>
 
     {% if node.getChildren() is not empty %}
         <ul class="sortable">
