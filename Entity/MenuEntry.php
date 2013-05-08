@@ -176,7 +176,9 @@ class MenuEntry
     public function getLabelString() {
         $label = $this->getLabel();
         if (empty($label)) {
-            $label = $this->getPage()->getTitle();
+            if ($this->getPage() instanceof Page) {
+                $label = $this->getPage()->getTitle();
+            }
         }
         return $label;
     }

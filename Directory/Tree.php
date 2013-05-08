@@ -60,9 +60,9 @@ class Tree
                             if (count($menus) == 1) {
                                 $node->setMenuId($menus[0]->getId());
                                 $node->setImage($menus[0]->getImagePath());
-                                $node->setTitle($menus[0]->getLabelString());
+                                $node->setLabel($menus[0]->getLabelString());
                             } else {
-                                $node->setTitle($page->getTitle());
+                                $node->setLabel($page->getTitle());
                             }
                         }
 

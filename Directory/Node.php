@@ -205,10 +205,10 @@ class Node implements NodeInterface
     public function toArray()
     {
         $return = array(
-            'name' => $this->getName(),
+            'name' => $this->getLabel(),
             'path' => $this->getPath(),
             'page_id' => $this->getPageId(),
-            'title' => $this->getTitle(),
+            'title' => $this->getLabel(),
             'parent' => $this->getParentPath(),
             'children' => array()
         );

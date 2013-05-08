@@ -33,17 +33,6 @@ class MenuManager
             throw new Exception('Menu or page not found.');
         }
 
-        $menuEntry = $this
-                ->findMenuItemByPageAndMenu($menu, $page);
-
-        if (!$menuEntry) {
-            $menuEntry = new MenuEntry;
-            $this->orm->persist($menuEntry);
-        }
-
-        $menuEntry->setPage($page);
-        $menuEntry->setMenu($menu);
-
         // now verify all parent pages has corresponding menuEntry else
         // it wont render into menu editing.
         $this->verifyParents($menu, $page);
@@ -78,6 +67,7 @@ class MenuManager
 
                     if (!$menuEntry) {
                         $menuEntry = new MenuEntry;
+                        $menuEntry->setLabel($page->getTitle());
                         $this->orm->persist($menuEntry);
                     }
 

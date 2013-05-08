@@ -61,7 +61,8 @@ var menuAdmin = (function () {
                 .sortable({
                     stop: function ( event, ui ) {
 
-                        var children = $(event.target).find('li');
+//                        var children = $(event.target).find('> li');
+                        var children = $(".menu-layout-container").find('li');
                         var ids = [];
                         children.each(function () {
                             if ($(this).data('id') !== undefined) {
