@@ -3,6 +3,7 @@
 namespace Raindrop\PageBundle\Manager;
 
 use Raindrop\PageBundle\Entity\MenuEntry;
+use Raindrop\PageBundle\Entity\Page;
 
 class MenuManager
 {
@@ -42,9 +43,49 @@ class MenuManager
 
         $menuEntry->setPage($page);
         $menuEntry->setMenu($menu);
+
+        // now verify all parent pages has corresponding menuEntry else
+        // it wont render into menu editing.
+        $this->verifyParents($menu, $page);
+
         $this->orm->flush();
 
         return true;
+    }
+
+    public function verifyParents($menu, $page) {
+        //
+        $path = $page->getRoute()->getPath();
+
+        $pathArray = array_filter(explode("/", $path), function ($element) {
+            return !empty($element);
+        });
+
+        $partialPath = '';
+        foreach ($pathArray as $pathChunk) {
+            $partialPath .= '/' . $pathChunk;
+
+            $route = $this->orm
+                ->getRepository('RaindropRoutingBundle:Route')
+                ->findOneByPath($partialPath)
+                ;
+
+            if ($route) {
+                $page = $route->getContent();
+                if ($page instanceof Page) {
+                    $menuEntry = $this
+                        ->findMenuItemByPageAndMenu($menu, $page);
+
+                    if (!$menuEntry) {
+                        $menuEntry = new MenuEntry;
+                        $this->orm->persist($menuEntry);
+                    }
+
+                    $menuEntry->setPage($page);
+                    $menuEntry->setMenu($menu);
+                }
+            }
+        }
     }
 
     public function reorderItems($ids)
@@ -71,6 +112,6 @@ class MenuManager
                 ))
             ;
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getOneOrNullResult();
     }
 }

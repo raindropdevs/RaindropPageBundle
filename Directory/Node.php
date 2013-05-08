@@ -25,6 +25,8 @@ class Node implements NodeInterface
 
     protected $menu_id;
 
+    protected $image;
+
     protected $children = array();
 
     public function __construct($name, $parent = self::ROOT, $label = null)
@@ -171,15 +173,33 @@ class Node implements NodeInterface
         return $this;
     }
 
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
     public function getOptions()
     {
-        return array(
+        $options = array(
             'uri' => $this->getPath(),
             'label' => $this->getLabel(),
             'childrenAttributes' => array(
                 'class' => 'links'
             )
         );
+
+        if (!empty($this->image)) {
+            $options['linkAttributes'] = array(
+                'rel' => $this->getImage()
+            );
+        }
+
+        return $options;
     }
 
     public function toArray()

@@ -46,6 +46,7 @@ class Tree
                     if (!$current->hasChild($dir)) {
                         $node = new Node($dir, $current, $dir);
 
+                        // if this "node" is a real page, mark it.
                         if ($node->getPath() == $page->getRoute()->getPath()) {
                             $node->setPageId($page->getId());
                             $node->setTitle($page->getTitle());
@@ -59,6 +60,7 @@ class Tree
                             $menus = $page->getMenus();
                             if (count($menus) == 1) {
                                 $node->setMenuId($menus[0]->getId());
+                                $node->setImage($menus[0]->getImagePath());
                             }
                         }
 
@@ -66,12 +68,18 @@ class Tree
                     }
 
                     /**
-                     * In this case node has already been registered as parent
+                     * Sometimes node has already been registered as parent
                      * of another node but not marked as a real page, this fixes.
                      */
                     if ($current->getPath() . "/{$dir}" == $page->getRoute()->getPath()) {
                         $current->getChild($dir)->setPageId($page->getId());
                         $current->getChild($dir)->setTitle($page->getTitle());
+
+                        $menus = $page->getMenus();
+                        if (count($menus) == 1) {
+                            $current->getChild($dir)->setMenuId($menus[0]->getId());
+                            $current->getChild($dir)->setImage($menus[0]->getImagePath());
+                        }
                     }
 
                     $current = $current->getChild($dir);
