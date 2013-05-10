@@ -7,7 +7,6 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\DependencyInjection\Container;
-use Sonata\AdminBundle\Route\RouteCollection;
 
 class MenuEntryAdmin extends Admin
 {
@@ -61,7 +60,8 @@ class MenuEntryAdmin extends Admin
         $this->saveFile($menuEntry);
     }
 
-    public function saveFile($menuEntry) {
+    public function saveFile($menuEntry)
+    {
         $appBasePath = dirname($this->container->getParameter('kernel.root_dir'));
         $menuEntry->upload($appBasePath);
     }

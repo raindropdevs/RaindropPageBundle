@@ -130,7 +130,7 @@ class MenuEntry
     /**
      * Set image
      *
-     * @param string $image
+     * @param  string    $image
      * @return MenuEntry
      */
     public function setImage($image)
@@ -153,7 +153,7 @@ class MenuEntry
     /**
      * Set label
      *
-     * @param string $label
+     * @param  string    $label
      * @return MenuEntry
      */
     public function setLabel($label)
@@ -173,17 +173,20 @@ class MenuEntry
         return $this->label;
     }
 
-    public function getLabelString() {
+    public function getLabelString()
+    {
         $label = $this->getLabel();
         if (empty($label)) {
             if ($this->getPage() instanceof Page) {
                 $label = $this->getPage()->getTitle();
             }
         }
+
         return $label;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return (string) $this->getLabelString();
     }
 
@@ -240,7 +243,8 @@ class MenuEntry
         $this->file = null;
     }
 
-    protected function cleanFileName() {
+    protected function cleanFileName()
+    {
         $name = $this->getFile()->getClientOriginalName();
         $name = preg_replace('/[\s]+/', '_', $name);
         $name = preg_replace('/[\-]+/', '-', $name);
@@ -268,7 +272,8 @@ class MenuEntry
         return $this->file;
     }
 
-    public function getImagePath() {
+    public function getImagePath()
+    {
         if (!empty($this->image)) {
             return DIRECTORY_SEPARATOR . $this->getUploadDir() . DIRECTORY_SEPARATOR . $this->getImage();
         }

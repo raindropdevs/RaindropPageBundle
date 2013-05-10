@@ -42,7 +42,8 @@ class MenuManager
         return true;
     }
 
-    public function verifyParents($menu, $page) {
+    public function verifyParents($menu, $page)
+    {
         //
         $path = $page->getRoute()->getPath();
 
