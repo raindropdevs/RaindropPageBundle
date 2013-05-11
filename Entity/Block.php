@@ -547,7 +547,11 @@ class Block extends BaseBlock
         $this->resolver = $resolver;
     }
 
-    public function getSettings() {
+    public function getVariablesArray() {
         return $this->resolver->resolve($this->getVariables());
+    }
+
+    public function getSettings() {
+        return array();
     }
 }

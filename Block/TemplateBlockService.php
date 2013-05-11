@@ -11,6 +11,8 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\BaseBlockService;
 
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 /**
  *
  * @author Matteo Caberlotto <mcaber@gmail.com>
@@ -29,10 +31,11 @@ class TemplateBlockService extends BaseBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        return $this->renderResponse($blockContext->getBlock()->getTemplate(), array(
-            'block'     => $blockContext->getBlock(),
-            'settings'  => $blockContext->getSettings()
-        ), $response);
+        return $this->renderResponse(
+            $blockContext->getBlock()->getTemplate(),
+            $blockContext->getBlock()->getVariablesArray(),
+            $response
+        );
     }
 
     public function getSettings($block)
