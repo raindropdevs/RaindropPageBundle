@@ -9,7 +9,10 @@
 
         {% if object.getId() %}
         <div class="raindropVariablesExplorer">
-            {% render 'RaindropPageBundle:Admin:showBlockVariables' with { template: object.getTemplate(), children: object.getOptions() }  %}
+            {{ render(controller('RaindropPageBundle:Admin:showBlockVariables', {
+                template: object.getTemplate(),
+                children: object.getOptions()
+            })) }}
         </div>
         {% endif %}
 

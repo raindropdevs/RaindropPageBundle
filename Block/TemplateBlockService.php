@@ -27,11 +27,12 @@ class TemplateBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockContextInterface $block, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $settings = $this->getSettings($block);
-
-        return $this->renderResponse($block->getTemplate(), $settings, $response);
+        return $this->renderResponse($blockContext->getBlock()->getTemplate(), array(
+            'block'     => $blockContext->getBlock(),
+            'settings'  => $blockContext->getSettings()
+        ), $response);
     }
 
     public function getSettings($block)
