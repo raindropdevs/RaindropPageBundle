@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\BaseBlockService;
 
 /**
@@ -19,13 +20,11 @@ class AdminListBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $settings = array_merge($this->getDefaultSettings(), $block->getSettings());
-
-        return $this->renderResponse($settings['template'], array(
-            'block'     => $block,
-            'settings'  => $settings
+        return $this->renderResponse($blockContext->getTemplate(), array(
+            'block'     => $blockContext->getBlock(),
+            'settings'  => $blockContext->getSettings()
         ), $response);
     }
 

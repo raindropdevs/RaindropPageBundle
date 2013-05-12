@@ -8,7 +8,10 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
 use Sonata\BlockBundle\Model\BlockInterface;
+use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\BaseBlockService;
+
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  *
@@ -26,11 +29,13 @@ class TemplateBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $settings = $this->getSettings($block);
-
-        return $this->renderResponse($block->getTemplate(), $settings, $response);
+        return $this->renderResponse(
+            $blockContext->getBlock()->getTemplate(),
+            $blockContext->getBlock()->getVariablesArray(),
+            $response
+        );
     }
 
     public function getSettings($block)

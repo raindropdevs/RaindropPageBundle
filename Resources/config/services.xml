@@ -107,6 +107,11 @@
             <argument type="service" id="kernel" />
         </service>
 
+        <service id="raindrop_page.block.postload_listener" class="Raindrop\PageBundle\Listener\BlockListener">
+            <tag name="doctrine.event_listener" event="postLoad"></tag>
+            <argument type="service" id="raindrop.page.variable_resolver" />
+        </service>
+
     </services>
 
 </container>

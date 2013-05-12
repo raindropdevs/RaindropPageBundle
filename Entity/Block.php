@@ -542,4 +542,16 @@ class Block extends BaseBlock
 
         return true;
     }
+
+    public function setResolver($resolver) {
+        $this->resolver = $resolver;
+    }
+
+    public function getVariablesArray() {
+        return $this->resolver->resolve($this->getVariables());
+    }
+
+    public function getSettings() {
+        return array();
+    }
 }
