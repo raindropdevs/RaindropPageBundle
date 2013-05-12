@@ -29,7 +29,9 @@
 
                         <div class="row-fluid">
                             <div class="btn-group pull-right">
-                                <a class="btn btn-small" target="_blank" href="{{ admin.generateUrl('preview', { id: object.getId() }) }}">Preview</a>
+                                {% if object.getId() %}
+                                    <a class="btn btn-small" target="_blank" href="{{ admin.generateUrl('preview', { id: object.getId() }) }}">Preview</a>
+                                {% endif %}
 
                                 <a class="btn btn-small raindrop-add-block-button">Add block</a>
                             </div>
@@ -137,11 +139,13 @@
 
         <script>
         var globalConfig = {
-            urlCheckPath: '{{ path('raindrop_admin_url_check') }}',
-            addBlockPath: '{{ path('raindrop_admin_add_block', { 'page_id': object.getId(), 'name': 'block_type', 'layout': 'center' }) }}',
-            orderBlocksPath: '{{ path('raindrop_admin_order_blocks', { 'page_id': object.getId() }) }}',
-            removeBlockPath: '{{ path('raindrop_admin_remove_block', { 'block_id': 0 }) }}',
-            reloadBlocksPath: '{{ path('raindrop_admin_reload_layout', { 'page_id': object.getId() }) }}'
+            urlCheckPath: '{{ path('raindrop_admin_url_check') }}'{% if object.getId() %},{% endif %}
+            {% if object.getId() %}
+                addBlockPath: '{{ path('raindrop_admin_add_block', { 'page_id': object.getId(), 'name': 'block_type', 'layout': 'center' }) }}',
+                orderBlocksPath: '{{ path('raindrop_admin_order_blocks', { 'page_id': object.getId() }) }}',
+                removeBlockPath: '{{ path('raindrop_admin_remove_block', { 'block_id': 0 }) }}',
+                reloadBlocksPath: '{{ path('raindrop_admin_reload_layout', { 'page_id': object.getId() }) }}'
+            {% endif %}
         };
         </script>
     {% endif %}
