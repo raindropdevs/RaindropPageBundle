@@ -127,15 +127,6 @@ class BlockConfig
         return $this->options;
     }
 
-    public function toJson()
-    {
-        return json_encode(array(
-            'name' => $this->getName(),
-            'type' => $this->getType(),
-            'options' => $this->getOptions()
-        ));
-    }
-
     /**
      * Set description
      *
