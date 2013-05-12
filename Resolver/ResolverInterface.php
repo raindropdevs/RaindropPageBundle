@@ -2,8 +2,6 @@
 
 namespace Raindrop\PageBundle\Resolver;
 
-use Raindrop\PageBundle\Resolver\ResolverInterface;
-
 /**
  * Description of ResolverInterface
  *
