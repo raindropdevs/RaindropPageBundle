@@ -45,42 +45,28 @@ class Tree
                 if (!empty($dir)) {
                     if (!$current->hasChild($dir)) {
                         $node = new Node($dir, $current, $dir);
-
-                        // if this "node" is a real page, mark it.
-                        if ($node->getPath() == $page->getRoute()->getPath()) {
-                            $node->setPageId($page->getId());
-
-                            /**
-                             * When Tree is used to build menu, pages are
-                             * passed as argument with the menu entity attached
-                             * so we store a reference of the menu into the
-                             * node.
-                             */
-                            $menus = $page->getMenus();
-                            if (count($menus) == 1) {
-                                $node->setMenuId($menus[0]->getId());
-                                $node->setImage($menus[0]->getImagePath());
-                                $node->setLabel($menus[0]->getLabelString());
-                            } else {
-                                $node->setLabel($page->getTitle());
-                            }
-                        }
-
                         $current->addChild($node);
+                    } else {
+                        $node = $current->getChild($dir);
                     }
 
-                    /**
-                     * Sometimes node has already been registered as parent
-                     * of another node but not marked as a real page, this fixes.
-                     */
-                    if ($current->getPath() . "/{$dir}" == $page->getRoute()->getPath()) {
-                        $current->getChild($dir)->setPageId($page->getId());
-                        $current->getChild($dir)->setTitle($page->getTitle());
+                    // if this "node" is a real page, mark it.
+                    if ($node->getPath() == $page->getRoute()->getPath()) {
+                        $node->setPageId($page->getId());
 
+                        /**
+                         * When Tree is used to build menu, pages are
+                         * passed as argument with the menu entity attached
+                         * so we store a reference of the menu into the
+                         * node.
+                         */
                         $menus = $page->getMenus();
                         if (count($menus) == 1) {
-                            $current->getChild($dir)->setMenuId($menus[0]->getId());
-                            $current->getChild($dir)->setImage($menus[0]->getImagePath());
+                            $node->setMenuId($menus[0]->getId());
+                            $node->setImage($menus[0]->getImagePath());
+                            $node->setLabel($menus[0]->getLabelString());
+                        } else {
+                            $node->setLabel($page->getTitle());
                         }
                     }
 
