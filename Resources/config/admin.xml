@@ -17,7 +17,7 @@
             <argument>Raindrop\PageBundle\Entity\Page</argument>
             <argument>RaindropPageBundle:PageCRUD</argument>
 
-            <tag name="sonata.admin" manager_type="orm" group="page" label="page"/>
+            <tag name="sonata.admin" manager_type="orm" group="Page" label="Page"/>
 
             <call method="setTranslationDomain">
                 <argument>RaindropPageBundle</argument>
@@ -34,7 +34,7 @@
         </service>
 
         <service id="raindrop.admin.block" class="Raindrop\PageBundle\Admin\BlockAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="block"/>
+            <tag name="sonata.admin" manager_type="orm" group="Page" label="Block"/>
             <argument />
             <argument>Raindrop\PageBundle\Entity\Block</argument>
             <argument>RaindropPageBundle:BlockCRUD</argument>
@@ -47,7 +47,7 @@
         </service>
 
         <service id="raindrop.admin.blockVariable" class="Raindrop\PageBundle\Admin\BlockVariableAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="block variable"/>
+            <tag name="sonata.admin" manager_type="orm" group="Page" label="Block variable"/>
             <argument />
             <argument>Raindrop\PageBundle\Entity\BlockVariable</argument>
             <argument>SonataAdminBundle:CRUD</argument>
@@ -60,7 +60,7 @@
         </service>
 
         <service id="raindrop.admin.block_config" class="Raindrop\PageBundle\Admin\BlockConfigAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="block config"/>
+            <tag name="sonata.admin" manager_type="orm" group="Page" label="Block config"/>
             <argument />
             <argument>Raindrop\PageBundle\Entity\BlockConfig</argument>
             <argument>SonataAdminBundle:CRUD</argument>
@@ -73,7 +73,7 @@
         </service>
 
         <service id="raindrop.admin.menu" class="Raindrop\PageBundle\Admin\MenuAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="menu"/>
+            <tag name="sonata.admin" manager_type="orm" group="Page" label="Menu"/>
             <argument />
             <argument>Raindrop\PageBundle\Entity\Menu</argument>
             <argument>RaindropPageBundle:MenuCRUD</argument>
@@ -86,7 +86,7 @@
         </service>
 
         <service id="raindrop.admin.menu_item" class="Raindrop\PageBundle\Admin\MenuEntryAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="page" label="menu"/>
+            <tag name="sonata.admin" manager_type="orm" group="Page" label="Menu entry"/>
             <argument />
             <argument>Raindrop\PageBundle\Entity\MenuEntry</argument>
             <argument>SonataAdminBundle:CRUD</argument>
