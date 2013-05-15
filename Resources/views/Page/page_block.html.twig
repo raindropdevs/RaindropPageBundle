@@ -1,7 +1,9 @@
 <div id="block-{{ block.getId() }}" data-block="{{ block.getName() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
     {% if block.isRenderable() %}
         <div class="span12">
-            {{ sonata_block_render(block) }}
+            {% for variable in block.getVariables() %}
+                <p>{{ variable.getName() }}: <strong>{{ variable.getContent() }}</strong></p>
+            {% endfor %}
         </div>
     {% endif %}
     <div class="pageBlockToolbar">
