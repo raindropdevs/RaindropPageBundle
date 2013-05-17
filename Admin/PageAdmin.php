@@ -50,17 +50,17 @@ class PageAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('title', null, array(
-                    'required' => true,
-                    'attr' => array(
-                        'class' => 'span5'
-                    ),
-                ))
-                ->add('layout', 'choice', array(
-                    'required' => true,
-                    'choices' => $this->layoutProvider->provide(),
-                    'data' => $this->getSubject()->getLayout() ?: ''
-                ))
+            ->add('title', null, array(
+                'required' => true,
+                'attr' => array(
+                    'class' => 'span5'
+                ),
+            ))
+            ->add('layout', 'choice', array(
+                'required' => true,
+                'choices' => $this->layoutProvider->provide(),
+                'data' => $this->getSubject()->getLayout() ?: ''
+            ))
         ;
 
         $urlValue = '';
