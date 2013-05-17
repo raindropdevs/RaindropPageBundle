@@ -34,21 +34,27 @@ class FilterControllerSeoPageEvent
 
             $seoPage->setTitle($page->getTitle());
 
-            foreach ($page->getMetasProperty() as $name => $content) {
-                if (!empty($content)) {
-                    $seoPage->addMeta('property', $name, $content);
+            if (count($page->getMetasProperty())) {
+                foreach ($page->getMetasProperty() as $name => $content) {
+                    if (!empty($content)) {
+                        $seoPage->addMeta('property', $name, $content);
+                    }
                 }
             }
 
-            foreach ($page->getMetasName() as $name => $content) {
-                if (!empty($content)) {
-                    $seoPage->addMeta('name', $name, $content);
+            if (count($page->getMetasName())) {
+                foreach ($page->getMetasName() as $name => $content) {
+                    if (!empty($content)) {
+                        $seoPage->addMeta('name', $name, $content);
+                    }
                 }
             }
 
-            foreach ($page->getMetasHttpEquiv() as $name => $content) {
-                if (!empty($content)) {
-                    $seoPage->addMeta('http-equiv', $name, $content);
+            if (count($page->getMetasHttpEquiv())) {
+                foreach ($page->getMetasHttpEquiv() as $name => $content) {
+                    if (!empty($content)) {
+                        $seoPage->addMeta('http-equiv', $name, $content);
+                    }
                 }
             }
         }
