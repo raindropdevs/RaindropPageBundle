@@ -25,6 +25,11 @@ class BlockManager
         $block->setPage($page);
 
         $blockConfig = $this->getBlockConfig($block_config_name);
+
+        if (!$blockConfig) {
+            throw new \Exception("Block configuration named {$block_config_name} not found!");
+        }
+
         $block->setName($block_config_name);
         $block->setTemplate($blockConfig->getTemplate());
 
