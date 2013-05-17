@@ -88,11 +88,15 @@ class PageRenderer implements RendererInterface
         }
 
         $requirements = array();
+        $inclusion = array();
 
         foreach ($blocks as $block) {
             if ($block->hasJavascripts()) {
                 foreach ($block->getJavascripts() as $js) {
-                    $requirements [$js]= true;
+                    if (!isset($requirements[$js])) {
+                        $requirements [$js]= true;
+                        $inclusion []= $js;
+                    }
                 }
             }
         }
@@ -103,7 +107,7 @@ class PageRenderer implements RendererInterface
 
         $path = $this->container->get('router')->generate('raindrop_combined_assets', array(
             'type' => 'js',
-            'assets' => implode(",", array_keys($requirements))
+            'assets' => implode(",", $inclusion)
         ));
 
         return '<script src="'. $path .'" type="text/javascript"></script>';
@@ -118,11 +122,15 @@ class PageRenderer implements RendererInterface
         }
 
         $requirements = array();
+        $inclusion = array();
 
         foreach ($blocks as $block) {
             if ($block->hasStylesheets()) {
                 foreach ($block->getStylesheets() as $css) {
-                    $requirements [$css]= true;
+                    if (!isset($requirements[$css])) {
+                        $requirements [$css]= true;
+                        $inclusion []= $css;
+                    }
                 }
             }
         }
@@ -133,7 +141,7 @@ class PageRenderer implements RendererInterface
 
         $path = $this->container->get('router')->generate('raindrop_combined_assets', array(
             'type' => 'css',
-            'assets' => implode(",", array_keys($requirements))
+            'assets' => implode(",", $inclusion)
         ));
 
         return '<link rel="stylesheet" type="text/css" href="'. $path .'" />';
