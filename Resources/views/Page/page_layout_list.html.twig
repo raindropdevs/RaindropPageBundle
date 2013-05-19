@@ -1,9 +1,5 @@
 {% if use_liip_theme %}
-    {% if liip_theme is empty %}
-        <h4>Default theme</h4>
-    {% else %}
-        <h4>Theme: {{ liip_theme }}</h4>
-    {% endif %}
+    <h4>Liip theme: {% if liip_theme is empty %}{{ 'default'|upper }}{% else %}{{ liip_theme|upper }}{% endif %}</h4>
 {% endif %}
 
 <div class="row-fluid">
