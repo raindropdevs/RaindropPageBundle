@@ -1,20 +1,27 @@
+{% if use_liip_theme %}
+    {% if liip_theme is empty %}
+        <h4>Default theme</h4>
+    {% else %}
+        <h4>Theme: {{ liip_theme }}</h4>
+    {% endif %}
+{% endif %}
 
 <div class="row-fluid">
     <div class="span3"></div>
-    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'top', 'width': 6 } %}
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'top' ~ liip_theme_suffix, 'width': 6 } %}
 </div>
 <div class="row-fluid"></div>
 <div class="row-fluid"></div>
 <div class="row-fluid">
-    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'left', 'width': 3 } %}
-    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'content', 'width': 6 } %}
-    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'right', 'width': 3 } %}
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'left' ~ liip_theme_suffix, 'width': 3 } %}
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'content' ~ liip_theme_suffix, 'width': 6 } %}
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'right' ~ liip_theme_suffix, 'width': 3 } %}
 </div>
 <div class="row-fluid"></div>
 <div class="row-fluid"></div>
 <div class="row-fluid">
     <div class="span3"></div>
-    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'bottom', 'width': 6 } %}
+    {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'bottom' ~ liip_theme_suffix, 'width': 6 } %}
 </div>
 
 

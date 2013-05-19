@@ -28,11 +28,19 @@
                     <div class="row-fluid">
 
                         <div class="row-fluid">
+
                             <div class="btn-group pull-right">
                                 <a class="btn btn-small" target="_blank" href="{{ admin.generateUrl('preview', { id: object.getId() }) }}">Preview</a>
 
                                 <a class="btn btn-small raindrop-add-block-button">Add block</a>
                             </div>
+
+                            {% if use_liip_theme %}
+                            <div class="btn-group pull-right" style="margin-right:20px;">
+                                <a href="{{ admin.generateUrl('edit', { id: object.getId() }) }}" class="btn btn-small">DEFAULT</a>
+                                <a href="{{ admin.generateUrl('edit', { id: object.getId(), theme: 'mobile' }) }}" class="btn btn-small">MOBILE</a>
+                            </div>
+                            {% endif %}
                         </div>
 
                         <div class="span3 block-source">

@@ -30,5 +30,7 @@ class RaindropPageExtension extends Extension
 
         $httpMetas = Yaml::parse(__DIR__.'/../Resources/config/http_metas.yml');
         $container->setParameter('raindrop_page.admin.http_metas', $httpMetas);
+
+        $container->setParameter('use_liip_theme', class_exists('Liip\ThemeBundle\LiipThemeBundle'));
     }
 }
