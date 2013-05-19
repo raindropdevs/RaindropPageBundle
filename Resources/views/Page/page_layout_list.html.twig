@@ -1,7 +1,3 @@
-{% if use_liip_theme %}
-    <h4>Liip theme: {% if liip_theme is empty %}{{ 'default'|upper }}{% else %}{{ liip_theme|upper }}{% endif %}</h4>
-{% endif %}
-
 <div class="row-fluid">
     <div class="span3"></div>
     {% include 'RaindropPageBundle:Page:page_block_list.html.twig' with { 'layout': 'top' ~ liip_theme_suffix, 'width': 6 } %}
