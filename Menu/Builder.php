@@ -29,7 +29,7 @@ class Builder implements ContainerAwareInterface
         $page = $this->container->get('raindrop.page.renderer')->guessPage();
         $country = strtolower($page->getCountry());
 
-        $locale = substr($this->container->get('request')->get('_locale'), 0, 2);
+        $locale = substr($page->getRoute()->getLocale(), 0, 2);
 
         $treeBuilder = $this->container->get('raindrop_page.directory_tree');
         $factory = new MenuFactory();
