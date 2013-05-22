@@ -43,7 +43,6 @@ class PageCRUDController extends CRUDController
             ->render($page);
     }
 
-
     /**
      * return the Response object associated to the edit action
      *
