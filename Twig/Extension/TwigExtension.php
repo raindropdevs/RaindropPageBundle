@@ -35,11 +35,31 @@ class TwigExtension extends \Twig_Extension
                 ->renderStylesheet();
     }
 
+    public function getCountry()
+    {
+        $page = $this->container
+                ->get('raindrop.page.renderer')
+                ->guessPage();
+
+        return $page ? $page->getCountry() : null;
+    }
+
+    public function getLocale()
+    {
+        $page = $this->container
+                ->get('raindrop.page.renderer')
+                ->guessPage();
+
+        return $page ? $page->getRoute()->getLocale() : null;
+    }
+
     public function getGlobals()
     {
         return array(
             'raindrop_intl_provider' => $this->container->get('raindrop.page.intl.provider'),
-            'raindrop_admin_current_country' => $this->container->get('session')->get('raindrop:admin:country')
+            'raindrop_admin_current_country' => $this->container->get('session')->get('raindrop:admin:country'),
+            'raindrop_country' => $this->getCountry(),
+            'raindrop_locale' => $this->getLocale(),
         );
     }
 
