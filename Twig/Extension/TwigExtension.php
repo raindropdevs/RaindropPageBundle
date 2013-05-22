@@ -1,6 +1,6 @@
 <?php
 
-namespace Raindrop\PageBundle\Extension;
+namespace Raindrop\PageBundle\Twig\Extension;
 
 use Raindrop\PageBundle\Entity\Page;
 

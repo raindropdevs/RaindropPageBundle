@@ -30,7 +30,7 @@
         <parameter key="raindrop_page.directory_tree.class">Raindrop\PageBundle\Directory\Tree</parameter>
         <parameter key="raindrop.page.seo.listener.class">Raindrop\PageBundle\HttpKernel\FilterControllerSeoPageEvent</parameter>
         <parameter key="raindrop_page.cache_reader.class">Raindrop\PageBundle\Directory\CacheReader</parameter>
-        <parameter key="raindrop_page.twig_extension.class">Raindrop\PageBundle\Extension\TwigExtension</parameter>
+        <parameter key="raindrop_page.twig_extension.class">Raindrop\PageBundle\Twig\Extension\TwigExtension</parameter>
         <parameter key="raindrop.page.variable_resolver.class">Raindrop\PageBundle\Resolver\ResolverFactory</parameter>
         <parameter key="raindrop_page.services.provider.class">Raindrop\PageBundle\Admin\Providers\ServicesProvider</parameter>
         <parameter key="raindrop_page.container.data.collector.class">Raindrop\PageBundle\Admin\Providers\ContainerDataCollector</parameter>
