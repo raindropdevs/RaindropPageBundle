@@ -1,8 +1,22 @@
 <div id="block-{{ block.getId() }}" data-block="{{ block.getName() }}" class="row-fluid draggable-block" data-id="{{ block.getId() }}">
     <div class="span12">
+        <div class="row-fluid">
         {% for variable in block.getVariables() %}
             <p>{{ variable.getName() }}: <strong>{{ variable.getContent() }}</strong></p>
         {% endfor %}
+        </div>
+
+
+        {# only nest 1 level of block (on admin interface) #}
+        {% if block.hasChildren() or first_level %}
+        <div class="well row-fluid span11 top-layout raindrop-layout-droppable raindrop-layout-sortable" data-target="{{ 'block-' ~ block.getId() }}">
+            <p style="color:#ccc; margin-top: 14px; text-align: center">DROP CHILDREN HERE</p>
+            {% for child in block.getSortedChildren() %}
+                {% include 'RaindropPageBundle:Page:page_block.html.twig' with { 'block': child, 'first_level': false } %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
     </div>
     <div class="pageBlockToolbar">
         <span class="label label-inverse">{{ block.getName() }}</span>
@@ -16,11 +30,10 @@
             <i class="icon-pencil"></i>
         </a>
 
-
 {#
         <a title="{{ block.getName() }}" class="pull-right raindrop_tips"><i class="icon-info-sign"></i></a>
-
-        <a title="Drag me" class="drag-drop pull-right raindrop_tips"><i class="icon-resize-vertical"></i></a>
 #}
+        <a title="Drag me" class="drag-drop pull-right raindrop_tips"><i class="icon-resize-vertical"></i></a>
+
     </div>
 </div>

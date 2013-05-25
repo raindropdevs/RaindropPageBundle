@@ -7,7 +7,18 @@
 */
 
 #tabLayout .row-fluid {
-    margin-top: 12px;
+    /*margin-top: 12px;*/
+    margin: 0;
+    padding: 0;
+}
+
+#tabLayout .page-layout-container > .row-fluid {
+    margin-top: 10px;
+}
+
+#tabLayout .row-fluid .draggable-block .raindrop-layout-droppable {
+    margin-top: 10px;
+    margin-left: 4%;
 }
 
 #tabLayout .draggable-block {
@@ -19,6 +30,7 @@
 
 #tabLayout .span6 .draggable-block {
     width: 97%;
+    margin-top: 8px;
 }
 
 #tabLayout .span3 .draggable-block {
@@ -70,11 +82,18 @@
     right: 0;
     margin: 10px 0 0 0;
     z-index: 10;
+    max-height: 400px;
+    overflow: auto;
 }
 
 .page-layout-container .raindrop-layout-droppable {
     background: #E6F1F6;
     min-height: 50px;
+    padding: 10px;
+    border: none;
+}
+
+.page-layout-container .raindrop-layout-sortable {
     padding: 10px;
 }
 
@@ -207,4 +226,8 @@
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.tabbable > .draggable-source-block {
+    width: 240px;
 }

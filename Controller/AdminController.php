@@ -55,16 +55,32 @@ class AdminController extends Controller
             $orm = $this
                     ->get('doctrine.orm.default_entity_manager');
 
-            $page = $orm
-                    ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
-                    ->find($page_id);
+            // child of a block else child of parent page
+            if (preg_match('/block-([0-9]+)/', $block_layout_position, $m)) {
+                $block_id = $m[1];
+                $block = $orm->getRepository('RaindropPageBundle:Block')
+                        ->find($block_id);
 
-            if ($page) {
-                $this->get('raindrop_page.block.manager')
-                        ->createBlock($page, $block_name, $block_layout_position);
+                if ($block) {
+                    $this->get('raindrop_page.block.manager')
+                        ->createBlock($block, $block_name, $block_layout_position);
 
-                $result = true;
+                    $result = true;
+                }
+            } else {
+                $page = $orm
+                        ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
+                        ->find($page_id);
+
+                if ($page) {
+                    $this->get('raindrop_page.block.manager')
+                            ->createBlock($page, $block_name, $block_layout_position);
+
+                    $result = true;
+                }
             }
+
+
         } catch (\Exception $e) {
             return new JsonResponse(array('error' => $e->getMessage()), 500);
         }
@@ -151,7 +167,9 @@ class AdminController extends Controller
             $result = $this->render('RaindropPageBundle:Page:page_layout_list.html.twig', array('object' => $page));
         }
 
-        return new JsonResponse(array('result' => $result ? $result->getContent() : false));
+        return new JsonResponse(array(
+            'result' => $result ? $result->getContent() : false
+        ));
     }
 
     /**

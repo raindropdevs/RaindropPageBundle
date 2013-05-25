@@ -144,6 +144,29 @@ var pageAdmin = (function () {
             $(".raindrop_tips").tooltip();
 
             this.focusOnUrl();
+
+            this.setupScrollToolbar();
+        },
+
+        setupScrollToolbar: function () {
+            $(window).scroll(function(){
+                if ($(window).scrollTop() > 240)
+                {
+                    $(".raindrop-page-editor-toolbar")
+                        .css({
+                            'position': 'fixed',
+                            'top': '70px',
+                            'right': '20px'
+                        })
+                }
+                else
+                {
+                    $(".raindrop-page-editor-toolbar")
+                        .css({
+                            'position': 'inherit'
+                        })
+                }
+            });
         },
 
         removePopover: function (id) {
@@ -250,23 +273,26 @@ var pageAdmin = (function () {
 
         setupDragDrop: function () {
 
+            // make the blocks sortable
             $( ".draggable-source-block" )
                 .draggable({
                     cancel: "a.ui-icon", // clicking an icon won't initiate dragging
                     revert: "invalid", // when not dropped, the item will revert back to its initial position
                     containment: "document",
                     helper: "clone",
-                    connectWith: ".block-source"
+                    connectWith: ".block-source",
+                    appendTo: ".tabbable"
                 });
 
             // let the trash be droppable, accepting the gallery items
-            $(".page-layout, .top-layout, .bottom-layout, .left-layout, .right-layout")
+            $(".raindrop-layout-sortable")
                 .sortable({
 //                    placeholder: "ui-sortable-placeholder",
                     helper: "clone",
                     cursor: "move",
                     connectWith: ".raindrop-layout-droppable",
                     distance: 5,
+                    handle: "> .pageBlockToolbar > .drag-drop",
                     stop: function( event, ui ) {
                         $block = ui.item;
                         $target = $block.parent();
@@ -277,7 +303,7 @@ var pageAdmin = (function () {
                             to: $target.data('target')
                         }
 
-                        $(".raindrop-layout-droppable .draggable-block")
+                        $(event.target).find('> .draggable-block')
                             .each(function(){
                                 post_data.ids.push($(this).data('id'));
                             });
@@ -296,7 +322,7 @@ var pageAdmin = (function () {
 
             $(".page-layout").disableSelection();
 
-            $(".page-layout, .top-layout, .bottom-layout, .left-layout, .right-layout")
+            $(".raindrop-layout-droppable")
                 .droppable({
                     accept: ".draggable-source-block",
                     activeClass: "ui-state-highlight",

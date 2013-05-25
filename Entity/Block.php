@@ -332,6 +332,20 @@ class Block extends BaseBlock
         return !empty($this->children) && count($this->children);
     }
 
+    public function getSortedChildren()
+    {
+        // get a new ArrayIterator
+        $iterator = $this->children->getIterator();
+
+        // define ordering closure, using preferred comparison method/field
+        $iterator->uasort(function ($first, $second) {
+            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
+        });
+
+        // return the ordered iterator
+        return $iterator;
+    }
+
     /**
      * Add variables
      *
