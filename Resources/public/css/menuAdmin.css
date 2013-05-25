@@ -26,6 +26,7 @@ root {
 
 .row-fluid.draggable-source-page .span12 p {
     margin: 4px 0 0;
+    font-size: 11px;
 }
 
 .row-fluid.draggable-source-page .span12 a.pull-left {
@@ -42,8 +43,11 @@ root {
 }
 
 .row-fluid.draggable-source-page.fixed-width-200 {
-    width: 400px;
     float: right;
+}
+
+.tabbable > .row-fluid.draggable-source-page.fixed-width-200 {
+    width: 480px;
 }
 
 .page-source .row-fluid.hover {
@@ -56,8 +60,16 @@ root {
     right: 0;
     margin: 10px 20px 0 0;
     z-index: 10;
+    max-height: 400px;
+    overflow: auto;
 }
 
 ul.droppable {
     min-height: 36px;
+    padding: 40px 0;
+}
+
+.ui-state-highlight {
+    background: #E6F1F6;
+    border: none;
 }
