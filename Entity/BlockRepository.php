@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class BlockRepository extends EntityRepository
 {
+    public function findOneByPageAndName($page, $name)
+    {
+        $q =
+            $this->createQueryBuilder('b')
+            ->where('b.page = :page AND b.name = :name')
+            ->setParameter('page', $page->getId())
+            ->setParameter('name', $name)
+        ;
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
 }
