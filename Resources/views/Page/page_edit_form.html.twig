@@ -25,7 +25,7 @@
 
                 <div class="tab-pane {% if not app.request.get('meta') %}active{% endif %}" id="tabLayout">
 
-                    <div class="row-fluid">
+                    <div class="row-fluid raindrop-page-editor-toolbar">
 
                         <div class="row-fluid">
 
@@ -154,7 +154,7 @@
                 addBlockPath: '{{ path('raindrop_admin_add_block', { 'page_id': object.getId(), 'name': 'block_type', 'layout': 'center' }) }}',
                 orderBlocksPath: '{{ path('raindrop_admin_order_blocks', { 'page_id': object.getId() }) }}',
                 removeBlockPath: '{{ path('raindrop_admin_remove_block', { 'block_id': 0 }) }}',
-                reloadBlocksPath: '{{ path('raindrop_admin_reload_layout', { 'page_id': object.getId() }) }}'
+                reloadBlocksPath: '{{ path('raindrop_admin_reload_layout', { 'page_id': object.getId(), 'theme': app.request.get('theme') }) }}'
             {% endif %}
         };
         </script>

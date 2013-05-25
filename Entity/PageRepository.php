@@ -37,4 +37,18 @@ class PageRepository extends EntityRepository
 
         return $q->getQuery()->getResult();
     }
+
+    public function findByCountryWithMenu($country)
+    {
+        $q =
+        $this->createQueryBuilder('p')
+            ->leftJoin('p.menus', 'm')
+            ->leftJoin('p.route', 'r')
+            ->where('p.country = :country')
+            ->setParameter('country', $country)
+        ;
+
+        return $q->getQuery()
+            ->getResult();
+    }
 }

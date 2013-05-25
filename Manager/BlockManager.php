@@ -22,7 +22,16 @@ class BlockManager
         $block = new Block;
         $this->orm->persist($block);
 
-        $block->setPage($page);
+        if (preg_match('/block-([0-9]+)/', $block_layout_position, $m)) {
+            $parent_block_id = $m[1];
+            $parent_block = $this->orm->getRepository('RaindropPageBundle:Block')
+                    ->find($parent_block_id);
+            $block->setParent($parent_block);
+        } else {
+            $block->setPage($page);
+        }
+
+
 
         $blockConfig = $this->getBlockConfig($block_config_name);
 
@@ -52,6 +61,12 @@ class BlockManager
         $this->orm->flush();
 
         return $block;
+    }
+
+    public function findBlockByPageAndName($page, $name)
+    {
+        return $this->orm->getRepository('RaindropPageBundle:Block')
+            ->findOneByPageAndName($page, $name);
     }
 
     protected function getBlockConfig($block_config_name)

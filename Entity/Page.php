@@ -345,6 +345,11 @@ class Page implements RenderableObjectInterface
         return (string) $this->name;
     }
 
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
     /**
      * Add children
      *

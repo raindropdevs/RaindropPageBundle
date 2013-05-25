@@ -117,42 +117,6 @@ class Block extends BaseBlock
         return 'raindrop_page.block.service.template';
     }
 
-//    /**
-//     * Set created
-//     *
-//     * @param \DateTime $created
-//     * @return Block
-//     */
-//    public function setCreated($created)
-//    {
-//        $this->created = $created;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get created
-//     *
-//     * @return \DateTime
-//     */
-//    public function getCreated()
-//    {
-//        return $this->created;
-//    }
-
-//    /**
-//     * Set updated
-//     *
-//     * @param \DateTime $updated
-//     * @return Block
-//     */
-//    public function setUpdated($updated)
-//    {
-//        $this->updated = $updated;
-//
-//        return $this;
-//    }
-//
     /**
      * Get updated
      *
@@ -179,29 +143,6 @@ class Block extends BaseBlock
     {
         $this->setUpdated(new \DateTime);
     }
-
-//    /**
-//     * Set name
-//     *
-//     * @param string $name
-//     * @return Block
-//     */
-//    public function setName($name)
-//    {
-//        $this->name = $name;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get name
-//     *
-//     * @return string
-//     */
-//    public function getName()
-//    {
-//        return $this->name;
-//    }
 
     /**
      * Set template
@@ -385,6 +326,26 @@ class Block extends BaseBlock
         return $this->children;
     }
 
+
+    public function hasChildren()
+    {
+        return !empty($this->children) && count($this->children);
+    }
+
+    public function getSortedChildren()
+    {
+        // get a new ArrayIterator
+        $iterator = $this->children->getIterator();
+
+        // define ordering closure, using preferred comparison method/field
+        $iterator->uasort(function ($first, $second) {
+            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
+        });
+
+        // return the ordered iterator
+        return $iterator;
+    }
+
     /**
      * Add variables
      *
@@ -543,15 +504,4 @@ class Block extends BaseBlock
         return true;
     }
 
-    public function setResolver($resolver) {
-        $this->resolver = $resolver;
-    }
-
-    public function getVariablesArray() {
-        return $this->resolver->resolve($this->getVariables());
-    }
-
-    public function getSettings() {
-        return array();
-    }
 }

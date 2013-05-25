@@ -1,3 +1,5 @@
+# WARNING: This bundle is under development and not ready for production use.
+
 # Raindrop Page Bundle
 
 This bundle offers a simple CMS mechanism based on SonataAdminBundle + stuffs and FOSUserBundle.
