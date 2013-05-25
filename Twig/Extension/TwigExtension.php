@@ -55,7 +55,18 @@ class TwigExtension extends \Twig_Extension
 
     public function getGlobals()
     {
+        $useTheme = $this->container->getParameter('use_liip_theme');
+        $theme = $this->container->get('request')->get('theme');
+        if (is_null($theme)) {
+            $theme_suffix = '';
+        } else {
+            $theme_suffix = '|' . $theme;
+        }
+
         return array(
+            'use_liip_theme' => $useTheme,
+            'liip_theme' => $theme,
+            'liip_theme_suffix' => $theme_suffix,
             'raindrop_intl_provider' => $this->container->get('raindrop.page.intl.provider'),
             'raindrop_admin_current_country' => $this->container->get('session')->get('raindrop:admin:country'),
             'raindrop_country' => $this->getCountry(),

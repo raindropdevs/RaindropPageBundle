@@ -19,12 +19,16 @@ class PageCRUDController extends CRUDController
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
 
         $treeBuilder = $this->get('raindrop_page.directory_tree');
+        $country = $this->container->get('session')->get('raindrop:admin:country');
+        $pages = $this->container->get('doctrine.orm.default_entity_manager')
+            ->getRepository('RaindropPageBundle:Page')
+            ->findByCountryWithMenu($country);
 
         return $this->render($this->admin->getTemplate('list'), array(
             'action'   => 'list',
             'form'     => $formView,
             'datagrid' => $datagrid,
-            'root' => $treeBuilder->buildTree()->toArray()
+            'root' => $treeBuilder->buildTree($pages)->toArray()
         ));
     }
 
@@ -114,21 +118,10 @@ class PageCRUDController extends CRUDController
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
 
-        $useTheme = $this->container->getParameter('use_liip_theme');
-        $theme = $this->get('request')->get('theme');
-        if (is_null($theme)) {
-            $theme_suffix = '';
-        } else {
-            $theme_suffix = '|' . $theme;
-        }
-
         return $this->render($this->admin->getTemplate($templateKey), array(
             'action' => 'edit',
             'form'   => $view,
-            'object' => $object,
-            'use_liip_theme' => $useTheme,
-            'liip_theme' => $theme,
-            'liip_theme_suffix' => $theme_suffix
+            'object' => $object
         ));
     }
 
