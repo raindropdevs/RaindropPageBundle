@@ -31,8 +31,6 @@ class BlockManager
             $block->setPage($page);
         }
 
-
-
         $blockConfig = $this->getBlockConfig($block_config_name);
 
         if (!$blockConfig) {
@@ -61,6 +59,59 @@ class BlockManager
         $this->orm->flush();
 
         return $block;
+    }
+
+    /**
+     * Checks if the block is using the correct template and all the
+     * variables defined in the config.
+     *
+     * @param type $block
+     * @param type $block_config_name
+     * @param type $layout_position
+     */
+    public function updateBlock($block, $block_config_name, $layout_position)
+    {
+        $blockConfig = $this->getBlockConfig($block_config_name);
+
+        $block->setTemplate($blockConfig->getTemplate());
+        $block->setLayout($layout_position);
+
+        $block->setJavascripts($blockConfig->getJavascripts());
+        $block->setStylesheets($blockConfig->getStylesheets());
+
+        $variables = $block->getChildren();
+
+        // save all variables as a named array association
+        $namedVariables = array();
+        foreach ($variables as $variable) {
+            $namedVariables[$variable->getName()] = $variable;
+        }
+
+        // check for all variable existence and save a list of used ones
+        $used = array();
+        foreach ($blockConfig->getOptions() as $name => $options) {
+
+            $used [$name]= true;
+            if (!isset($namedVariables[$name])) {
+                $config = new BlockVariable;
+                $config->setName($name);
+                $config->setBlock($block);
+                $this->orm->persist($config);
+            }
+
+            $config->setType($options['type']);
+
+            if (isset($options['options'])) {
+                $config->setOptions($options['options']);
+            }
+        }
+
+        // use the list of used variables to remove unused ones
+        foreach ($variables as $variable) {
+            if (!isset($used[$variable->getName()])) {
+                $this->orm->remove($variable);
+            }
+        }
     }
 
     public function findBlockByPageAndName($page, $name)
