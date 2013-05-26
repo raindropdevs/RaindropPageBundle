@@ -6,6 +6,15 @@ var menuAdmin = (function () {
             this.setupMouseover();
 
             this.setupDragAndDrop();
+
+            this.setupSearch();
+        },
+
+        setupSearch: function () {
+            var options = {
+                valueNames: [ 'name' ]
+            };
+            var pagesList = new List('page-list', options);
         },
 
         setupPagesButton: function () {

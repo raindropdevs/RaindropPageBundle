@@ -23,32 +23,40 @@
 
 
 
-                <div class="tab-pane active" id="tabLayout">
+                <div id="page-list" class="tab-pane active" id="tabLayout">
 
                     <div class="row-fluid">
 
+
                         <div class="row-fluid">
+
                             <div class="btn-group pull-right">
                                 <a class="btn btn-small raindrop-add-menu-button">Add item</a>
                             </div>
+
+                            <input style="margin-right: 20px" type="text" class="search pull-right">
                         </div>
 
                         <div class="span5 page-source">
+                            <ul class="list">
                             {% if pages is defined %}
                                 {% for page in pages %}
-                                    <div title="{{ page.getTitle() }}" data-id="{{ page.getId() }}" class="raindrop_tips row-fluid draggable-source-page fixed-width-200">
-                                        <div class="span12">
-                                            <div class="span1">
-                                                <a class="drag-drop pull-left"><i class="icon-circle-arrow-left"></i></a>
+                                    <li>
+                                        <div title="{{ page.getTitle() }}" data-id="{{ page.getId() }}" class="raindrop_tips row-fluid draggable-source-page fixed-width-200">
+                                            <div class="span12">
+                                                <div class="span1">
+                                                    <a class="drag-drop pull-left"><i class="icon-circle-arrow-left"></i></a>
+                                                </div>
+                                                <div class="span10">
+                                                    <p class="name"><strong>{{ page.getTitle() }}</strong> - {{ page.getRoute().getPath() }}</p>
+                                                </div>
+                                                <div class="span1"></div>
                                             </div>
-                                            <div class="span10">
-                                                <p><strong>{{ page.getTitle() }}</strong> - {{ page.getRoute().getPath() }}</p>
-                                            </div>
-                                            <div class="span1"></div>
                                         </div>
-                                    </div>
+                                    </li>
                                 {% endfor %}
                             {% endif %}
+                            </ul>
                         </div>
                     </div>
 
