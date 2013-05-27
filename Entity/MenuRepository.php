@@ -12,17 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class MenuRepository extends EntityRepository
 {
-    public function findOneByMenuAndPage($page, $menu)
+    public function findOneByCountryAndName($country, $name)
     {
-        $query = $this->repository->createQueryBuilder('m')
+        $query = $this->createQueryBuilder('m')
             ->select('m')
-            ->where('m.page = :page AND m.menu = :menu')
+            ->where('m.name = :name AND m.country = :country')
             ->setParameters(array(
-                'page' => $page,
-                'menu' => $menu
+                'name' => $name,
+                'country' => $country
             ))
         ;
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getOneOrNullResult();
     }
 }
