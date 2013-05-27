@@ -8,7 +8,7 @@ use Raindrop\PageBundle\Entity\Menu;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Entity(repositoryClass="Raindrop\PageBundle\Entity\PageMenuRepository")
+ * @ORM\Entity(repositoryClass="Raindrop\PageBundle\Entity\MenuEntryRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="raindrop_menu_entry")
  */
