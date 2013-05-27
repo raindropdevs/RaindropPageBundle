@@ -42,6 +42,7 @@ class PageRepository extends EntityRepository
     {
         $q =
         $this->createQueryBuilder('p')
+            ->select('p', 'm', 'r')
             ->leftJoin('p.menus', 'm')
             ->leftJoin('p.route', 'r')
             ->where('p.country = :country')
