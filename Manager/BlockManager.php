@@ -79,7 +79,7 @@ class BlockManager
         $block->setJavascripts($blockConfig->getJavascripts());
         $block->setStylesheets($blockConfig->getStylesheets());
 
-        $variables = $block->getChildren();
+        $variables = $block->getVariables();
 
         // save all variables as a named array association
         $namedVariables = array();
@@ -92,11 +92,14 @@ class BlockManager
         foreach ($blockConfig->getOptions() as $name => $options) {
 
             $used [$name]= true;
+
             if (!isset($namedVariables[$name])) {
                 $config = new BlockVariable;
                 $config->setName($name);
                 $config->setBlock($block);
                 $this->orm->persist($config);
+            } else {
+                $config = $namedVariables[$name];
             }
 
             $config->setType($options['type']);
@@ -109,7 +112,7 @@ class BlockManager
         // use the list of used variables to remove unused ones
         foreach ($variables as $variable) {
             if (!isset($used[$variable->getName()])) {
-                $this->orm->remove($variable);
+                $block->removeVariable($variable);
             }
         }
     }
