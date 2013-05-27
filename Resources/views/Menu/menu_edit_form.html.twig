@@ -151,7 +151,8 @@
         var globalConfig = {
             menuId: '{{ object.getId() }}',
             addMenuItemPath: '{{ admin.generateUrl('append') }}',
-            reorderMenu: '{{ admin.generateUrl('reorder') }}'
+            reorderMenu: '{{ admin.generateUrl('reorder') }}',
+            removeMenu: '{{ path('admin_raindrop_page_menuentry_delete', { id: 0 }) }}'
         };
         </script>
     {% endif %}
