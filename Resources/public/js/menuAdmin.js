@@ -8,6 +8,16 @@ var menuAdmin = (function () {
             this.setupDragAndDrop();
 
             this.setupSearch();
+
+            this.setupPopover();
+        },
+
+        setupPopover: function () {
+            $(".remove-popover")
+                .popover({
+                    placement: 'top',
+                    html: true
+                });
         },
 
         setupSearch: function () {
@@ -24,6 +34,23 @@ var menuAdmin = (function () {
                     $(".page-source").toggle();
                 });
         },
+
+//        closePopover: function (menu_id) {
+//            $("#menu-" + menu_id).find('a.remove-popover').click();
+//        },
+//
+//        removeMenu: function (menu_id) {
+//            $.ajax({
+//               url: globalConfig.removeMenu.replace('0', menu_id),
+//               type: 'POST',
+//               success: function (returnData) {
+//                   if (returnData.result) {
+//                       $("#menu-" + id).find('a.remove-popover').click();
+//                       $("#menu-" + id).remove();
+//                   }
+//               }
+//            });
+//        },
 
         setupMouseover: function () {
 

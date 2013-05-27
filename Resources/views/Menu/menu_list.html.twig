@@ -1,5 +1,11 @@
-<li {% if node.hasMenuId() %}data-id="{{ node.getMenuId() }}"{% endif %}>
+<li {% if node.hasMenuId() %}id="menu-{{ node.getMenuId() }}" data-id="{{ node.getMenuId() }}"{% endif %}>
     <a title="{{ node.getTitle() }}" href="{% if node.hasMenuId() %}{{ path('admin_raindrop_page_menuentry_edit', { id: node.getMenuId() }) }}{% else %}javascript:;{% endif %}">{{ node.getPath() }}</a>
+
+    {% if node.hasMenuId() %}
+        <a title="Delete block" data-toggle="modal" data-content="
+           Delete menu entry.<br><br><a href='javascript:menuAdmin.closePopover({{ node.getMenuId() }});'>Cancel</a>  <a href='{{ path('admin_raindrop_page_menuentry_delete', { id: node.getMenuId() }) }}' class='pull-right btn btn-danger'>Delete</a><br>
+           " class="remove-popover raindrop_tips" href="#" data-original-title="Confirm"><i class="icon-remove"></i></a>
+    {% endif %}
 
     {% if node.getChildren() is not empty %}
         <ul class="sortable">
