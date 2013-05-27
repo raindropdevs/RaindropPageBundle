@@ -39,9 +39,9 @@
 {% block multiple_text_widget %}
     {% spaceless %}
         {% for val in value %}
-            <input class="span5" type="text" {{ block('widget_attributes') }} value="{{ val }}" /><br>
+            <input type="text" {{ block('widget_attributes') }} {% if val is not empty %}value="{{ val }}" {% endif %} /><br>
         {% endfor %}
-        <input class="span5" type="text" {{ block('widget_attributes') }} value="" />
+        <input type="text" {{ block('widget_attributes') }} />
     {% endspaceless %}
 {% endblock %}
 
