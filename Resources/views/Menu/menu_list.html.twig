@@ -1,5 +1,5 @@
 <li {% if node.hasMenuId() %}id="menu-{{ node.getMenuId() }}" data-id="{{ node.getMenuId() }}"{% endif %}>
-    <a title="{{ node.getTitle() }}" href="{% if node.hasMenuId() %}{{ path('admin_raindrop_page_menuentry_edit', { id: node.getMenuId() }) }}{% else %}javascript:;{% endif %}">{{ node.getPath() }}</a>
+    <a title="{{ node.getTitle() }}" href="{% if node.hasMenuId() %}{{ path('admin_raindrop_page_menuentry_edit', { id: node.getMenuId() }) }}{% else %}javascript:;{% endif %}">{{ node.getPath() }} [{{ node.getLabel() }}]</a>
 
     {% if node.hasMenuId() %}
         <a title="Delete block" data-toggle="modal" data-content="
