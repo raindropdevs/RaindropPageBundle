@@ -54,4 +54,19 @@ class PageRepository extends EntityRepository
         return $q->getQuery()
             ->getResult();
     }
+
+    public function findEager($id)
+    {
+        $q =
+        $this->createQueryBuilder('p')
+            ->select('p', 'b', 'v')
+            ->leftJoin('p.children', 'b')
+            ->leftJoin('b.variables', 'v')
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
+        ;
+
+        return $q->getQuery()
+            ->getOneOrNullResult();
+    }
 }
