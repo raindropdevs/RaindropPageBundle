@@ -28,6 +28,7 @@ class PageRepository extends EntityRepository
     {
         $q =
         $this->createQueryBuilder('p')
+            ->select('p', 'm', 'n')
             ->leftJoin('p.menus', 'm')
             ->leftJoin('m.menu', 'n')
             ->where('n.name = :name AND n.country = :country')
@@ -52,5 +53,20 @@ class PageRepository extends EntityRepository
 
         return $q->getQuery()
             ->getResult();
+    }
+
+    public function findEager($id)
+    {
+        $q =
+        $this->createQueryBuilder('p')
+            ->select('p', 'b', 'v')
+            ->leftJoin('p.children', 'b')
+            ->leftJoin('b.variables', 'v')
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
+        ;
+
+        return $q->getQuery()
+            ->getOneOrNullResult();
     }
 }

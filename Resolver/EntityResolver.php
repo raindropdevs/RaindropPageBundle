@@ -25,7 +25,7 @@ class EntityResolver implements ResolverInterface
         if ($variable->getContent()) {
             return $orm
                     ->getRepository($options['model'])
-                    ->find($variable->getContent());
+                    ->findEager($variable->getContent());
         }
 
         return null;
