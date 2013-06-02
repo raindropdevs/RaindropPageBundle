@@ -35,6 +35,15 @@ class PageController extends Controller
         return $response;
     }
 
+    public function childRedirectionAction($content)
+    {
+        $uri = $this->get('router')->generate($content->getLayout());
+        $response = new RedirectResponse($uri, 301);
+        $response->setVary('accept-language');
+
+        return $response;
+    }
+
     /**
      * @Template()
      */

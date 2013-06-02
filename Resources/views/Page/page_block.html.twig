@@ -19,7 +19,7 @@
 
     </div>
     <div class="pageBlockToolbar">
-        <span class="label label-inverse">{{ block.getName() }}</span>
+        <span class="label label-inverse">{{ block.getName() }} [ {{ block.getTemplate() }} ]</span>
         <a title="Delete block" data-toggle="modal" data-content="
            WARNING: You are about to delete the block, its variables and all its children.<br><br><a href='javascript:pageAdmin.removePopover({{ block.getId() }});'>Cancel</a>  <a href='javascript:pageAdmin.removeBlock({{ block.getId() }});' class='pull-right btn btn-danger'>Delete</a><br>
            " class="pull-right remove-popover raindrop_tips" href="#" data-original-title="Confirm"><i class="icon-remove"></i></a>

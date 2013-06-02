@@ -583,7 +583,10 @@ class Page implements RenderableObjectInterface
     public function getParameters()
     {
         return array(
-            'blocks' => $this->getChildren()
+            'blocks' => $this->getChildren(),
+            'raindrop_locale' => $this->getRoute()->getLocale(),
+            'raindrop_country' => $this->getCountry(),
+            'raindrop_page' => $this
         );
     }
 }

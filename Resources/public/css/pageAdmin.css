@@ -118,6 +118,10 @@
     width: 100%;
 }
 
+#tabLayout .modal textarea {
+    min-height: 140px;
+}
+
 #tabLayout .modal .form-horizontal .control-label {
     width: 100px;
 }
