@@ -49,31 +49,47 @@ class PageAdmin extends Admin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper
-            ->add('title', null, array(
-                'required' => true,
-                'attr' => array(
-                    'class' => 'span5'
-                ),
-            ))
-            ->add('layout', 'choice', array(
-                'required' => true,
-                'choices' => $this->layoutProvider->provide(),
-                'data' => $this->getSubject()->getLayout() ?: ''
-            ))
-        ;
+
+        $builder = $formMapper->getFormBuilder();
+
+        if ($this->getSubject()->getType() == 'redirect') {
+            $formMapper
+                ->add('layout', 'choice', array(
+                    'label' => 'Target route name',
+                    'required' => true,
+                    'choices' => $this->container
+                        ->get('raindrop_page.route.provider')->provide(
+                            $this->getSubject()
+                            ->getRoute()->getPath()
+                        ),
+                    'data' => $this->getSubject()->getLayout() ?: ''
+                ))
+                ;
+        } else {
+            $formMapper
+                ->add('title', null, array(
+                    'required' => true,
+                    'attr' => array(
+                        'class' => 'span5'
+                    ),
+                ))
+                ->add('layout', 'choice', array(
+                    'required' => true,
+                    'choices' => $this->layoutProvider->provide(),
+                    'data' => $this->getSubject()->getLayout() ?: ''
+                ))
+                ;
+
+            $http_metas = $this->container->getParameter('raindrop_page.admin.http_metas');
+            $builder->addEventSubscriber(new AddMetaFieldSubscriber($builder->getFormFactory(), $http_metas));
+        }
 
         $urlValue = '';
         $parent = $this->container->get('request')->get('parent');
         if ($parent && $parent != '/') {
             $urlValue = $parent . '/';
         }
-
-        $builder = $formMapper->getFormBuilder();
         $builder->addEventSubscriber(new AddRouteFieldSubscriber($builder->getFormFactory(), array('url' => $urlValue)));
-
-        $http_metas = $this->container->getParameter('raindrop_page.admin.http_metas');
-        $builder->addEventSubscriber(new AddMetaFieldSubscriber($builder->getFormFactory(), $http_metas));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -104,7 +120,7 @@ class PageAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'RaindropPageBundle:Page:page_editor.html.twig';
+                return $this->getSubject()->getType() == 'redirect' ? 'RaindropPageBundle:Page:redirect_page_editor.html.twig' : 'RaindropPageBundle:Page:page_editor.html.twig';
                 break;
             case 'list':
                 return 'RaindropPageBundle:Page:page_tree_view.html.twig';
