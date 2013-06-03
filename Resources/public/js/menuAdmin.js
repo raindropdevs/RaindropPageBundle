@@ -9,15 +9,7 @@ var menuAdmin = (function () {
 
             this.setupSearch();
 
-            this.setupPopover();
-        },
-
-        setupPopover: function () {
-            $(".remove-popover")
-                .popover({
-                    placement: 'top',
-                    html: true
-                });
+            $(".raindrop_tips").tooltip();
         },
 
         setupSearch: function () {
