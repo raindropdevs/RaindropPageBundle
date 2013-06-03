@@ -7,7 +7,7 @@ var menuAdmin = (function () {
 
             this.setupDragAndDrop();
 
-            // this.setupSearch();
+            this.setupSearch();
 
             this.setupPopover();
         },
@@ -21,10 +21,10 @@ var menuAdmin = (function () {
         },
 
         setupSearch: function () {
-            var options = {
-                valueNames: [ 'name' ]
-            };
-            var pagesList = new List('page-list', options);
+            searchableList.init({
+                searchableForm: '.search',
+                container: '#page-list'
+            });
         },
 
         setupPagesButton: function () {
