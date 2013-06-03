@@ -9,22 +9,14 @@ var menuAdmin = (function () {
 
             this.setupSearch();
 
-            this.setupPopover();
-        },
-
-        setupPopover: function () {
-            $(".remove-popover")
-                .popover({
-                    placement: 'top',
-                    html: true
-                });
+            $(".raindrop_tips").tooltip();
         },
 
         setupSearch: function () {
-            var options = {
-                valueNames: [ 'name' ]
-            };
-            var pagesList = new List('page-list', options);
+            searchableList.init({
+                searchableForm: '.search',
+                container: '#page-list'
+            });
         },
 
         setupPagesButton: function () {
