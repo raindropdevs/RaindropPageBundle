@@ -7,7 +7,7 @@ var menuAdmin = (function () {
 
             this.setupDragAndDrop();
 
-            this.setupSearch();
+            // this.setupSearch();
 
             this.setupPopover();
         },
