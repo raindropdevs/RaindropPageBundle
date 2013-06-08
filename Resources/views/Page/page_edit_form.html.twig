@@ -38,7 +38,7 @@
                             {% if use_liip_theme %}
                             <div class="btn-group pull-right" style="margin-right:20px;">
                                 <a href="{{ admin.generateUrl('edit', { id: object.getId() }) }}" class="btn btn-small{% if liip_theme is empty %} btn-inverse{% endif %}">DEFAULT</a>
-                                <a href="{{ admin.generateUrl('edit', { id: object.getId(), theme: 'mobile' }) }}" class="btn btn-small{% if liip_theme == 'mobile' %} btn-inverse{% endif %}">MOBILE</a>
+                                <a href="{{ admin.generateUrl('edit', { id: object.getId(), theme: 'phone' }) }}" class="btn btn-small{% if liip_theme == 'phone' %} btn-inverse{% endif %}">PHONE</a>
                             </div>
 
                             <h4>Liip theme: {% if liip_theme is empty %}{{ 'default'|upper }}{% else %}{{ liip_theme|upper }}{% endif %}</h4>
