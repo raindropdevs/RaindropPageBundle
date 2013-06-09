@@ -26,10 +26,16 @@ class Builder implements ContainerAwareInterface
 
     public function mainMenu(FactoryInterface $factory, array $options)
     {
-        $page = $this->container->get('raindrop.page.renderer')->guessPage();
-        $country = strtolower($page->getCountry());
+        $country = $this->container->get('request')->get('country');
+        if (empty($country)) {
+            $page = $this->container->get('raindrop.page.renderer')->guessPage();
+            $country = strtolower($page->getCountry());
+        }
 
-        $locale = substr($page->getRoute()->getLocale(), 0, 2);
+        $locale = $this->container->get('request')->get('locale');
+        if (empty($locale)) {
+            $locale = substr($page->getRoute()->getLocale(), 0, 2);
+        }
 
         $treeBuilder = $this->container->get('raindrop_page.directory_tree');
         $factory = new MenuFactory();
