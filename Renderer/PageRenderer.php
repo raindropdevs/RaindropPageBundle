@@ -91,11 +91,13 @@ class PageRenderer implements RendererInterface
         $inclusion = array();
 
         foreach ($blocks as $block) {
-            if ($block->hasJavascripts()) {
-                foreach ($block->getJavascripts() as $js) {
-                    if (!isset($requirements[$js])) {
-                        $requirements [$js]= true;
-                        $inclusion []= $js;
+            if ($this->blockInUse($block)) {
+                if ($block->hasJavascripts()) {
+                    foreach ($block->getJavascripts() as $js) {
+                        if (!isset($requirements[$js])) {
+                            $requirements [$js]= true;
+                            $inclusion []= $js;
+                        }
                     }
                 }
             }
@@ -125,11 +127,13 @@ class PageRenderer implements RendererInterface
         $inclusion = array();
 
         foreach ($blocks as $block) {
-            if ($block->hasStylesheets()) {
-                foreach ($block->getStylesheets() as $css) {
-                    if (!isset($requirements[$css])) {
-                        $requirements [$css]= true;
-                        $inclusion []= $css;
+            if ($this->blockInUse($block)) {
+                if ($block->hasStylesheets()) {
+                    foreach ($block->getStylesheets() as $css) {
+                        if (!isset($requirements[$css])) {
+                            $requirements [$css]= true;
+                            $inclusion []= $css;
+                        }
                     }
                 }
             }
@@ -145,6 +149,18 @@ class PageRenderer implements RendererInterface
         ));
 
         return '<link rel="stylesheet" type="text/css" href="'. $path .'" />';
+    }
+
+    protected function blockInUse($block)
+    {
+        $useLiipTheme = $this->container->getParameter('use_liip_theme');
+        if ($useLiipTheme) {
+            $theme = $this->container->get('request')->cookies->get('liipTheme');
+            $pattern = "/.*\|{$theme}$/";
+            return preg_match($pattern, $block->getLayout());
+        }
+
+        return true;
     }
 
     protected function getPageBlocks()
