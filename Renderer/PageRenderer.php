@@ -155,7 +155,18 @@ class PageRenderer implements RendererInterface
     {
         $useLiipTheme = $this->container->getParameter('use_liip_theme');
         if ($useLiipTheme) {
-            $theme = $this->container->get('request')->cookies->get('liipTheme');
+            $defaultTheme = 'desktop';
+            $theme = $this->container->get('liip_theme.active_theme')->getName();
+
+            /**
+             * If theme is null and block has no reference to theme, it's ok.
+             * If theme is not null and block refers to that theme, it's ok.
+             */
+            if (is_null($theme) or $theme == $defaultTheme) {
+                if (!preg_match('/[\|]+/', $block->getLayout())) {
+                    return true;
+                }
+            }
             $pattern = "/.*\|{$theme}$/";
             return preg_match($pattern, $block->getLayout());
         }
