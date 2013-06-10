@@ -183,9 +183,8 @@ class PageRenderer implements RendererInterface
             return $this->page;
         }
 
-        $route = $this->container->get('router')
-                ->getRouteCollection()
-                ->get($this->container->get('request')->get('_route'));
+        $route = $this->container->get('raindrop_routing.route_repository')
+                ->getRouteByName($this->container->get('request')->get('_route'));
 
         if ($route instanceof Route) {
             $page = $route->getContent();
