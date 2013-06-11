@@ -589,4 +589,10 @@ class Page implements RenderableObjectInterface
             'raindrop_page' => $this
         );
     }
+
+    public function getParentUrl()
+    {
+        $path = $this->getRoute()->getPath();
+        return dirname($path);
+    }
 }
