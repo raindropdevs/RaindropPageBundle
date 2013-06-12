@@ -69,4 +69,31 @@ class PageRepository extends EntityRepository
         return $q->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function getPagesForSection($section, $country)
+    {
+        return $this->findBy(array(
+            'type' => $section,
+            'country' => $country
+        ));
+    }
+
+    public function getSiblingsPagesForSection($section, $country, $page)
+    {
+        $q =
+        $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.type = :type AND p.country = :country AND p.id != :id')
+            ->setParameter('type', $section)
+            ->setParameter('country', $country)
+            ->setParameter('id', $page->getId())
+        ;
+
+        $pages = $q->getQuery()->getResult();
+        $return = array_filter($pages, function ($el) use ($page) {
+            return ($el->getPageDepth() == $page->getPageDepth() && $el->getId() != $page->getId());
+        });
+
+        return $return;
+    }
 }

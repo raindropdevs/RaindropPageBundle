@@ -592,7 +592,28 @@ class Page implements RenderableObjectInterface
 
     public function getParentUrl()
     {
-        $path = $this->getRoute()->getPath();
-        return dirname($path);
+        if ($this->hasRoute()) {
+            $path = $this->getRoute()->getPath();
+            return dirname($path);
+        }
+
+        return false;
+    }
+
+    public function getUrl()
+    {
+        if ($this->hasRoute()) {
+            return $this->getRoute()->getPath();
+        }
+
+        return false;
+    }
+
+    public function getPageDepth()
+    {
+        $arr = explode("/", $this->getRoute()->getPath());
+        return count(array_filter($arr, function ($el) {
+            return !empty($el);
+        }));
     }
 }
