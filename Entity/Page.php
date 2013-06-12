@@ -670,17 +670,22 @@ class Page implements RenderableObjectInterface
     public function setParent(\Raindrop\PageBundle\Entity\Page $parent = null)
     {
         $this->parent = $parent;
-    
+
         return $this;
     }
 
     /**
      * Get parent
      *
-     * @return \Raindrop\PageBundle\Entity\Page 
+     * @return \Raindrop\PageBundle\Entity\Page
      */
     public function getParent()
     {
         return $this->parent;
+    }
+
+    public function hasParent()
+    {
+        return $this->parent instanceof Page;
     }
 }
