@@ -346,6 +346,7 @@ class Page implements RenderableObjectInterface
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
