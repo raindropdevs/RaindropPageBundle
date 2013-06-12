@@ -78,7 +78,30 @@ class PageRepository extends EntityRepository
         ));
     }
 
-    public function getSiblingsPagesForSection($section, $country, $page)
+    public function getSiblingsPagesForSection($section, $country, $page, $excludeSelf = false)
+    {
+        $q =
+        $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.type = :type AND p.country = :country')
+            ->setParameter('type', $section)
+            ->setParameter('country', $country)
+        ;
+
+        $pages = $q->getQuery()->getResult();
+
+        $return = array_filter($pages, function ($el) use ($page, $excludeSelf) {
+            if ($excludeSelf) {
+                return ($el->getPageDepth() == $page->getPageDepth() && $el->getId() != $page->getId());
+            } else {
+                return $el->getPageDepth() == $page->getPageDepth();
+            }
+        });
+
+        return array_values($return);
+    }
+
+    public function getChildrenPagesForSection($section, $country, $page)
     {
         $q =
         $this->createQueryBuilder('p')
@@ -90,10 +113,11 @@ class PageRepository extends EntityRepository
         ;
 
         $pages = $q->getQuery()->getResult();
+
         $return = array_filter($pages, function ($el) use ($page) {
-            return ($el->getPageDepth() == $page->getPageDepth() && $el->getId() != $page->getId());
+            return ($el->getPageDepth() == $page->getPageDepth() + 1);
         });
 
-        return $return;
+        return array_values($return);
     }
 }
