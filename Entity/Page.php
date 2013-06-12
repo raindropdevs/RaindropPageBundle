@@ -364,10 +364,10 @@ class Page implements RenderableObjectInterface
     /**
      * Add children
      *
-     * @param  \Raindrop\PageBundle\Entity\Block $children
+     * @param  \Raindrop\PageBundle\Entity\Page $children
      * @return Page
      */
-    public function addChildren(Block $children)
+    public function addChildren(Page $children)
     {
         $this->children[] = $children;
 
@@ -377,9 +377,9 @@ class Page implements RenderableObjectInterface
     /**
      * Remove children
      *
-     * @param \Raindrop\PageBundle\Entity\Block $children
+     * @param \Raindrop\PageBundle\Entity\Page $children
      */
-    public function removeChildren(Block $children)
+    public function removeChildren(Page $children)
     {
         $this->children->removeElement($children);
     }
