@@ -3,7 +3,7 @@
         <p style="color:#ccc; margin-top: 14px; text-align: center">DROP HERE FOR "{{ layout|upper }}" POSITION</p>
     </div>
     <div class="row-fluid {{ layout }}-layout raindrop-layout-sortable" data-target="{{ layout }}">
-        {% for block in object.getChildren() %}
+        {% for block in object.getBlocks() %}
             {% if block.getLayout() == layout %}
                 {% include 'RaindropPageBundle:Page:page_block.html.twig' with { 'block': block, 'first_level': 1 } %}
             {% endif %}

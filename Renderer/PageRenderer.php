@@ -181,7 +181,7 @@ class PageRenderer implements RendererInterface
             return array();
         }
 
-        return $page->getChildren();
+        return $page->getBlocks();
     }
 
     /**

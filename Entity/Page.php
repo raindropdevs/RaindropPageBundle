@@ -50,7 +50,18 @@ class Page implements RenderableObjectInterface
     /**
      * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="page")
      */
+    protected $blocks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Page", mappedBy="parent")
+     */
     protected $children;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page", inversedBy="children")
+     */
+    protected $parent;
 
     /**
      * @ORM\Column
@@ -583,7 +594,7 @@ class Page implements RenderableObjectInterface
     public function getParameters()
     {
         return array(
-            'blocks' => $this->getChildren(),
+            'blocks' => $this->getBlocks(),
             'raindrop_locale' => $this->getRoute()->getLocale(),
             'raindrop_country' => $this->getCountry(),
             'raindrop_page' => $this
@@ -615,5 +626,61 @@ class Page implements RenderableObjectInterface
         return count(array_filter($arr, function ($el) {
             return !empty($el);
         }));
+    }
+
+    /**
+     * Add blocks
+     *
+     * @param \Raindrop\PageBundle\Entity\Block $blocks
+     * @return Page
+     */
+    public function addBlock(\Raindrop\PageBundle\Entity\Block $blocks)
+    {
+        $this->blocks[] = $blocks;
+
+        return $this;
+    }
+
+    /**
+     * Remove blocks
+     *
+     * @param \Raindrop\PageBundle\Entity\Block $blocks
+     */
+    public function removeBlock(\Raindrop\PageBundle\Entity\Block $blocks)
+    {
+        $this->blocks->removeElement($blocks);
+    }
+
+    /**
+     * Get blocks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Raindrop\PageBundle\Entity\Page $parent
+     * @return Page
+     */
+    public function setParent(\Raindrop\PageBundle\Entity\Page $parent = null)
+    {
+        $this->parent = $parent;
+    
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Raindrop\PageBundle\Entity\Page 
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

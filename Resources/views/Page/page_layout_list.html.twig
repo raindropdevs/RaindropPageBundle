@@ -18,7 +18,7 @@
 
 
 {# Twitter bootstrap modal wrapper #}
-{% for block in object.getChildren() %}
+{% for block in object.getBlocks() %}
     <div id="editModal{{ block.getId() }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-body"></div>
     </div>
