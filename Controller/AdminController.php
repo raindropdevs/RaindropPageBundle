@@ -80,7 +80,6 @@ class AdminController extends Controller
                 }
             }
 
-
         } catch (\Exception $e) {
             return new JsonResponse(array('error' => $e->getMessage()), 500);
         }

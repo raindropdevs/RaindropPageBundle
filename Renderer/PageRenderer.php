@@ -168,6 +168,7 @@ class PageRenderer implements RendererInterface
                 }
             }
             $pattern = "/.*\|{$theme}$/";
+
             return preg_match($pattern, $block->getLayout());
         }
 

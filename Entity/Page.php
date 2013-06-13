@@ -606,6 +606,7 @@ class Page implements RenderableObjectInterface
     {
         if ($this->hasRoute()) {
             $path = $this->getRoute()->getPath();
+
             return dirname($path);
         }
 
@@ -624,6 +625,7 @@ class Page implements RenderableObjectInterface
     public function getPageDepth()
     {
         $arr = explode("/", $this->getRoute()->getPath());
+
         return count(array_filter($arr, function ($el) {
             return !empty($el);
         }));
@@ -632,7 +634,7 @@ class Page implements RenderableObjectInterface
     /**
      * Add blocks
      *
-     * @param \Raindrop\PageBundle\Entity\Block $blocks
+     * @param  \Raindrop\PageBundle\Entity\Block $blocks
      * @return Page
      */
     public function addBlock(\Raindrop\PageBundle\Entity\Block $blocks)
@@ -665,7 +667,7 @@ class Page implements RenderableObjectInterface
     /**
      * Set parent
      *
-     * @param \Raindrop\PageBundle\Entity\Page $parent
+     * @param  \Raindrop\PageBundle\Entity\Page $parent
      * @return Page
      */
     public function setParent(\Raindrop\PageBundle\Entity\Page $parent = null)
