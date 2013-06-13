@@ -34,7 +34,7 @@ class Block extends BaseBlock
     protected $template;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page", inversedBy="blocks")
      */
     protected $page;
 
@@ -325,7 +325,6 @@ class Block extends BaseBlock
     {
         return $this->children;
     }
-
 
     public function hasChildren()
     {
