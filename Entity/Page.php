@@ -38,11 +38,6 @@ class Page implements RenderableObjectInterface
     protected $country;
 
     /**
-     * @ORM\Column(nullable=true)
-     */
-    protected $locale;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Raindrop\RoutingBundle\Entity\Route")
      */
     protected $route;
@@ -167,26 +162,13 @@ class Page implements RenderableObjectInterface
     }
 
     /**
-     * Set locale
-     *
-     * @param  string $locale
-     * @return Page
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-
-        return $this;
-    }
-
-    /**
      * Get locale
      *
      * @return string
      */
     public function getLocale()
     {
-        return $this->locale;
+        return $this->route->getLocale();
     }
 
     /**
