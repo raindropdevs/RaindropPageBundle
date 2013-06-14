@@ -595,6 +595,15 @@ class Page implements RenderableObjectInterface
         return false;
     }
 
+    public function getGrandpaUrl()
+    {
+        if ($this->getParentUrl()) {
+            return dirname($this->getParentUrl());
+        }
+
+        return false;
+    }
+
     public function getUrl()
     {
         if ($this->hasRoute()) {
