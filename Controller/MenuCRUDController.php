@@ -80,9 +80,9 @@ class MenuCRUDController extends CRUDController
         $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
 
         // the sources
-        $pages = $this->container
-            ->get('raindrop_page.page.manager')
-            ->getCountryPages($object->getCountry());
+//        $pages = $this->container
+//            ->get('raindrop_page.page.manager')
+//            ->getCountryPages($object->getCountry());
 
         // the actual menu
         $menuPages = $this
@@ -93,7 +93,7 @@ class MenuCRUDController extends CRUDController
             'action' => 'edit',
             'form'   => $view,
             'object' => $object,
-            'pages' => $pages,
+//            'pages' => $pages,
             'menu_pages' => $this
                 ->get('raindrop_page.directory_tree')
                 ->buildTree($menuPages)
