@@ -93,7 +93,7 @@ class MenuCRUDController extends CRUDController
             'action' => 'edit',
             'form'   => $view,
             'object' => $object,
-//            'pages' => $pages,
+            'pages' => array(),
             'menu_pages' => $this
                 ->get('raindrop_page.directory_tree')
                 ->buildTree($menuPages)
