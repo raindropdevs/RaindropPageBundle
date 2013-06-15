@@ -275,7 +275,7 @@ class MenuEntry
     public function getImagePath()
     {
         if (!empty($this->image)) {
-            return DIRECTORY_SEPARATOR . $this->getUploadDir() . DIRECTORY_SEPARATOR . $this->getImage();
+            return $this->getImage();
         }
 
         return null;
