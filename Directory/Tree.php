@@ -14,7 +14,7 @@ class Tree
         $this->session = $session;
     }
 
-    public function buildTree($pages = null)
+    public function buildTree($pages = null, $absolute = false)
     {
         if (is_null($pages)) {
             $pages = $this->pagesRepository->findByCountry($this->session->get('raindrop:admin:country'));
@@ -67,6 +67,10 @@ class Tree
                             $node->setLabel($menus[0]->getLabelString());
                         } else {
                             $node->setLabel($page->getTitle());
+                        }
+
+                        if ($absolute) {
+                            $node->setPath($absolute . $node->getPath());
                         }
                     }
 
