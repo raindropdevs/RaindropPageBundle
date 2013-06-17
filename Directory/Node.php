@@ -59,6 +59,9 @@ class Node implements NodeInterface
 
     public function getPath()
     {
+        if ($this->isAbsolute()) {
+            return $this->absolute . $this->path;
+        }
         return $this->path;
     }
 
@@ -247,13 +250,13 @@ class Node implements NodeInterface
         }
     }
 
-    public function setAbsolute()
+    public function setAbsolute($absolute)
     {
-        $this->absolute = true;
+        $this->absolute = $absolute;
     }
 
     public function isAbsolute()
     {
-        return $this->absolute;
+        return !empty($this->absolute);
     }
 }

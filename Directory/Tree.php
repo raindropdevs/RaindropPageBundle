@@ -70,7 +70,7 @@ class Tree
                         }
 
                         if ($absolute) {
-                            $node->setAbsolute();
+                            $node->setAbsolute($absolute);
                         }
                     }
 
