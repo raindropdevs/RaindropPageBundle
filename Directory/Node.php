@@ -27,6 +27,8 @@ class Node implements NodeInterface
 
     protected $image;
 
+    protected $absolute = false;
+
     protected $children = array();
 
     public function __construct($name, $parent = self::ROOT, $label = null)
@@ -243,5 +245,15 @@ class Node implements NodeInterface
                 $child->dumpGraph($indent+1);
             }
         }
+    }
+
+    public function setAbsolute()
+    {
+        $this->absolute = true;
+    }
+
+    public function isAbsolute()
+    {
+        return $this->absolute;
     }
 }
