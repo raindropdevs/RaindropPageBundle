@@ -83,9 +83,11 @@ class PageRepository extends EntityRepository
         $q =
         $this->createQueryBuilder('p')
             ->select('p')
-            ->where('p.type = :type AND p.country = :country')
+            ->leftJoin('p.route', 'r')
+            ->where('p.type = :type AND p.country = :country AND r.locale = :locale')
             ->setParameter('type', $section)
             ->setParameter('country', $country)
+            ->setParameter('locale', $page->getRoute()->getLocale())
         ;
 
         $pages = $q->getQuery()->getResult();
@@ -106,9 +108,11 @@ class PageRepository extends EntityRepository
         $q =
         $this->createQueryBuilder('p')
             ->select('p')
-            ->where('p.type = :type AND p.country = :country AND p.id != :id')
+            ->leftJoin('p.route', 'r')
+            ->where('p.type = :type AND p.country = :country AND p.id != :id AND r.locale = :locale')
             ->setParameter('type', $section)
             ->setParameter('country', $country)
+            ->setParameter('locale', $page->getRoute()->getLocale())
             ->setParameter('id', $page->getId())
         ;
 
