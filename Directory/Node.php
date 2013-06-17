@@ -59,6 +59,11 @@ class Node implements NodeInterface
 
     public function getPath()
     {
+        return $this->path;
+    }
+
+    public function getCompletePath()
+    {
         if ($this->isAbsolute()) {
             return $this->absolute . $this->path;
         }
@@ -191,7 +196,7 @@ class Node implements NodeInterface
     public function getOptions()
     {
         $options = array(
-            'uri' => $this->getPath(),
+            'uri' => $this->getCompletePath(),
             'label' => $this->getLabel(),
             'childrenAttributes' => array(
                 'class' => 'links'
