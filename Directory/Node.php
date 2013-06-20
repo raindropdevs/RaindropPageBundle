@@ -19,6 +19,8 @@ class Node implements NodeInterface
 
     protected $title;
 
+    protected $class;
+
     protected $parent;
 
     protected $page_id;
@@ -199,7 +201,7 @@ class Node implements NodeInterface
             'uri' => $this->getCompletePath(),
             'label' => $this->getLabel(),
             'childrenAttributes' => array(
-                'class' => 'links'
+                'class' => $this->class ?: 'links'
             )
         );
 
@@ -263,5 +265,26 @@ class Node implements NodeInterface
     public function isAbsolute()
     {
         return !empty($this->absolute);
+    }
+
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function getDepth()
+    {
+        $arr = explode("/", $this->path);
+
+        return count(array_filter($arr, function ($el) {
+            return !empty($el);
+        }));
     }
 }
