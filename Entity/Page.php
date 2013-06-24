@@ -43,7 +43,7 @@ class Page implements RenderableObjectInterface
     protected $route;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="page", cascade={"persist", "remove"})
      */
     protected $blocks;
 
@@ -374,13 +374,7 @@ class Page implements RenderableObjectInterface
      */
     public function getChildren()
     {
-        $iterator = $this->children->getIterator();
-
-        $iterator->uasort(function ($first, $second) {
-            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
-        });
-
-        return $iterator;
+        return $this->children;
     }
 
     /**
@@ -652,7 +646,13 @@ class Page implements RenderableObjectInterface
      */
     public function getBlocks()
     {
-        return $this->blocks;
+        $iterator = $this->blocks->getIterator();
+
+        $iterator->uasort(function ($first, $second) {
+            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
+        });
+
+        return $iterator;
     }
 
     /**
