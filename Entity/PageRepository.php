@@ -124,4 +124,35 @@ class PageRepository extends EntityRepository
 
         return array_values($return);
     }
+
+    public function getChildrenPagesForSectionWithMenu($section, $country, $page)
+    {
+        $q =
+        $this->createQueryBuilder('p')
+            ->select('p')
+            ->leftJoin('p.route', 'r')
+            ->leftJoin('p.menus', 'm')
+            ->leftJoin('m.menu', 'n')
+            ->where('p.type = :type AND n.country = :country AND p.id != :id AND r.locale = :locale')
+            ->setParameter('type', $section)
+            ->setParameter('country', $country)
+            ->setParameter('locale', $page->getRoute()->getLocale())
+            ->setParameter('id', $page->getId())
+        ;
+
+        $pages = $q->getQuery()->getResult();
+
+        $return = array_filter($pages, function ($el) use ($page) {
+            return ($el->getPageDepth() == $page->getPageDepth() + 1);
+        });
+
+        foreach ($pages as $child) {
+            if ($child->getPageDepth() == $page->getPageDepth() + 1) {
+                $menus = $child->getMenus();
+                $return [$menus[0]->getPosition()] = $child;
+            }
+        }
+
+        return array_values($return);
+    }
 }
