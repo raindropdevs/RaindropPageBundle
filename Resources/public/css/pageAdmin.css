@@ -19,6 +19,7 @@
 #tabLayout .row-fluid .draggable-block .raindrop-layout-droppable {
     margin-top: 10px;
     margin-left: 4%;
+    padding: 0 4px 0 2px;
 }
 
 #tabLayout .draggable-block {
@@ -68,7 +69,7 @@
 
 #tabLayout .row-fluid.draggable-source-block {
     margin-top: 6px;
-    box-shadow: 0 4px 8px #777;
+    box-shadow: 0 1px 3px #777;
 }
 
 .row-fluid.draggable-source-block.fixed-width-200 {
@@ -84,6 +85,7 @@
     z-index: 10;
     max-height: 400px;
     overflow: auto;
+    padding: 0 4px;
 }
 
 .page-layout-container .raindrop-layout-droppable {
@@ -234,4 +236,10 @@
 
 .tabbable > .draggable-source-block {
     width: 240px;
+}
+
+.page-layout-container .row-fluid .span3.block-group-container,
+.page-layout-container .row-fluid .span6.block-group-container {
+    border: solid 1px #eee;
+    padding: 10px;
 }
