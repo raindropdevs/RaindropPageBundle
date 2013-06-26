@@ -29,6 +29,7 @@ class TemplateBlockService extends BaseBlockService
     public function execute(BlockInterface $block, Response $response = null)
     {
         $settings = $this->getSettings($block);
+        $settings['block'] = $block;
 
         return $this->renderResponse($block->getTemplate(), $settings, $response);
     }
