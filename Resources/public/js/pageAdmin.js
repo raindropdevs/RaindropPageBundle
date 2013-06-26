@@ -285,7 +285,7 @@ var pageAdmin = (function () {
                 });
 
             // let the trash be droppable, accepting the gallery items
-            $(".raindrop-layout-sortable")
+            $(".raindrop-layout-sortable:not(.no-sort)")
                 .sortable({
 //                    placeholder: "ui-sortable-placeholder",
                     helper: "clone",
