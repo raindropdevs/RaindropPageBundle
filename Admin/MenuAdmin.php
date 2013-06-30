@@ -34,6 +34,7 @@ class MenuAdmin extends Admin
     {
         $collection->add('append');
         $collection->add('reorder');
+        $collection->add('search');
     }
 
     protected function configureFormFields(FormMapper $formMapper)

@@ -137,4 +137,23 @@ class MenuCRUDController extends CRUDController
 
         return new JsonResponse(array('result' => true));
     }
+
+    public function searchAction()
+    {
+        $country = $this->get('request')->get('country');
+        $key = $this->get('request')->get('key');
+
+        $pages = $this->container
+            ->get('raindrop_page.page.manager')
+            ->searchPagesByCountryAndPath($country, $key);
+
+        $response = $this
+            ->render('RaindropPageBundle:Menu:menu_source_template.html.twig', array(
+                'pages' => $pages
+            ));
+
+        return new JsonResponse(array(
+            'html' => $response->getContent()
+        ));
+    }
 }
