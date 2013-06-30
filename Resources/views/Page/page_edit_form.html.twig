@@ -31,8 +31,9 @@
 
                             <div class="btn-group pull-right">
                                 {% if object.getId() %}
-                                    <a class="btn btn-small" target="_blank" href="{{ admin.generateUrl('preview', { id: object.getId() }) }}">Preview</a>
+                                	<a class="btn btn-small" target="_blank" href="{{ admin.generateUrl('preview', { id: object.getId() }) }}{% if app.request.get('theme') is not empty %}?theme={{ app.request.get('theme') }}{% endif %}">Preview</a>
                                 {% endif %}
+
 
                                 <a class="btn btn-small raindrop-add-block-button">Add block</a>
                             </div>

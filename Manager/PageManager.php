@@ -61,4 +61,17 @@ class PageManager
 
         return $q->getQuery()->getResult();
     }
+
+    public function searchPagesByCountryAndPath($country, $path)
+    {
+        $q = $this->getRepository()->createQueryBuilder('m')
+            ->select('m')
+            ->leftJoin('m.route', 'r')
+            ->where('r.path LIKE :path AND m.country = :country')
+            ->setParameter('path', '%' . $path . '%')
+            ->setParameter('country', $country)
+        ;
+
+        return $q->getQuery()->getResult();
+    }
 }

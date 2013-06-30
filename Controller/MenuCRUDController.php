@@ -80,9 +80,9 @@ class MenuCRUDController extends CRUDController
         $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
 
         // the sources
-        $pages = $this->container
-            ->get('raindrop_page.page.manager')
-            ->getCountryPages($object->getCountry());
+//        $pages = $this->container
+//            ->get('raindrop_page.page.manager')
+//            ->getCountryPages($object->getCountry());
 
         // the actual menu
         $menuPages = $this
@@ -93,7 +93,7 @@ class MenuCRUDController extends CRUDController
             'action' => 'edit',
             'form'   => $view,
             'object' => $object,
-            'pages' => $pages,
+            'pages' => array(),
             'menu_pages' => $this
                 ->get('raindrop_page.directory_tree')
                 ->buildTree($menuPages)
@@ -136,5 +136,24 @@ class MenuCRUDController extends CRUDController
         }
 
         return new JsonResponse(array('result' => true));
+    }
+
+    public function searchAction()
+    {
+        $country = $this->get('request')->get('country');
+        $key = $this->get('request')->get('key');
+
+        $pages = $this->container
+            ->get('raindrop_page.page.manager')
+            ->searchPagesByCountryAndPath($country, $key);
+
+        $response = $this
+            ->render('RaindropPageBundle:Menu:menu_source_template.html.twig', array(
+                'pages' => $pages
+            ));
+
+        return new JsonResponse(array(
+            'html' => $response->getContent()
+        ));
     }
 }

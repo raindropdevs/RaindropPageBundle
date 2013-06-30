@@ -5,7 +5,7 @@ var menuAdmin = (function () {
 
             this.setupMouseover();
 
-            this.setupDragAndDrop();
+            this.setupSortable();
 
             this.setupSearch();
 
@@ -13,10 +13,14 @@ var menuAdmin = (function () {
         },
 
         setupSearch: function () {
-            searchableList.init({
+
+            remoteSearchListener.init({
+                endpoint: globalConfig.searchPagePath,
                 searchableForm: '.search',
-                container: '#page-list'
+                container: '#page-list',
+                callback: this.setupSources
             });
+
         },
 
         setupPagesButton: function () {
@@ -26,23 +30,6 @@ var menuAdmin = (function () {
                     $(".page-source").toggle();
                 });
         },
-
-//        closePopover: function (menu_id) {
-//            $("#menu-" + menu_id).find('a.remove-popover').click();
-//        },
-//
-//        removeMenu: function (menu_id) {
-//            $.ajax({
-//               url: globalConfig.removeMenu.replace('0', menu_id),
-//               type: 'POST',
-//               success: function (returnData) {
-//                   if (returnData.result) {
-//                       $("#menu-" + id).find('a.remove-popover').click();
-//                       $("#menu-" + id).remove();
-//                   }
-//               }
-//            });
-//        },
 
         setupMouseover: function () {
 
@@ -67,16 +54,7 @@ var menuAdmin = (function () {
                 ;
         },
 
-        setupDragAndDrop: function () {
-            $( ".draggable-source-page" )
-                .draggable({
-                    cancel: "a.ui-icon", // clicking an icon won't initiate dragging
-                    revert: "invalid", // when not dropped, the item will revert back to its initial position
-                    containment: "document",
-                    helper: "clone",
-                    appendTo: '.tabbable'
-                });
-
+        setupSources: function () {
             $(".droppable")
                 .droppable({
                     accept: ".draggable-source-page",
@@ -86,11 +64,22 @@ var menuAdmin = (function () {
                     }
                 });
 
+
+            $( ".draggable-source-page" )
+                .draggable({
+                    cancel: "a.ui-icon", // clicking an icon won't initiate dragging
+                    revert: "invalid", // when not dropped, the item will revert back to its initial position
+                    containment: "document",
+                    helper: "clone",
+                    appendTo: '.tabbable'
+                });
+        },
+
+        setupSortable: function () {
             $(".sortable")
                 .sortable({
                     stop: function ( event, ui ) {
 
-//                        var children = $(event.target).find('> li');
                         var children = $(".menu-layout-container").find('li');
                         var ids = [];
                         children.each(function () {

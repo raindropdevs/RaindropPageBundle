@@ -42,6 +42,12 @@ class PageCRUDController extends CRUDController
                 ->getRepository($this->container->getParameter('raindrop_page_bundle.page_class'))
                 ->find($page_id);
 
+        $theme = $this->get('request')->get('theme');
+
+        if (!empty($theme)) {
+            $this->get('liip_theme.active_theme')->setName($theme);
+        }
+
         return $this
             ->get('raindrop.page.renderer')
             ->render($page);

@@ -34,7 +34,7 @@ class Block extends BaseBlock
     protected $template;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page", inversedBy="blocks")
      */
     protected $page;
 
@@ -323,9 +323,17 @@ class Block extends BaseBlock
      */
     public function getChildren()
     {
-        return $this->children;
-    }
+        // get a new ArrayIterator
+        $iterator = $this->children->getIterator();
 
+        // define ordering closure, using preferred comparison method/field
+        $iterator->uasort(function ($first, $second) {
+            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
+        });
+
+        // return the ordered iterator
+        return $iterator;
+    }
 
     public function hasChildren()
     {

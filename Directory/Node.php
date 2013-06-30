@@ -19,6 +19,8 @@ class Node implements NodeInterface
 
     protected $title;
 
+    protected $class;
+
     protected $parent;
 
     protected $page_id;
@@ -26,6 +28,8 @@ class Node implements NodeInterface
     protected $menu_id;
 
     protected $image;
+
+    protected $absolute = false;
 
     protected $children = array();
 
@@ -57,6 +61,14 @@ class Node implements NodeInterface
 
     public function getPath()
     {
+        return $this->path;
+    }
+
+    public function getCompletePath()
+    {
+        if ($this->isAbsolute()) {
+            return $this->absolute . $this->path;
+        }
         return $this->path;
     }
 
@@ -186,10 +198,10 @@ class Node implements NodeInterface
     public function getOptions()
     {
         $options = array(
-            'uri' => $this->getPath(),
+            'uri' => $this->getCompletePath(),
             'label' => $this->getLabel(),
             'childrenAttributes' => array(
-                'class' => 'links'
+                'class' => $this->class ?: 'links'
             )
         );
 
@@ -243,5 +255,36 @@ class Node implements NodeInterface
                 $child->dumpGraph($indent+1);
             }
         }
+    }
+
+    public function setAbsolute($absolute)
+    {
+        $this->absolute = $absolute;
+    }
+
+    public function isAbsolute()
+    {
+        return !empty($this->absolute);
+    }
+
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function getDepth()
+    {
+        $arr = explode("/", $this->path);
+
+        return count(array_filter($arr, function ($el) {
+            return !empty($el);
+        }));
     }
 }

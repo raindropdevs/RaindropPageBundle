@@ -73,6 +73,10 @@ class BlockManager
     {
         $blockConfig = $this->getBlockConfig($block_config_name);
 
+        if (!$blockConfig) {
+            throw new \Exception("Block configuration named {$block_config_name} not found!");
+        }
+
         $block->setTemplate($blockConfig->getTemplate());
         $block->setLayout($layout_position);
 

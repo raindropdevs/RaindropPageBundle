@@ -150,6 +150,8 @@
         <script>
         var globalConfig = {
             menuId: '{{ object.getId() }}',
+            menuCountry: '{{ object.getCountry() }}',
+            searchPagePath: '{{ admin.generateUrl('search') }}',
             addMenuItemPath: '{{ admin.generateUrl('append') }}',
             reorderMenu: '{{ admin.generateUrl('reorder') }}',
             removeMenu: '{{ path('admin_raindrop_page_menuentry_delete', { id: 0 }) }}'

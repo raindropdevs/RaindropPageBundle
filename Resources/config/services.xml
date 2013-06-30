@@ -23,6 +23,7 @@
         <parameter key="raindrop_page.culture_provider">Raindrop\PageBundle\Admin\Providers\CultureProvider</parameter>
         <parameter key="raindrop_page.country_provider">Raindrop\PageBundle\Admin\Providers\CountryProvider</parameter>
         <parameter key="raindrop_page.route_provider">Raindrop\PageBundle\Admin\Providers\RouteProvider</parameter>
+        <parameter key="raindrop_page.external_route_provider">Raindrop\PageBundle\Admin\Providers\ExternalRouteProvider</parameter>
         <parameter key="raindrop_page.intl_provider">Raindrop\PageBundle\Admin\Providers\IntlProvider</parameter>
         <parameter key="raindrop_page.page_renderer">Raindrop\PageBundle\Renderer\PageRenderer</parameter>
         <parameter key="raindrop_page.page.manager.class">Raindrop\PageBundle\Manager\PageManager</parameter>
@@ -111,6 +112,10 @@
 
         <service id="raindrop_page.route.provider" class="%raindrop_page.route_provider%">
             <argument type="service" id="raindrop_routing.route_repository" />
+        </service>
+
+        <service id="raindrop_page.external_route.provider" class="%raindrop_page.external_route_provider%">
+            <argument type="service" id="raindrop_routing.external_route_repository" />
         </service>
 
         <service id="raindrop.page.renderer" class="%raindrop_page.page_renderer%">

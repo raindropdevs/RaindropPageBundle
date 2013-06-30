@@ -44,7 +44,9 @@ class Builder implements ContainerAwareInterface
             ->getCurrentMenu('main_menu', $country)
         ;
 
-        $root = $treeBuilder->buildTree($pages)->getTree();
+        $absolute = $this->container->get('request')->get('absolute_path');
+
+        $root = $treeBuilder->buildTree($pages, $absolute)->getTree();
 
         $menu = new Node('dummy');
 

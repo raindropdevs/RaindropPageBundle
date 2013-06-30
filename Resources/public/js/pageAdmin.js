@@ -48,7 +48,7 @@ var pageAdmin = (function () {
                         .addClass('error');
 
                     paragraphConfig = {
-                        "html": "Url is already taken by page named '" + result.page + "'",
+                        "html": "Url taken by page '" + result.page + "'",
                         "class": "",
                         "style": "display:inline; margin-left: 40px; color: #BD0000"
                     };
@@ -100,8 +100,8 @@ var pageAdmin = (function () {
         init: function () {
 
             // TODO: fix following weak selector.
-            config.urlParentGroup = $('#tabMeta form.form-horizontal:eq(0) .control-group:eq(3)');
-            config.urlInputField = $('#tabMeta form.form-horizontal:eq(0) input[type=text]:eq(2)');
+            config.urlParentGroup = $(".raindropPageBundleUrl").eq(0).parent();
+            config.urlInputField = $(".raindropPageBundleUrl").eq(0);
 
             /*
              * Add listener for url input field
@@ -285,7 +285,7 @@ var pageAdmin = (function () {
                 });
 
             // let the trash be droppable, accepting the gallery items
-            $(".raindrop-layout-sortable")
+            $(".raindrop-layout-sortable:not(.no-sort)")
                 .sortable({
 //                    placeholder: "ui-sortable-placeholder",
                     helper: "clone",

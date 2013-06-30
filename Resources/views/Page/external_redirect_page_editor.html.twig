@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/raindroppage/js/pageAdmin.js') }}" type="text/javascript"></script>
+{% endblock javascripts %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/raindroppage/css/pageAdmin.css') }}" type="text/css" media="all" />
+{% endblock %}
+
+{% use 'RaindropPageBundle:Page:page_external_redirect_edit_form.html.twig' with form as parentForm %}
+
+{% block form %}
+    {{ block('parentForm') }}
+{% endblock %}

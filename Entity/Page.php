@@ -38,19 +38,25 @@ class Page implements RenderableObjectInterface
     protected $country;
 
     /**
-     * @ORM\Column(nullable=true)
-     */
-    protected $locale;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Raindrop\RoutingBundle\Entity\Route")
      */
     protected $route;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Block", mappedBy="page", cascade={"persist", "remove"})
+     */
+    protected $blocks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Page", mappedBy="parent")
      */
     protected $children;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Raindrop\PageBundle\Entity\Page", inversedBy="children")
+     */
+    protected $parent;
 
     /**
      * @ORM\Column
@@ -156,26 +162,13 @@ class Page implements RenderableObjectInterface
     }
 
     /**
-     * Set locale
-     *
-     * @param  string $locale
-     * @return Page
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-
-        return $this;
-    }
-
-    /**
      * Get locale
      *
      * @return string
      */
     public function getLocale()
     {
-        return $this->locale;
+        return $this->route->getLocale();
     }
 
     /**
@@ -335,6 +328,7 @@ class Page implements RenderableObjectInterface
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->blocks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -353,10 +347,10 @@ class Page implements RenderableObjectInterface
     /**
      * Add children
      *
-     * @param  \Raindrop\PageBundle\Entity\Block $children
+     * @param  \Raindrop\PageBundle\Entity\Page $children
      * @return Page
      */
-    public function addChildren(Block $children)
+    public function addChildren(Page $children)
     {
         $this->children[] = $children;
 
@@ -366,9 +360,9 @@ class Page implements RenderableObjectInterface
     /**
      * Remove children
      *
-     * @param \Raindrop\PageBundle\Entity\Block $children
+     * @param \Raindrop\PageBundle\Entity\Page $children
      */
-    public function removeChildren(Block $children)
+    public function removeChildren(Page $children)
     {
         $this->children->removeElement($children);
     }
@@ -380,13 +374,7 @@ class Page implements RenderableObjectInterface
      */
     public function getChildren()
     {
-        $iterator = $this->children->getIterator();
-
-        $iterator->uasort(function ($first, $second) {
-            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
-        });
-
-        return $iterator;
+        return $this->children;
     }
 
     /**
@@ -583,10 +571,115 @@ class Page implements RenderableObjectInterface
     public function getParameters()
     {
         return array(
-            'blocks' => $this->getChildren(),
+            'blocks' => $this->getBlocks(),
             'raindrop_locale' => $this->getRoute()->getLocale(),
             'raindrop_country' => $this->getCountry(),
             'raindrop_page' => $this
         );
+    }
+
+    public function getParentUrl()
+    {
+        if ($this->hasRoute()) {
+            $path = $this->getRoute()->getPath();
+
+            return dirname($path);
+        }
+
+        return false;
+    }
+
+    public function getGrandpaUrl()
+    {
+        if ($this->getParentUrl()) {
+            return dirname($this->getParentUrl());
+        }
+
+        return false;
+    }
+
+    public function getUrl()
+    {
+        if ($this->hasRoute()) {
+            return $this->getRoute()->getPath();
+        }
+
+        return false;
+    }
+
+    public function getPageDepth()
+    {
+        $arr = explode("/", $this->getRoute()->getPath());
+
+        return count(array_filter($arr, function ($el) {
+            return !empty($el);
+        }));
+    }
+
+    /**
+     * Add blocks
+     *
+     * @param  \Raindrop\PageBundle\Entity\Block $blocks
+     * @return Page
+     */
+    public function addBlock(\Raindrop\PageBundle\Entity\Block $blocks)
+    {
+        $this->blocks[] = $blocks;
+
+        return $this;
+    }
+
+    /**
+     * Remove blocks
+     *
+     * @param \Raindrop\PageBundle\Entity\Block $blocks
+     */
+    public function removeBlock(\Raindrop\PageBundle\Entity\Block $blocks)
+    {
+        $this->blocks->removeElement($blocks);
+    }
+
+    /**
+     * Get blocks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBlocks()
+    {
+        $iterator = $this->blocks->getIterator();
+
+        $iterator->uasort(function ($first, $second) {
+            return (int) $first->getPosition() > (int) $second->getPosition() ? 1 : -1;
+        });
+
+        return $iterator;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param  \Raindrop\PageBundle\Entity\Page $parent
+     * @return Page
+     */
+    public function setParent(\Raindrop\PageBundle\Entity\Page $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Raindrop\PageBundle\Entity\Page
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function hasParent()
+    {
+        return $this->parent instanceof Page;
     }
 }

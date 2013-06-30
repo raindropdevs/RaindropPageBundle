@@ -10,7 +10,7 @@
         {# only nest 1 level of block (on admin interface) #}
         {% if block.hasChildren() or first_level %}
         <div class="well row-fluid span11 top-layout raindrop-layout-droppable raindrop-layout-sortable" data-target="{{ 'block-' ~ block.getId() }}">
-            <p style="color:#ccc; margin-top: 14px; text-align: center">DROP CHILDREN HERE</p>
+            <p class="no-sort" style="color:#ccc; margin-top: 14px; text-align: center">DROP CHILDREN HERE</p>
             {% for child in block.getSortedChildren() %}
                 {% include 'RaindropPageBundle:Page:page_block.html.twig' with { 'block': child, 'first_level': false } %}
             {% endfor %}
