@@ -52,36 +52,65 @@ class PageAdmin extends Admin
 
         $builder = $formMapper->getFormBuilder();
 
-        if ($this->getSubject()->getType() == 'redirect') {
-            $formMapper
-                ->add('layout', 'choice', array(
-                    'label' => 'Target route name',
-                    'required' => true,
-                    'choices' => $this->container
-                        ->get('raindrop_page.route.provider')->provide(
-                            $this->getSubject()
-                            ->getRoute()->getPath()
-                        ),
-                    'data' => $this->getSubject()->getLayout() ?: ''
-                ))
-                ;
-        } else {
-            $formMapper
-                ->add('title', null, array(
-                    'required' => true,
-                    'attr' => array(
-                        'class' => 'span5'
-                    ),
-                ))
-                ->add('layout', 'choice', array(
-                    'required' => true,
-                    'choices' => $this->layoutProvider->provide(),
-                    'data' => $this->getSubject()->getLayout() ?: ''
-                ))
-                ;
+        switch ($this->getSubject()->getType()) {
+            /**
+             * Only let user edit target route name. Just make sure proper
+             * controller is bound.
+             */
+            case 'redirect':
+                $formMapper
+                    ->add('layout', 'choice', array(
+                        'label' => 'Target route',
+                        'required' => true,
+                        'choices' => $this->container
+                            ->get('raindrop_page.route.provider')->provide(
+                                $this->getSubject()
+                                ->getRoute()->getPath()
+                            ),
+                        'data' => $this->getSubject()->getLayout() ?: ''
+                    ))
+                    ;
+                break;
+            /**
+             * Let user chose url and target redirection route.
+             */
+            case 'external_redirect':
+                $id = null;
+                $data = $this->getSubject()->getRoute()->getContent();
+                if ($data) {
+                    $id = $data->getId();
+                }
 
-            $http_metas = $this->container->getParameter('raindrop_page.admin.http_metas');
-            $builder->addEventSubscriber(new AddMetaFieldSubscriber($builder->getFormFactory(), $http_metas));
+                $formMapper
+                    ->add('target_route', 'choice', array(
+                        'label' => 'Target route',
+                        'required' => true,
+                        'choices' => $this->container
+                            ->get('raindrop_page.external_route.provider')
+                            ->provide(),
+                        'data' => $id,
+                        'mapped' => false
+                    ))
+                    ;
+                break;
+            default:
+                $formMapper
+                    ->add('title', null, array(
+                        'required' => true,
+                        'attr' => array(
+                            'class' => 'span5'
+                        ),
+                    ))
+                    ->add('layout', 'choice', array(
+                        'required' => true,
+                        'choices' => $this->layoutProvider->provide(),
+                        'data' => $this->getSubject()->getLayout() ?: ''
+                    ))
+                    ;
+
+                $http_metas = $this->container->getParameter('raindrop_page.admin.http_metas');
+                $builder->addEventSubscriber(new AddMetaFieldSubscriber($builder->getFormFactory(), $http_metas));
+                break;
         }
 
         $urlValue = '';
@@ -120,7 +149,17 @@ class PageAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return $this->getSubject()->getType() == 'redirect' ? 'RaindropPageBundle:Page:redirect_page_editor.html.twig' : 'RaindropPageBundle:Page:page_editor.html.twig';
+                switch ($this->getSubject()->getType()) {
+                    case 'redirect':
+                        return 'RaindropPageBundle:Page:redirect_page_editor.html.twig';
+                        break;
+                    case 'external_redirect':
+                        return 'RaindropPageBundle:Page:external_redirect_page_editor.html.twig';
+                        break;
+                    default:
+                        return 'RaindropPageBundle:Page:page_editor.html.twig';
+                        break;
+                }
                 break;
             case 'list':
                 return 'RaindropPageBundle:Page:page_tree_view.html.twig';
@@ -158,22 +197,62 @@ class PageAdmin extends Admin
 
     protected function setRelatedRoute($page)
     {
-        $orm = $this->container->get('doctrine.orm.default_entity_manager');
+        switch ($page->getType()) {
+            case 'redirect':
+                $this->bindRedirectToPage($page);
+                break;
+            case 'external_redirect':
+                $this->bindExternalRedirect($page);
+                break;
+            default:
+                $this->bindRouteToPage($page);
+                break;
+        }
+    }
 
-        /**
-         * This is insane to access a form property...
-         */
-        $query = $this->container->get('request')->query->all();
-        $uniqid = $query['uniqid'];
-        $requestParams = $this->container->get('request')->request->all();
-        $formParams = $requestParams[$uniqid];
-        $url = $formParams['url'];
+    /**
+     * Routes points to an external_route entity
+     * and page exists only to attach route to a menu.
+     */
+    protected function bindExternalRedirect($page)
+    {
+        $targetRouteId = $this->getRequestProperty('target_route');
+
+        $route = $page->getRoute();
+        if ($route) {
+            $externalRoute = $this->getOrm()
+                    ->getRepository('RaindropRoutingBundle:ExternalRoute')
+                    ->find($targetRouteId);
+            if ($externalRoute) {
+                $route->setContent($externalRoute);
+                $this->getOrm()->flush();
+            }
+        }
+    }
+
+    /**
+     * Make sure inner redirect points to the
+     * @param type $page
+     */
+    protected function bindRedirectToPage($page)
+    {
+        $route = $page->getRoute();
+
+        if ($route) {
+            $route->setController('RaindropPageBundle:Page:childRedirection');
+            $this->getOrm()->flush();
+        }
+    }
+
+    protected function bindRouteToPage($page)
+    {
+        $url = $this->getRequestProperty('url');
 
         if (!empty($url)) {
             $route = $page->getRoute();
 
             if (!$route) {
-                $route = $orm
+                $route = $this->getOrm()
                     ->getRepository($this->container->getParameter('raindrop_routing_bundle.route_object_class'))
                     ->findOneByPath($url);
             }
@@ -194,8 +273,25 @@ class PageAdmin extends Admin
             $route->setPath($url);
             $route->setController($this->container->getParameter('raindrop_page.page_controller'));
 
-            $orm->flush();
+            $this->getOrm()->flush();
         }
+    }
+
+    /**
+     * Retrieves a form field from sonata post request
+     * @param type $name
+     * @return null
+     */
+    protected function getRequestProperty($name)
+    {
+        $query = $this->container->get('request')->query->all();
+        $uniqid = $query['uniqid'];
+        $requestParams = $this->container->get('request')->request->all();
+        $formParams = $requestParams[$uniqid];
+        if (isset($formParams[$name])) {
+            return $formParams[$name];
+        }
+        return null;
     }
 
     protected function updateRelatedLayout($page)
@@ -203,5 +299,10 @@ class PageAdmin extends Admin
         $this->container
                 ->get('raindrop_page.page.manager')
                 ->updatePageLayoutTimestamp($page);
+    }
+
+    protected function getOrm()
+    {
+        return $this->container->get('doctrine.orm.default_entity_manager');
     }
 }

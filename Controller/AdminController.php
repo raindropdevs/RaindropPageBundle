@@ -181,6 +181,12 @@ class AdminController extends Controller
         $block_id = $this->get('request')->get('id');
         $block = $this->getBlock($block_id);
 
+        $theme = $this->get('request')->get('theme');
+
+        if (!empty($theme)) {
+            $this->get('liip_theme.active_theme')->setName($theme);
+        }
+
         return $this->render('RaindropPageBundle:Block:block_preview.html.twig', array('block' => $block));
     }
 
