@@ -5,8 +5,8 @@
     {% set node_name = node['name'] %}
 {% endif %}
 
-
 {% if node['page_id'] is not empty %}
+    {% set node_name = node_name ~ ' ( ' ~ node['path'] ~ ' )' %}
     {% set node_id = ' id=page_' ~ node['page_id'] %}
     {% set node_href = ' href=' ~ admin.generateUrl('edit', {'id': node['page_id'] }) %}
     {% set node_class = ' class=link' %}

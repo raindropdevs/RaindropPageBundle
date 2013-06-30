@@ -52,7 +52,7 @@ class AddRouteFieldSubscriber implements EventSubscriberInterface
             'property_path' => false,
             'data' => $url,
             'attr' => array(
-                'class' => 'span5 raindropPageBundleUrl'
+                'class' => 'span7 raindropPageBundleUrl'
             ),
         )));
     }

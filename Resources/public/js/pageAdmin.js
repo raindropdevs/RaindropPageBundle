@@ -48,7 +48,7 @@ var pageAdmin = (function () {
                         .addClass('error');
 
                     paragraphConfig = {
-                        "html": "Url is already taken by page named '" + result.page + "'",
+                        "html": "Url taken by page '" + result.page + "'",
                         "class": "",
                         "style": "display:inline; margin-left: 40px; color: #BD0000"
                     };
