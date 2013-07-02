@@ -79,6 +79,17 @@ class PageRenderer implements RendererInterface
         return $response;
     }
 
+    protected function getAssetsUrlSuffix()
+    {
+        $release_version = '';
+
+        if ($this->container->hasParameter('release_version')) {
+            $release_version = '?' . $this->container->getParameter('release_version');
+        }
+
+        return $release_version;
+    }
+
     public function renderJavascript()
     {
         $blocks = $this->getPageBlocks();
@@ -112,13 +123,7 @@ class PageRenderer implements RendererInterface
             'assets' => implode(",", $inclusion)
         ));
 
-        if ($this->container->hasParameter('release_version')) {
-            $release_version = '?' . $this->container->getParameter('release_version');
-        } else {
-            $release_version = '';
-        }
-
-        return '<script src="'. $path . $release_version .'" type="text/javascript"></script>';
+        return '<script src="'. $path . $this->getAssetsUrlSuffix() .'" type="text/javascript"></script>';
     }
 
     public function renderStylesheet()
@@ -154,13 +159,7 @@ class PageRenderer implements RendererInterface
             'assets' => implode(",", $inclusion)
         ));
 
-        if ($this->container->hasParameter('release_version')) {
-            $release_version = '?' . $this->container->getParameter('release_version');
-        } else {
-            $release_version = '';
-        }
-
-        return '<link rel="stylesheet" type="text/css" href="'. $path . $release_version .'" />';
+        return '<link rel="stylesheet" type="text/css" href="'. $path . $this->getAssetsUrlSuffix() .'" />';
     }
 
     protected function blockInUse($block)
