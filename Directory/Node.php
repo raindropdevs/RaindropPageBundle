@@ -163,6 +163,11 @@ class Node implements NodeInterface
         return $this->children;
     }
 
+    public function setChildren($children)
+    {
+        return $this->children = $children;
+    }
+
     public function hasChildren()
     {
         return !empty($this->children);
