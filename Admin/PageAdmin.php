@@ -261,11 +261,11 @@ class PageAdmin extends Admin
                 $route = new Route;
                 $resolver = $this->container
                     ->get('raindrop_routing.content_resolver');
-                $resolver->setEntityManager($orm);
+                $resolver->setEntityManager($this->getOrm());
                 $route->setResolver($resolver);
                 $route->setPath($url);
                 $route->setNameFromPath();
-                $orm->persist($route);
+                $this->getOrm()->persist($route);
             }
 
             // make sure url and controller are properly bound
