@@ -155,4 +155,29 @@ class PageRepository extends EntityRepository
 
         return array_values($return);
     }
+
+    protected function getQueryForTaggedPages($tag, $country)
+    {
+        return
+            $this->createQueryBuilder('p')
+                ->leftJoin('p.tags', 't')
+                ->where('p.country = :country AND t.name = :name')
+                ->setParameter('country', $country)
+                ->setParameter('name', $tag)
+        ;
+    }
+
+    public function getPagesByTag($tag, $country)
+    {
+        $q = $this->getQueryForTaggedPages($tag, $country);
+
+        return $q->getQuery()->getResult();
+    }
+
+    public function getSinglePageByTag($tag, $country)
+    {
+        $q = $this->getQueryForTaggedPages($tag, $country);
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
 }

@@ -109,4 +109,14 @@ class PageManager
 
         return true;
     }
+
+    public function getPagesTaggedBy($tag, $country)
+    {
+        return $this->getRepository()->getPagesByTag($tag, $country);
+    }
+
+    public function getOnePageTaggedBy($tag, $country)
+    {
+        return $this->getRepository()->getSinglePageByTag($tag, $country);
+    }
 }
