@@ -89,6 +89,15 @@ class Page implements RenderableObjectInterface
     protected $menus;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Raindrop\PageBundle\Entity\PageTag", inversedBy="page", cascade={"persist"})
+     * @ORM\JoinTable(name="page_page_tag",
+     *      joinColumns={@ORM\JoinColumn(name="page_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="pagetag_id", referencedColumnName="id")}
+     * )
+     */
+    protected $tags;
+
+    /**
      * @ORM\Column(nullable=true)
      *
      * @var type
@@ -681,5 +690,38 @@ class Page implements RenderableObjectInterface
     public function hasParent()
     {
         return $this->parent instanceof Page;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param \Raindrop\PageBundle\Entity\PageTag $tags
+     * @return Page
+     */
+    public function addTag(\Raindrop\PageBundle\Entity\PageTag $tags)
+    {
+        $this->tags[] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \Raindrop\PageBundle\Entity\PageTag $tags
+     */
+    public function removeTag(\Raindrop\PageBundle\Entity\PageTag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
