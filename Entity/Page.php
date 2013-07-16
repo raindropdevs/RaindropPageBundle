@@ -729,4 +729,18 @@ class Page implements RenderableObjectInterface
     {
         $this->tags = $tags;
     }
+
+    /**
+     *
+     * @param string $string
+     */
+    public function hasTag($string)
+    {
+        foreach ($this->tags as $tag) {
+            if ($tag->getName() == $string) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
