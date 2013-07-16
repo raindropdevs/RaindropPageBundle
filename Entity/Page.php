@@ -724,4 +724,9 @@ class Page implements RenderableObjectInterface
     {
         return $this->tags;
     }
+
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
 }

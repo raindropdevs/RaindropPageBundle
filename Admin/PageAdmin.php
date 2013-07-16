@@ -8,8 +8,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Raindrop\PageBundle\Form\EventListener\AddRouteFieldSubscriber;
 use Raindrop\PageBundle\Form\EventListener\AddMetaFieldSubscriber;
+use Raindrop\PageBundle\Form\EventListener\AddTagsSubscriber;
 use Raindrop\RoutingBundle\Entity\Route;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class PageAdmin extends Admin
 {
@@ -119,6 +121,7 @@ class PageAdmin extends Admin
             $urlValue = $parent . '/';
         }
         $builder->addEventSubscriber(new AddRouteFieldSubscriber($builder->getFormFactory(), array('url' => $urlValue)));
+        $builder->addEventSubscriber(new AddTagsSubscriber($builder->getFormFactory()));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -184,6 +187,7 @@ class PageAdmin extends Admin
     public function postPersist($page)
     {
         $this->setRelatedRoute($page);
+        $this->updateTagging($page);
     }
 
     /**
@@ -193,6 +197,24 @@ class PageAdmin extends Admin
     {
         $this->setRelatedRoute($page);
         $this->updateRelatedLayout($page);
+        $this->updateTagging($page);
+    }
+
+    protected function updateTagging($page)
+    {
+        $page->setTags(new ArrayCollection);
+
+        $tags = $this->getRequestProperty('tags');
+
+        foreach ($tags as $tag) {
+            if (!empty($tag)) {
+                $this->container->get('raindrop_page.page.manager')
+                        ->addTagToPage($tag, $page);
+            }
+        }
+
+        // this flush is required when all tags get removed
+        $this->container->get('doctrine.orm.default_entity_manager')->flush();
     }
 
     protected function setRelatedRoute($page)

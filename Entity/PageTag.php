@@ -68,7 +68,7 @@ class PageTag
     {
         $this->pages = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add pages
      *
@@ -78,7 +78,7 @@ class PageTag
     public function addPage(\Raindrop\PageBundle\Entity\Page $pages)
     {
         $this->pages[] = $pages;
-    
+
         return $this;
     }
 
@@ -95,10 +95,15 @@ class PageTag
     /**
      * Get pages
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPages()
     {
         return $this->pages;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->name;
     }
 }
