@@ -33,12 +33,14 @@
 
 {% block list_table %}
 
+    {% include 'RaindropPageBundle:Admin:country_menu.html.twig' %}
+    <br><br>
+
     {% if raindrop_admin_current_country is not empty %}
         <h4><strong>Current country:</strong> <a>{{ raindrop_admin_current_country }}</a></h4>
         <br>
     {% else %}
         <h4><div class="alert alert-error">No country selected.</div></h4>
-        <br>
     {% endif %}
 
     {% set batchactions = admin.batchactions %}

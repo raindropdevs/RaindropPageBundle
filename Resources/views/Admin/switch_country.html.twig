@@ -4,11 +4,7 @@
 
 {% block content %}
 
-    <div class="btn-group">
-        {% for country_code in raindrop_intl_provider.getCountries() %}
-            <a class="btn" href="{{ path('raindrop_admin_switch_country', { 'country': country_code }) }}">{{ country_code }}</a>
-        {% endfor %}
-    </div>
+    {% include 'RaindropPageBundle:Admin:country_menu.html.twig' %}
 
     <br><br>
 

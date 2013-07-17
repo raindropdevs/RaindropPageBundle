@@ -205,7 +205,13 @@ class AdminController extends Controller
 
         $this->get('session')->set('raindrop:admin:country', $country);
 
-        return $this->redirect($this->get('router')->generate('sonata_admin_dashboard'));
+        $url = $this->get('request')->headers->get('referer');
+
+        if (empty($url)) {
+            $url = $this->get('router')->generate('sonata_admin_dashboard');
+        }
+
+        return $this->redirect($url);
     }
 
     public function showBlockVariablesAction($template, $children)
