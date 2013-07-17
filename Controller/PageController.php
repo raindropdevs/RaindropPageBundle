@@ -12,30 +12,6 @@ use Assetic\Asset\FileAsset;
 
 class PageController extends Controller
 {
-
-    protected function getBaseResponse($object, $expiresAfter = 86400)
-    {
-        $response = new Response;
-
-        if ($this->container->getParameter('kernel.environment') !== 'prod') {
-            return $response;
-        }
-
-        $response->setPublic();
-
-        $lastModified = $object->getLastModified();
-        if (!$lastModified instanceof \DateTime) {
-            $date = new \DateTime();
-            $date->setTimestamp($lastModified);
-            $lastModified = $date;
-        }
-
-        $response->setLastModified();
-        $response->headers->set('Expires', gmdate("D, d M Y H:i:s", time() + $expiresAfter) . " GMT");
-
-        return $response;
-    }
-
     public function childRedirectionAction($content)
     {
         $uri = $this->get('router')->generate($content->getLayout());
@@ -69,7 +45,9 @@ class PageController extends Controller
 
         $filesContent = new AssetCollection($files);
 
-        $response = $this->getBaseResponse($filesContent, 86400 * 7);
+        $response = $this
+                ->get('raindrop.page.renderer')
+                ->getBaseResponse($filesContent, 86400 * 7);
 
         if ($response->isNotModified($this->getRequest())) {
             // return the 304 Response immediately

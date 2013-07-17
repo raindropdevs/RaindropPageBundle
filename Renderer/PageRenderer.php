@@ -30,7 +30,7 @@ class PageRenderer implements RendererInterface
             ->renderResponse(
                 $this->getLayout($object),
                 $this->getParameters($object),
-                $this->getBaseResponse($object)
+                $this->getBaseResponse($object, $object->getExpiresAfter())
             )
             ;
     }
@@ -56,7 +56,7 @@ class PageRenderer implements RendererInterface
         return $this;
     }
 
-    protected function getBaseResponse($object)
+    public function getBaseResponse($object, $expiresAfter = 86400)
     {
         $response = new Response;
 
@@ -65,16 +65,17 @@ class PageRenderer implements RendererInterface
         }
 
         $response->setPublic();
-
         $lastModified = $object->getLastModified();
+
+        // if last modified is a timestamp, convert to \DateTime objects
         if (!$lastModified instanceof \DateTime) {
             $date = new \DateTime();
             $date->setTimestamp($lastModified);
             $lastModified = $date;
         }
 
-        $response->setLastModified();
-        $response->headers->set('Expires', gmdate("D, d M Y H:i:s", time() + $object->getExpiresAfter()) . " GMT");
+        $response->setLastModified($lastModified);
+        $response->headers->set('Expires', gmdate("D, d M Y H:i:s", time() + $expiresAfter) . " GMT");
 
         return $response;
     }
