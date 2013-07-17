@@ -14,10 +14,9 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class AddTagsSubscriber implements EventSubscriberInterface
 {
-    public function __construct(FormFactoryInterface $factory, $pageManager)
+    public function __construct(FormFactoryInterface $factory)
     {
         $this->factory = $factory;
-        $this->pageManager = $pageManager;
     }
 
     public static function getSubscribedEvents()
