@@ -193,7 +193,7 @@
     margin: 8px 0 0 8px;
 }
 
-.page-layout-container {
+#tabLayout .page-layout-container {
     padding-bottom: 120px;
 }
 
@@ -242,4 +242,8 @@
 .page-layout-container .row-fluid .span6.block-group-container {
     border: solid 1px #eee;
     padding: 10px;
+}
+
+.pageTag {
+    margin-top: 8px;
 }

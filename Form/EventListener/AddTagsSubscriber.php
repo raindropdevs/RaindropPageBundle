@@ -71,7 +71,7 @@ class AddTagsSubscriber implements EventSubscriberInterface
             'property_path' => false,
             'required' => false,
             'attr' => array(
-                'class' => 'span5'
+                'class' => 'span5 pageTag'
             )
         )));
     }
