@@ -180,4 +180,30 @@ class PageRepository extends EntityRepository
 
         return $q->getQuery()->getOneOrNullResult();
     }
+
+    protected function getQueryForTaggedPagesAndLocale($tag, $locale)
+    {
+        return
+            $this->createQueryBuilder('p')
+                ->leftJoin('p.tags', 't')
+                ->leftJoin('p.route', 'r')
+                ->where('r.locale = :locale AND t.name = :name')
+                ->setParameter('locale', $locale)
+                ->setParameter('name', $tag)
+        ;
+    }
+
+    public function getPagesByTagAndLocale($tag, $locale)
+    {
+        $q = $this->getQueryForTaggedPagesAndLocale($tag, $locale);
+
+        return $q->getQuery()->getResult();
+    }
+
+    public function getSinglePageByTagAndLocale($tag, $locale)
+    {
+        $q = $this->getQueryForTaggedPagesAndLocale($tag, $locale);
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
 }
