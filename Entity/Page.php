@@ -48,7 +48,7 @@ class Page implements RenderableObjectInterface
     protected $blocks;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Page", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\Page", mappedBy="parent", cascade={"persist", "remove"})
      */
     protected $children;
 
