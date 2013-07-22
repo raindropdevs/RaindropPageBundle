@@ -89,7 +89,7 @@ class Page implements RenderableObjectInterface
     protected $menus;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Raindrop\PageBundle\Entity\PageTag", inversedBy="page", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Raindrop\PageBundle\Entity\PageTag", inversedBy="pages", cascade={"persist"})
      * @ORM\JoinTable(name="page_page_tag",
      *      joinColumns={@ORM\JoinColumn(name="page_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="pagetag_id", referencedColumnName="id")}
