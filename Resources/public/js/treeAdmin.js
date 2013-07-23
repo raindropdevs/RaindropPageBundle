@@ -43,6 +43,13 @@ var treeAdmin = (function () {
                                     var page_id = $(obj.reference.parent()).data('id');
                                     window.location.href = globalConfig.deletePageUrl.replace('0', page_id);
                                 }
+                            },
+                            "clone_to_url": {
+                                "label": "Clone to new url",
+                                "action": function (obj) {
+                                    var page_id = $(obj.reference.parent()).data('id');
+                                    window.location.href = globalConfig.clonePageToUrl.replace('0', page_id);
+                                }
                             }
                         }
                     }

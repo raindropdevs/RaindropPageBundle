@@ -67,6 +67,7 @@
         <service id="raindrop_page.page.manager" class="%raindrop_page.page.manager.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument>%raindrop_twig_loader_bundle.entity_class%</argument>
+            <call method="setRouteContentResolver"><argument type="service" id="raindrop_routing.content_resolver" /></call>
         </service>
 
         <service id="raindrop_page.menu.manager" class="%raindrop_page.menu.manager.class%">

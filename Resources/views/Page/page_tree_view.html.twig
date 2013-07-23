@@ -61,7 +61,8 @@
     var globalConfig = {
         createPageUrl: '{{ admin.generateUrl('create') }}',
         editPageUrl: '{{ admin.generateUrl('edit', { id: 0 }) }}',
-        deletePageUrl: '{{ admin.generateUrl('delete', { id: 0 }) }}'
+        deletePageUrl: '{{ admin.generateUrl('delete', { id: 0 }) }}',
+        clonePageToUrl: '{{ admin.generateUrl('clone_page_to_url', { id: 0 }) }}'
     };
     </script>
 {% endblock %}

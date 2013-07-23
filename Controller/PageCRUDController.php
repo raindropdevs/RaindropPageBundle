@@ -3,6 +3,7 @@
 namespace Raindrop\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
+use Raindrop\PageBundle\Form\ClonePageForm;
 
 class PageCRUDController extends CRUDController
 {
@@ -206,6 +207,32 @@ class PageCRUDController extends CRUDController
             'use_liip_theme' => $useTheme,
             'liip_theme' => $theme,
             'liip_theme_suffix' => $theme_suffix
+        ));
+    }
+
+    public function clonePageToUrlAction()
+    {
+        $request = $this->get('request');
+        $page_id = $request->get('id');
+        $object = $this->admin->getObject($page_id);
+        $form = $this->createForm(new ClonePageForm);
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $url = $form->get('url')->getData();
+                // create new page and redirect to edit page
+                $newPage = $this->container->get('raindrop_page.page.manager')->clonePageToUrl($object, $url);
+                return $this->redirect($this->generateUrl('admin_raindrop_page_page_edit', array( 'id' => $newPage->getId() )));
+            }
+        }
+
+
+
+        return $this->render('RaindropPageBundle:Page:clone_page.html.twig', array(
+            'object' => $object,
+            'form' => $form->createView(),
+            'action' => 'clone_page_to_url'
         ));
     }
 }

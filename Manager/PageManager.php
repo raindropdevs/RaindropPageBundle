@@ -4,6 +4,7 @@ namespace Raindrop\PageBundle\Manager;
 
 use Raindrop\TwigLoaderBundle\Loader\DatabaseTwigLoader;
 use Raindrop\PageBundle\Entity\PageTag;
+use Raindrop\RoutingBundle\Entity\Route;
 
 class PageManager
 {
@@ -13,6 +14,16 @@ class PageManager
     {
         $this->orm = $orm;
         $this->twigEntityClass = $twigEntityClass;
+    }
+
+    public function setRouteContentResolver($resolver)
+    {
+        $this->resolver = $resolver;
+    }
+
+    public function getResolver()
+    {
+        return $this->resolver;
     }
 
     public function updatePageLayoutTimestamp($page)
@@ -118,5 +129,63 @@ class PageManager
     public function getOnePageTaggedBy($tag, $country)
     {
         return $this->getRepository()->getSinglePageByTag($tag, $country);
+    }
+
+    public function clonePageToUrl($page, $url)
+    {
+        $newPage = $this->getRepository()->clonePage($page);
+
+        $routeRepo = $this->orm
+                ->getRepository('RaindropRoutingBundle:Route');
+
+        $route = $routeRepo
+                ->findOneBy(array(
+                    'path' => $url
+                ));
+
+        if (!$route) {
+            $route = new Route;
+            $this->orm->persist($route);
+            $route->setPath($url);
+            $route->setNameFromPath();
+            $route->setController($page->getRoute()->getController());
+        }
+
+        $this->orm->flush();
+
+        $route->setResolver($this->getResolver());
+        $newPage->setRoute($route);
+
+        $this->verifyParentPageRelation($newPage);
+
+        $this->orm->flush();
+
+        return $newPage;
+    }
+
+    public function verifyParentPageRelation($page)
+    {
+        if (
+                $page->hasParent() &&
+                dirname($page->getRoute()->getPath()) == $page->getParent()->getRoute()->getPath()
+                ) {
+            return;
+        }
+
+        $path = dirname($page->getRoute()->getPath());
+
+        $parentRoute = $this
+            ->orm
+            ->getRepository('RaindropRoutingBundle:Route')
+            ->findOneBy(array(
+                'path' => $path
+            ));
+
+        if ($parentRoute) {
+            $parentPage = $parentRoute->getContent();
+            if ($parentPage instanceof Page) {
+                $page->setParent($parentPage);
+            }
+        }
     }
 }

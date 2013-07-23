@@ -3,6 +3,8 @@
 namespace Raindrop\PageBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Raindrop\PageBundle\Entity\Page;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Repository to load pages using Doctrine ORM
@@ -154,6 +156,36 @@ class PageRepository extends EntityRepository
         }
 
         return array_values($return);
+    }
+
+    public function clonePage($page)
+    {
+        $newPage = clone $page;
+        $newPage->resetId();
+        $this->_em->persist($newPage);
+        $newPage->setBlocks(new ArrayCollection);
+
+        foreach ($page->getBlocks() as $block) {
+            $newBlock = clone $block;
+            $newBlock->resetId();
+            $newBlock->setVariables(new ArrayCollection);
+            $this->_em->persist($newBlock);
+
+            foreach ($block->getVariables() as $variable) {
+                $newVariable = clone $variable;
+                $newVariable->resetId();
+                $this->_em->persist($newVariable);
+                $newBlock->addVariable($newVariable);
+                $newVariable->setBlock($newBlock);
+            }
+
+            $newPage->addBlock($newBlock);
+            $newBlock->setPage($newPage);
+        }
+
+        $this->_em->flush();
+
+        return $newPage;
     }
 
     protected function getQueryForTaggedPages($tag, $country)

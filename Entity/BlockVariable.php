@@ -53,6 +53,11 @@ class BlockVariable
         return $this->id;
     }
 
+    public function resetId()
+    {
+        $this->id = null;
+    }
+
     /**
      * Set type
      *

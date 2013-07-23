@@ -99,6 +99,11 @@ class Block extends BaseBlock
         return $this->id;
     }
 
+    public function resetId()
+    {
+        $this->id = null;
+    }
+
     /**
      * @param type $entityManager Doctrine\ORM\EntityManager
      */
@@ -289,6 +294,11 @@ class Block extends BaseBlock
     public function getParent()
     {
         return $this->parent;
+    }
+
+    public function setChildren($children)
+    {
+        $this->children = $children;
     }
 
     /**

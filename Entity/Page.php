@@ -124,6 +124,11 @@ class Page implements RenderableObjectInterface
         return $this->id;
     }
 
+    public function resetId()
+    {
+        $this->id = null;
+    }
+
     /**
      * Set name
      *
@@ -662,6 +667,15 @@ class Page implements RenderableObjectInterface
         });
 
         return $iterator;
+    }
+
+    /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $blocks
+     */
+    public function setBlocks(ArrayCollection $blocks)
+    {
+        $this->blocks = $blocks;
     }
 
     /**
