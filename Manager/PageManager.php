@@ -98,9 +98,11 @@ class PageManager
         $previous = $page->getTags();
 
         // check for previous tagging
-        foreach ($previous as $prev) {
-            if ($prev->getName() == $name) {
-                return false;
+        if (count($previous)) {
+            foreach ($previous as $prev) {
+                if ($prev->getName() == $name) {
+                    return false;
+                }
             }
         }
 
