@@ -101,7 +101,7 @@ class PageAdmin extends Admin
                     ->add('title', null, array(
                         'required' => true,
                         'attr' => array(
-                            'class' => 'span5'
+                            'class' => 'span7'
                         ),
                     ))
                     ->add('layout', 'choice', array(
