@@ -41,7 +41,7 @@ var remoteSearchListener = (function(){
                 var searchedString = $el.val();
 
                 // if url is different from previous one checked
-                if (searchedString !== params.previousSearch) {
+                if (searchedString !== params.previousSearch && searchedString !== '' && searchedString.length > 2) {
                     params.previousSearch = searchedString;
                     loadResults(searchedString);
                 }
