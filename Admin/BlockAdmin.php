@@ -68,7 +68,10 @@ class BlockAdmin extends Admin
                         'data' => $variable->getContent() ?: '',
                         'mapped' => false,
                         'required' => $options['required'],
-                        'nested_name' => '[variables][' . $variable->getName() . '][content]'
+                        'nested_name' => '[variables][' . $variable->getName() . '][content]',
+                        'attr' => array(
+                            'class' => 'span7'
+                        )
                     ));
                 break;
             case 'entity':
@@ -76,10 +79,19 @@ class BlockAdmin extends Admin
                 $allEntities = $orm->getRepository($options['model'])->findAll();
 
                 $choices = array();
-                $getter = 'get' . Container::camelize($options['human-identifier']);
 
-                array_walk($allEntities, function ($entity) use (&$choices, $getter) {
-                    $choices [$entity->getId()]= $entity->$getter();
+                array_walk($allEntities, function ($entity) use (&$choices, $options) {
+
+                    $humanIdentifiers = explode('|', $options['human-identifier']);
+
+                    $strings = array( $entity->getId() );
+
+                    foreach ($humanIdentifiers as $identifier) {
+                        $getter = 'get' . Container::camelize($identifier);
+                        $strings []= $entity->$getter();
+                    }
+
+                    $choices [$entity->getId()]= implode(" - ", $strings);
                 });
 
                 $formMapper
@@ -90,7 +102,10 @@ class BlockAdmin extends Admin
                         'data' => $variable->getContent() ?: '',
                         'mapped' => false,
                         'required' => $options['required'],
-                        'nested_name' => '[variables][' . $variable->getName() . '][content]'
+                        'nested_name' => '[variables][' . $variable->getName() . '][content]',
+                        'attr' => array(
+                            'class' => 'span7'
+                        )
                     ));
 
                 break;
@@ -102,7 +117,7 @@ class BlockAdmin extends Admin
                         'mapped' => false,
                         'required' => $options['required'],
                         'attr' => array(
-                            'class' => 'span5'
+                            'class' => 'span7'
                         )
                     ));
                 break;
@@ -114,7 +129,7 @@ class BlockAdmin extends Admin
                         'mapped' => false,
                         'required' => $options['required'],
                         'attr' => array(
-                            'class' => 'span5'
+                            'class' => 'span7'
                         )
                     ));
                 break;
