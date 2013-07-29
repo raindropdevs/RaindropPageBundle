@@ -84,7 +84,7 @@ class Page implements RenderableObjectInterface
     protected $metas_http_equiv;
 
     /**
-     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\MenuEntry", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="Raindrop\PageBundle\Entity\MenuEntry", mappedBy="page", cascade={"persist", "remove"})
      */
     protected $menus;
 
