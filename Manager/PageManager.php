@@ -148,6 +148,7 @@ class PageManager
         if (!$route) {
             $route = new Route;
             $this->orm->persist($route);
+            $route->setLocale($page->getRoute()->getLocale());
             $route->setPath($url);
             $route->setNameFromPath();
             $route->setController($page->getRoute()->getController());
