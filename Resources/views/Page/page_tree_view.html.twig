@@ -26,6 +26,8 @@
 {% block actions %}
     <div class="sonata-actions">
         {% include 'SonataAdminBundle:Core:create_button.html.twig' %}
+        <a class="btn sonata-action-element" href="{{ admin.generateUrl('create', { 'type': 'redirect' }) }}"><i class="icon-plus"></i> Inner redirect</a>
+        <a class="btn sonata-action-element" href="{{ admin.generateUrl('create', { 'type': 'external_redirect' }) }}"><i class="icon-plus"></i> External redirect</a>
     </div>
 {% endblock %}
 

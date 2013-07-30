@@ -61,16 +61,23 @@ class PageAdmin extends Admin
              * controller is bound.
              */
             case 'redirect':
+                $previous = null;
+
+                $route = $this->getSubject()->getRoute();
+
+                if ($route) {
+                    $targetRoute = $route->getContent();
+                    $previous = $targetRoute->getName();
+                }
+
                 $formMapper
+                    ->add('title')
                     ->add('layout', 'choice', array(
                         'label' => 'Target route',
                         'required' => true,
                         'choices' => $this->container
-                            ->get('raindrop_page.route.provider')->provide(
-                                $this->getSubject()
-                                ->getRoute()->getPath()
-                            ),
-                        'data' => $this->getSubject()->getLayout() ?: ''
+                            ->get('raindrop_page.route.provider')->provide(),
+                        'data' => $previous
                     ))
                     ;
                 break;
@@ -79,12 +86,19 @@ class PageAdmin extends Admin
              */
             case 'external_redirect':
                 $id = null;
-                $data = $this->getSubject()->getRoute()->getContent();
-                if ($data) {
-                    $id = $data->getId();
+                $route = $this->getSubject()->getRoute();
+                if ($route) {
+                    $data = $route->getContent();
+                    if ($data) {
+                        $id = $data->getId();
+                    }
                 }
 
                 $formMapper
+                    ->add('layout', 'hidden', array(
+                        'data' => 'external_redirect'
+                    ))
+                    ->add('title')
                     ->add('target_route', 'choice', array(
                         'label' => 'Target route',
                         'required' => true,
@@ -176,7 +190,10 @@ class PageAdmin extends Admin
 
     public function prePersist($page)
     {
-        $page->setCountry($this->container->get('session')->get('raindrop:admin:country'));
+        if (!$page->getId()) {
+            $page->setCountry($this->container->get('session')->get('raindrop:admin:country'));
+        }
+
         $page->setName($page->getTitle());
     }
 
@@ -200,6 +217,20 @@ class PageAdmin extends Admin
         $this->updateRelatedLayout($page);
         $this->updateTagging($page);
     }
+
+//    public function preRemove($object) {
+//        parent::preRemove($object);
+//
+//        if ($object->getParent()) {
+//            $object->getParent()->removeChildren($object);
+//        }
+//
+//        foreach ($object->getChildren() as $child) {
+//            $this->getOrm()->remove($child);
+//        }
+//
+//        $this->getOrm()->flush();
+//    }
 
     protected function updateTagging($page)
     {
@@ -242,6 +273,28 @@ class PageAdmin extends Admin
         $targetRouteId = $this->getRequestProperty('target_route');
 
         $route = $page->getRoute();
+
+        $url = $this->getRequestProperty('url');
+
+        // try to find a previous route
+        if (!$route) {
+            $route = $this->retrieveRoute($url);
+        }
+
+        if (!$route) {
+            $route = new Route;
+            $resolver = $this->container
+                ->get('raindrop_routing.content_resolver');
+            $resolver->setEntityManager($this->getOrm());
+            $route->setController('RaindropRoutingBundle:Generic:redirectRoute');
+            $route->setResolver($resolver);
+            $route->setPath($url);
+            $route->setNameFromPath();
+            $this->getOrm()->persist($route);
+
+            $page->setRoute($route);
+        }
+
         if ($route) {
             $externalRoute = $this->getOrm()
                     ->getRepository('RaindropRoutingBundle:ExternalRoute')
@@ -261,10 +314,35 @@ class PageAdmin extends Admin
     {
         $route = $page->getRoute();
 
-        if ($route) {
-            $route->setController('RaindropPageBundle:Page:childRedirection');
-            $this->getOrm()->flush();
+        $url = $this->getRequestProperty('url');
+
+        // try to find a previous route
+        if (!$route) {
+            $route = $this->retrieveRoute($url);
         }
+
+        if (!$route) {
+            $route = new Route;
+            $resolver = $this->container
+                ->get('raindrop_routing.content_resolver');
+            $resolver->setEntityManager($this->getOrm());
+            $route->setResolver($resolver);
+            $route->setPath($url);
+            $route->setNameFromPath();
+            $this->getOrm()->persist($route);
+
+            $page->setRoute($route);
+        }
+
+        $route->setController('RaindropPageBundle:Page:childRedirection');
+        $this->getOrm()->flush();
+    }
+
+    protected function retrieveRoute($url)
+    {
+        return $this->getOrm()
+            ->getRepository($this->container->getParameter('raindrop_routing_bundle.route_object_class'))
+            ->findOneByPath($url);
     }
 
     protected function bindRouteToPage($page)
@@ -275,9 +353,7 @@ class PageAdmin extends Admin
             $route = $page->getRoute();
 
             if (!$route) {
-                $route = $this->getOrm()
-                    ->getRepository($this->container->getParameter('raindrop_routing_bundle.route_object_class'))
-                    ->findOneByPath($url);
+                $route = $this->retrieveRoute($url);
             }
 
             if (!$route) {

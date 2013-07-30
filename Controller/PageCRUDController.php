@@ -149,6 +149,11 @@ class PageCRUDController extends CRUDController
 
         $object = $this->admin->getNewInstance();
 
+        $type = $this->get('request')->get('type');
+        if (!empty($type)) {
+            $object->setType($type);
+        }
+
         $this->admin->setSubject($object);
 
         /** @var $form \Symfony\Component\Form\Form */

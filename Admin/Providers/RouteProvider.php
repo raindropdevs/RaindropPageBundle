@@ -24,16 +24,14 @@ class RouteProvider
             ;
     }
 
-    public function provide($path)
+    public function provide()
     {
-        $result = $this->createQueryForAllChildren($path)
-                ->getQuery()
-                ->getScalarResult();
+        $result = $this->repository->findAll();
 
         $return = array();
 
         array_walk($result, function (&$el) use (&$return) {
-            $return[$el['name']] = $el['path'];
+            $return[$el->getName()] = $el->getPath();
         });
 
         return $return;

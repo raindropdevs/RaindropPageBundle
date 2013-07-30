@@ -11,10 +11,12 @@
 
         <div class="tabbable">
             <ul class="nav nav-tabs">
+                {% if object.getId() %}
                 <li {% if not app.request.get('meta') %}class="active"{% endif %}>
                     <a data-toggle="tab" href="#tabLayout"><i class="icon-th-list"></i> LAYOUT</a>
                 </li>
-                <li {% if app.request.get('meta') %}class="active"{% endif %}>
+                {% endif %}
+                <li {% if app.request.get('meta') or not object.getId() %}class="active"{% endif %}>
                     <a data-toggle="tab" href="#tabMeta"><i class="icon-tag"></i> META</a>
                 </li>
             </ul>
@@ -23,7 +25,7 @@
 
 
 
-                <div class="tab-pane {% if not app.request.get('meta') %}active{% endif %}" id="tabLayout">
+                <div class="tab-pane {% if not app.request.get('meta') and object.getId() %}active{% endif %}" id="tabLayout">
 
                     <div class="row-fluid raindrop-page-editor-toolbar">
 
@@ -72,7 +74,7 @@
                 </div>
 
 
-                <div class="tab-pane {% if app.request.get('meta') %}active{% endif %}" id="tabMeta">
+                <div class="tab-pane {% if app.request.get('meta') or not object.getId() %}active{% endif %}" id="tabMeta">
                     <form class="form-horizontal" action="{{ admin.generateUrl(url, {'id': admin.id(object), 'uniqid': admin.uniqid, 'subclass': app.request.get('subclass')}) }}" {{ form_enctype(form) }} method="POST">
                         {% if form.vars.errors|length > 0 %}
                             <div class="sonata-ba-form-error">
