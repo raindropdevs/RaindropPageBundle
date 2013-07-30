@@ -312,14 +312,10 @@ class PageAdmin extends Admin
      */
     protected function bindRedirectToPage($page)
     {
-        $route = $page->getRoute();
-
         $url = $this->getRequestProperty('url');
 
         // try to find a previous route
-        if (!$route) {
-            $route = $this->retrieveRoute($url);
-        }
+        $route = $this->retrieveRoute($url);
 
         if (!$route) {
             $route = new Route;
