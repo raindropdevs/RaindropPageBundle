@@ -17,6 +17,6 @@ class BlockProvider
 
     public function provide()
     {
-        return $this->repository->findAll();
+        return $this->repository->findBy(array(), array('name' => 'ASC'));
     }
 }
