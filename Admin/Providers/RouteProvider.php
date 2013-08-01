@@ -26,7 +26,7 @@ class RouteProvider
 
     public function provide()
     {
-        $result = $this->repository->findAll();
+        $result = $this->repository->findBy(array(), array('path' => 'ASC'));
 
         $return = array();
 
