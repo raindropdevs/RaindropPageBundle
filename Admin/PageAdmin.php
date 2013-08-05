@@ -61,23 +61,14 @@ class PageAdmin extends Admin
              * controller is bound.
              */
             case 'redirect':
-                $previous = null;
-
-                $route = $this->getSubject()->getRoute();
-
-                if ($route) {
-                    $targetRoute = $route->getContent();
-                    $previous = $targetRoute->getName();
-                }
-
-                $formMapper
+                  $formMapper
                     ->add('title')
                     ->add('layout', 'choice', array(
                         'label' => 'Target route',
                         'required' => true,
                         'choices' => $this->container
                             ->get('raindrop_page.route.provider')->provide(),
-                        'data' => $previous
+                        'data' => $this->getSubject()->getLayout() ?: ''
                     ))
                     ;
                 break;
