@@ -110,7 +110,9 @@ class PageAdmin extends Admin
                         ),
                     ))
                     ->add('layout', 'choice', array(
-                        'required' => true,
+                        'required' => false,
+                        'empty_value' => 'Choose a layout',
+                        'empty_data'  => '',
                         'choices' => $this->layoutProvider->provide(),
                         'data' => $this->getSubject()->getLayout() ?: ''
                     ))
