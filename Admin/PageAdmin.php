@@ -367,7 +367,7 @@ class PageAdmin extends Admin
 
     /**
      * Retrieves a form field from sonata post request
-     * @param type $name
+     * @param  type $name
      * @return null
      */
     protected function getRequestProperty($name)
@@ -379,6 +379,7 @@ class PageAdmin extends Admin
         if (isset($formParams[$name])) {
             return $formParams[$name];
         }
+
         return null;
     }
 

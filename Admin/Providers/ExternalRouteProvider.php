@@ -7,8 +7,8 @@ namespace Raindrop\PageBundle\Admin\Providers;
  *
  * @author teito
  */
-class ExternalRouteProvider {
-
+class ExternalRouteProvider
+{
     protected $repository;
 
     public function __construct($repository)
@@ -29,5 +29,3 @@ class ExternalRouteProvider {
         return $return;
     }
 }
-
-?>

@@ -228,11 +228,10 @@ class PageCRUDController extends CRUDController
                 $url = $form->get('url')->getData();
                 // create new page and redirect to edit page
                 $newPage = $this->container->get('raindrop_page.page.manager')->clonePageToUrl($object, $url);
+
                 return $this->redirect($this->generateUrl('admin_raindrop_page_page_edit', array( 'id' => $newPage->getId() )));
             }
         }
-
-
 
         return $this->render('RaindropPageBundle:Page:clone_page.html.twig', array(
             'object' => $object,

@@ -69,6 +69,7 @@ class Node implements NodeInterface
         if ($this->isAbsolute()) {
             return $this->absolute . $this->path;
         }
+
         return $this->path;
     }
 

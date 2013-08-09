@@ -5,7 +5,6 @@ namespace Raindrop\PageBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-
 /**
  * @ORM\Entity(repositoryClass="Raindrop\PageBundle\Entity\PageRepository")
  * @ORM\Table(name="pages_tag")
@@ -42,7 +41,7 @@ class PageTag
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string  $name
      * @return PageTag
      */
     public function setName($name)
@@ -72,7 +71,7 @@ class PageTag
     /**
      * Add pages
      *
-     * @param \Raindrop\PageBundle\Entity\Page $pages
+     * @param  \Raindrop\PageBundle\Entity\Page $pages
      * @return PageTag
      */
     public function addPage(\Raindrop\PageBundle\Entity\Page $pages)

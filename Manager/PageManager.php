@@ -89,9 +89,9 @@ class PageManager
 
     /**
      * Add a tag string to a page
-     * @param string $name
-     * @param Raindrop\PageBundle\Entity\Page $page
-     * @return boolean (tag gets added if not already present)
+     * @param  string                          $name
+     * @param  Raindrop\PageBundle\Entity\Page $page
+     * @return boolean                         (tag gets added if not already present)
      */
     public function addTagToPage($name, $page)
     {

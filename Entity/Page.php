@@ -709,7 +709,7 @@ class Page implements RenderableObjectInterface
     /**
      * Add tags
      *
-     * @param \Raindrop\PageBundle\Entity\PageTag $tags
+     * @param  \Raindrop\PageBundle\Entity\PageTag $tags
      * @return Page
      */
     public function addTag(\Raindrop\PageBundle\Entity\PageTag $tags)
@@ -755,6 +755,7 @@ class Page implements RenderableObjectInterface
                 return true;
             }
         }
+
         return false;
     }
 }

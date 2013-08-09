@@ -31,7 +31,7 @@ class AddTagsSubscriber implements EventSubscriberInterface
 
     /**
      * Cleanup tags
-     * @param \Symfony\Component\Form\FormEvent $event
+     * @param  \Symfony\Component\Form\FormEvent $event
      * @return type
      */
     public function preBind(FormEvent $event)
@@ -76,5 +76,3 @@ class AddTagsSubscriber implements EventSubscriberInterface
         )));
     }
 }
-
-?>

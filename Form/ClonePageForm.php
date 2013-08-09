@@ -22,5 +22,3 @@ class ClonePageForm extends AbstractType
         return 'clone_page';
     }
 }
-
-?>
