@@ -1,5 +1,5 @@
 <?php
-// src/Acme/DemoBundle/Form/EventListener/AddNameFieldSubscriber.php
+
 namespace Raindrop\PageBundle\Form\EventListener;
 
 use Symfony\Component\Form\FormEvent;
