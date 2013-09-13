@@ -4,6 +4,7 @@ namespace Raindrop\PageBundle\Manager;
 
 use Raindrop\PageBundle\Entity\MenuEntry;
 use Raindrop\PageBundle\Entity\Page;
+use Raindrop\RoutingBundle\Entity\ExternalRoute;
 
 class MenuManager
 {
@@ -44,7 +45,6 @@ class MenuManager
 
     public function verifyParents($menu, $page)
     {
-        //
         $path = $page->getRoute()->getPath();
 
         $pathArray = array_filter(explode("/", $path), function ($element) {
@@ -57,26 +57,32 @@ class MenuManager
 
             $route = $this->orm
                 ->getRepository('RaindropRoutingBundle:Route')
-                ->findOneByPath($partialPath)
-                ;
+                ->findOneByPath($partialPath);
 
             if ($route) {
-                $page = $route->getContent();
-                if ($page instanceof Page) {
-                    $menuEntry = $this
-                        ->findMenuItemByPageAndMenu($menu, $page);
-
-                    if (!$menuEntry) {
-                        $menuEntry = new MenuEntry;
-                        $menuEntry->setLabel($page->getTitle());
-                        $this->orm->persist($menuEntry);
-                    }
-
-                    $menuEntry->setPage($page);
-                    $menuEntry->setMenu($menu);
+                $menuPage = $route->getContent();
+                if ($menuPage instanceof Page) {
+                    $this->addMenuItem($menu, $menuPage);
+                } elseif ($menuPage instanceof ExternalRoute) {
+                    $this->addMenuItem($menu, $page);
                 }
             }
         }
+    }
+
+    protected function addMenuItem($menu, $page)
+    {
+        $menuEntry = $this
+            ->findMenuItemByPageAndMenu($menu, $page);
+
+        if (!$menuEntry) {
+            $menuEntry = new MenuEntry;
+            $menuEntry->setLabel($page->getTitle());
+            $this->orm->persist($menuEntry);
+        }
+
+        $menuEntry->setPage($page);
+        $menuEntry->setMenu($menu);
     }
 
     public function reorderItems($ids)
