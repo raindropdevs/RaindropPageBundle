@@ -27,7 +27,8 @@ class MenuEntryAdmin extends Admin
                 'data' => $label
             ))
             ->add('position', null, array('required' => false))
-            ->add('file', 'file', array('required' => false))
+//            ->add('file', 'file', array('required' => false))
+            ->add('image')
         ;
     }
 
