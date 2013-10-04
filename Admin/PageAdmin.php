@@ -359,7 +359,11 @@ class PageAdmin extends Admin
             // make sure url and controller are properly bound
             $page->setRoute($route);
             $route->setPath($url);
-            $route->setController($this->container->getParameter('raindrop_page.page_controller'));
+
+            // set controller only the first time
+            if (!$route->getController()) {
+                $route->setController($this->container->getParameter('raindrop_page.page_controller'));
+            }
 
             $this->getOrm()->flush();
         }
