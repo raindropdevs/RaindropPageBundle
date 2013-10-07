@@ -38,6 +38,9 @@ class ResolverFactory
                 case 'service':
                     $resolver = new ServiceResolver($this->container);
                     break;
+                case 'array':
+                    $resolver = new ArrayResolver($this->container);
+                    break;
             }
 
             $content = $resolver->resolve($variable);

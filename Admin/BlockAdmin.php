@@ -133,6 +133,18 @@ class BlockAdmin extends Admin
                         )
                     ));
                 break;
+            case 'array':
+                $formMapper
+                    ->add($variable->getName(), 'nested_textarea', array(
+                        'data' => $variable->getContent() ?: '',
+                        'nested_name' => '[variables][' . $variable->getName() . '][content]',
+                        'mapped' => false,
+                        'required' => $options['required'],
+                        'attr' => array(
+                            'class' => 'span7'
+                        )
+                    ));
+                break;
             default:
                 break;
         }
