@@ -127,6 +127,15 @@ class BlockManager
             ->findOneByPageAndName($page, $name);
     }
 
+    public function findBlockByParentAndName($parent, $name)
+    {
+        return $this->orm->getRepository('RaindropPageBundle:Block')
+            ->findOneBy(array(
+                'parent' => $parent,
+                'name' => $name
+            ));
+    }
+
     protected function getBlockConfig($block_config_name)
     {
         $repo = $this->orm->getRepository('Raindrop\PageBundle\Entity\BlockConfig');
