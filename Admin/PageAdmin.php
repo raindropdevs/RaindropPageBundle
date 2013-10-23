@@ -184,7 +184,7 @@ class PageAdmin extends Admin
     public function prePersist($page)
     {
         if (!$page->getId()) {
-            $page->setCountry($this->container->get('session')->get('raindrop:admin:country'));
+            $page->setCountry(strtolower($this->container->get('session')->get('raindrop:admin:country')));
         }
 
         $page->setName($page->getTitle());
