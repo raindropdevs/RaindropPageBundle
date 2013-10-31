@@ -56,6 +56,15 @@ class Builder implements ContainerAwareInterface
             }
         }
 
-        return $factory->createFromNode($menu);
+        $current_uri = $page->getRoute()->getPath();
+        $menu_items = $factory->createFromNode($menu);
+
+        foreach ($menu_items as $menu_item) {
+            if(strpos($current_uri, $menu_item->getUri()) !== false) {
+                $menu_item->setCurrent(true);
+            }
+        }
+
+        return $menu_items;
     }
 }
