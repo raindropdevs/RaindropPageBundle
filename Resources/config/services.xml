@@ -36,6 +36,7 @@
         <parameter key="raindrop.page.variable_resolver.class">Raindrop\PageBundle\Resolver\ResolverFactory</parameter>
         <parameter key="raindrop_page.services.provider.class">Raindrop\PageBundle\Admin\Providers\ServicesProvider</parameter>
         <parameter key="raindrop_page.container.data.collector.class">Raindrop\PageBundle\Admin\Providers\ContainerDataCollector</parameter>
+        <parameter key="raindrop_page.update.listener.class">Raindrop\PageBundle\Listener\UpdateListener</parameter>
     </parameters>
 
     <services>
