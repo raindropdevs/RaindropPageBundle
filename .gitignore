@@ -5,5 +5,3 @@ phpunit.xml
 /vendor
 routingBundleTestDatabase
 
-/nbproject/
-/nbproject/private/
