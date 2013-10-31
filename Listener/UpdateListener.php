@@ -23,6 +23,12 @@ class UpdateListener
         $this->setUpdatedField($args);
     }
     
+    //post delete for block variables, blocks
+    public function preRemove(LifecycleEventArgs $args)
+    {
+        $this->setUpdatedField($args);
+    }    
+    
     protected function setUpdatedField($args)
     {
         $entity = $args->getEntity();
