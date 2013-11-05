@@ -58,7 +58,7 @@ class Builder implements ContainerAwareInterface
 
         $menu_items = $factory->createFromNode($menu);
 
-        if ($page) {
+        if (isset($page)) {
             $current_uri = $page->getRoute()->getPath();
 
             foreach ($menu_items as $menu_item) {
