@@ -1,53 +1,54 @@
 <?php
-
+ 
 namespace Raindrop\PageBundle\Listener;
-
-use Doctrine\ORM\Event\LifecycleEventArgs;
+ 
+use Doctrine\ORM\Event\OnFlushEventArgs;
 use Raindrop\PageBundle\Entity\BlockVariable;
 use Raindrop\PageBundle\Entity\Block;
-
+ 
 /**
  * UpdateListener
  */
 class UpdateListener
 {
-    //post update for block variables, blocks
-    public function postUpdate(LifecycleEventArgs $args)
+    /**
+     * Handle Doctrine onFlush event
+     *
+     * @param OnFlushEventArgs $args "On Flush" event arguments
+     */
+    public function onFlush(OnFlushEventArgs $args)
     {
-        $this->setUpdatedField($args);        
-    }
-    
-    //post persist for block variables, blocks
-    public function postPersist(LifecycleEventArgs $args)
-    {
-        $this->setUpdatedField($args);
-    }
-    
-    //post delete for block variables, blocks
-    public function preRemove(LifecycleEventArgs $args)
-    {
-        $this->setUpdatedField($args);
-    }    
-    
-    protected function setUpdatedField($args)
-    {
-        $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
-        
-        if ($entity instanceof BlockVariable) {
-            $entity->getBlock()->setUpdated(new \DateTime);   
-            
-            $entity->getBlock()->getPage()->setUpdated(new \DateTime);   
-            $entityManager->persist($entity->getBlock()->getPage());
-            $entityManager->flush();
-        }        
-        
-        if ($entity instanceof Block) {
-            if($entity->getPage()) {
-                $entity->getPage()->setUpdated(new \DateTime);   
-                $entityManager->persist($entity->getPage());
-                $entityManager->flush();                
+        $uow = $entityManager->getUnitOfWork();
+ 
+        $entities = array_merge(
+            $uow->getScheduledEntityInsertions(),
+            $uow->getScheduledEntityUpdates(),
+            $uow->getScheduledEntityDeletions()
+        );
+ 
+        foreach ($entities as $entity) {
+            if ($entity instanceof BlockVariable) {
+                $block = $entity->getBlock();
+                $page = $block->getPage();
+ 
+                $block->setUpdated(new \DateTime);
+                $page->setUpdated(new \DateTime);
+                $entityManager->persist($page);
+ 
+                $classMetadata = $entityManager->getClassMetadata(get_class($page));
+                $uow->computeChangeSet($classMetadata, $page);
             }
-        }        
+ 
+            if ($entity instanceof Block) {
+                if ($entity->getPage()) {
+                    $page = $entity->getPage();
+                    $page->setUpdated(new \DateTime);
+                    $entityManager->persist($page);
+                    $classMetadata = $entityManager->getClassMetadata(get_class($page));
+                    $uow->computeChangeSet($classMetadata, $page);
+                }
+            }
+        }
     }
 }
