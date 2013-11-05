@@ -28,21 +28,28 @@ class UpdateListener
         );
  
         foreach ($entities as $entity) {
+            
             if ($entity instanceof BlockVariable) {
-                $block = $entity->getBlock();
+                $block = $this->getSuperBlock($entity->getBlock());
                 $page = $block->getPage();
  
-                $block->setUpdated(new \DateTime);
-                $page->setUpdated(new \DateTime);
-                $entityManager->persist($page);
- 
-                $classMetadata = $entityManager->getClassMetadata(get_class($page));
-                $uow->computeChangeSet($classMetadata, $page);
+                if($page) {
+                    $block->setUpdated(new \DateTime);
+                    $page->setUpdated(new \DateTime);
+                    $entityManager->persist($page);
+
+                    $classMetadata = $entityManager->getClassMetadata(get_class($page));
+                    $uow->computeChangeSet($classMetadata, $page);                    
+                }
             }
  
             if ($entity instanceof Block) {
-                if ($entity->getPage()) {
-                    $page = $entity->getPage();
+                
+                $block = $this->getSuperBlock($entity);
+                
+                $page = $block->getPage();
+                
+                if ($page) {
                     $page->setUpdated(new \DateTime);
                     $entityManager->persist($page);
                     $classMetadata = $entityManager->getClassMetadata(get_class($page));
@@ -50,5 +57,20 @@ class UpdateListener
                 }
             }
         }
+    }
+    
+    /**
+     * Return "main parent" block
+     * 
+     * @param type $block
+     * @return type
+     */
+    private function getSuperBlock($block)
+    {
+        while($block->getParent()) {
+            $block = $block->getParent();
+        }
+        
+        return $block;
     }
 }
