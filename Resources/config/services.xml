@@ -132,9 +132,7 @@
         </service>
         
         <service id="raindrop_page.update.listener" class="%raindrop_page.update.listener.class%">
-            <tag name="doctrine.event_listener" event="postUpdate" />
-            <tag name="doctrine.event_listener" event="postPersist" />
-            <tag name="doctrine.event_listener" event="preRemove" />
+            <tag name="doctrine.event_listener" event="onFlush" />
         </service>           
     </services>
 
