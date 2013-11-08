@@ -131,10 +131,10 @@
         <service id="raindrop_page.container.data.collector" class="%raindrop_page.container.data.collector.class%">
             <argument type="service" id="kernel" />
         </service>
-        
+
         <service id="raindrop_page.update.listener" class="%raindrop_page.update.listener.class%">
             <tag name="doctrine.event_listener" event="onFlush" />
-        </service>           
+        </service>
     </services>
 
 </container>
