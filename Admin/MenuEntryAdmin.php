@@ -51,6 +51,7 @@ class MenuEntryAdmin extends Admin
         ;
     }
 
+/*
     public function preUpdate($menuEntry)
     {
         $this->saveFile($menuEntry);
@@ -66,4 +67,5 @@ class MenuEntryAdmin extends Admin
         $appBasePath = dirname($this->container->getParameter('kernel.root_dir'));
         $menuEntry->upload($appBasePath);
     }
+ */
 }
