@@ -46,6 +46,11 @@ class MenuEntry
      */
     protected $label;
 
+    /**
+     * @ORM\Column(nullable=true)
+     */
+    protected $class;
+
     protected $file;
 
     /**
@@ -171,6 +176,29 @@ class MenuEntry
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set class
+     *
+     * @param  string    $class
+     * @return MenuEntry
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * Get class
+     *
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
     }
 
     public function getLabelString()
