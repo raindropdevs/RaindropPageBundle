@@ -23,8 +23,8 @@ class UpdateListener
 
         $entities = array_merge(
             $uow->getScheduledEntityInsertions(),
-            $uow->getScheduledEntityUpdates(),
-            $uow->getScheduledEntityDeletions()
+            $uow->getScheduledEntityUpdates()
+//            $uow->getScheduledEntityDeletions()
         );
 
         foreach ($entities as $entity) {
