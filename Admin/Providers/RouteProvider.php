@@ -9,15 +9,16 @@ class RouteProvider
 {
     protected $repository;
 
-    public function __construct($repository, $container)
+    public function __construct($route_repository, $page_repository, $container)
     {
-        $this->repository = $repository;
+        $this->route_epository = $route_repository;
+        $this->page_repository = $page_repository;
         $this->container = $container;
     }
 
     protected function createQueryForAllChildren($path)
     {
-        return $this->repository
+        return $this->route_repository
                 ->createQueryBuilder('r')
                 ->select('r.name', 'r.path')
                 ->where('r.path like :path')
@@ -27,10 +28,12 @@ class RouteProvider
 
     public function provide()
     {
-        $result = $this->repository
-            ->createQueryBuilder('r')
-            ->where('r.locale = :locale')
-            ->setParameter('locale', $this->container->get('session')->get('raindrop_locale'))
+        $result = $this->page_repository
+            ->createQueryBuilder('p')
+            //->select('r, p')
+            ->leftJoin('p.route', 'r')
+            ->where('p.country = :country')
+            ->setParameter('country', $this->container->get('session')->get('raindrop:admin:country'))
             ->orderBy('r.path', 'ASC')
             ->getQuery()
             ->getResult();
@@ -38,7 +41,7 @@ class RouteProvider
         $return = array();
 
         array_walk($result, function (&$el) use (&$return) {
-            $return[$el->getName()] = $el->getPath();
+            $return[$el->getRoute()->getName()] = $el->getRoute()->getPath();
         });
 
         return $return;
