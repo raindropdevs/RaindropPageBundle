@@ -114,6 +114,7 @@
 
         <service id="raindrop_page.route.provider" class="%raindrop_page.route_provider%">
             <argument type="service" id="raindrop_routing.route_repository" />
+            <argument type="service" id="service_container" />
         </service>
 
         <service id="raindrop_page.external_route.provider" class="%raindrop_page.external_route_provider%">
