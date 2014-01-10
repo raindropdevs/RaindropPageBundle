@@ -9,9 +9,10 @@ class RouteProvider
 {
     protected $repository;
 
-    public function __construct($repository)
+    public function __construct($repository, $container)
     {
         $this->repository = $repository;
+        $this->container = $container;
     }
 
     protected function createQueryForAllChildren($path)
@@ -26,7 +27,13 @@ class RouteProvider
 
     public function provide()
     {
-        $result = $this->repository->findBy(array(), array('path' => 'ASC'));
+        $result = $this->repository
+            ->createQueryBuilder('r')
+            ->where('r.locale = :locale')
+            ->setParameter('locale', $this->container->get('session')->get('raindrop_locale'))
+            ->orderBy('r.path', 'ASC')
+            ->getQuery()
+            ->getResult();
 
         $return = array();
 
