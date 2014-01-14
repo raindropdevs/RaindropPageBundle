@@ -69,6 +69,7 @@ class TwigExtension extends \Twig_Extension
             'liip_theme_suffix' => $theme_suffix,
             'raindrop_intl_provider' => $this->container->get('raindrop.page.intl.provider'),
             'raindrop_admin_current_country' => $this->container->get('session')->get('raindrop:admin:country'),
+            'raindrop_admin_current_locale' => $this->container->get('session')->get('raindrop:admin:locale'),
             'raindrop_country' => $this->getCountry(),
             'raindrop_locale' => $this->getLocale(),
         );
