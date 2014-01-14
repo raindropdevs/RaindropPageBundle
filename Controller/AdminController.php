@@ -214,6 +214,30 @@ class AdminController extends Controller
         return $this->redirect($url);
     }
 
+    /**
+     * @Route("/admin/page/switch/locale/{locale}", name="raindrop_admin_switch_locale")
+     * @Secure(roles="ROLE_ADMIN")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function switchLocaleAction()
+    {
+        $locale = $this->get('request')->get('locale');
+
+        /**
+         * @TODO: check if locale is valid
+         */
+
+        $this->get('session')->set('raindrop:admin:locale', $locale);
+
+        $url = $this->get('request')->headers->get('referer');
+
+        if (empty($url)) {
+            $url = $this->get('router')->generate('sonata_admin_dashboard');
+        }
+
+        return $this->redirect($url);
+    }
+
     public function showBlockVariablesAction($template, $children)
     {
         $variables = $this->get('raindrop.twig_loader.variable_extractor')->extract($template);

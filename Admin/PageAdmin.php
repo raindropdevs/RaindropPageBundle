@@ -47,6 +47,7 @@ class PageAdmin extends Admin
     {
         $collection->add('preview', $this->getRouterIdParameter().'/view');
         $collection->add('country_switch', 'country/{country}');
+        $collection->add('locale_switch', 'locale/{locale}');
         $collection->add('clone_page_to_url', 'clone/page/{id}');
     }
 
