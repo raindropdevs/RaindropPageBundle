@@ -57,6 +57,21 @@ class PageRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findByLocaleWithMenu($locale)
+    {
+        $q =
+            $this->createQueryBuilder('p')
+                ->select('p', 'm', 'r')
+                ->leftJoin('p.menus', 'm')
+                ->leftJoin('p.route', 'r')
+                ->where('r.locale = :locale')
+                ->setParameter('locale', $locale)
+        ;
+
+        return $q->getQuery()
+            ->getResult();
+    }
+
     public function findEager($id)
     {
         $q =
