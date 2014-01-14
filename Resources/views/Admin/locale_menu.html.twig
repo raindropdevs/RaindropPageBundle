@@ -1,0 +1,5 @@
+<div class="btn-group">
+    {% for locale_code in raindrop_intl_provider.getAllowedLocales() %}
+        <a class="btn" href="{{ path('raindrop_admin_switch_locale', { 'locale': locale_code }) }}">{{ locale_code }}</a>
+    {% endfor %}
+</div>
