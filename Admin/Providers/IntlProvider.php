@@ -20,4 +20,9 @@ class IntlProvider
     {
         return $this->i18nProvider->getAllowedCountriesAndInternationalCountries();
     }
+
+    public function getAllowedLocales()
+    {
+        return $this->i18nProvider->getAllowedLocales();
+    }
 }
