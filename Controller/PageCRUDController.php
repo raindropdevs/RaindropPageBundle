@@ -20,10 +20,10 @@ class PageCRUDController extends CRUDController
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
 
         $treeBuilder = $this->get('raindrop_page.directory_tree');
-        $country = $this->container->get('session')->get('raindrop:admin:country');
+        $locale = $this->container->get('session')->get('raindrop:admin:locale');
         $pages = $this->container->get('doctrine.orm.default_entity_manager')
             ->getRepository('RaindropPageBundle:Page')
-            ->findByCountryWithMenu($country);
+            ->findByLocaleWithMenu($locale);
 
         return $this->render($this->admin->getTemplate('list'), array(
             'action'   => 'list',

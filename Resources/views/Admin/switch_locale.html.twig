@@ -1,0 +1,14 @@
+{% extends 'RaindropPageBundle:Block:dashboard_block.html.twig' %}
+
+{% block title %}{{ 'Switch locale'|trans }}{% endblock %}
+
+{% block content %}
+
+    {% include 'RaindropPageBundle:Admin:locale_menu.html.twig' %}
+
+    <br><br>
+
+    {% if raindrop_admin_current_locale is not empty %}
+        <strong>Selected: <a>{{ raindrop_admin_current_locale }}</a></strong>
+    {% endif %}
+{% endblock %}

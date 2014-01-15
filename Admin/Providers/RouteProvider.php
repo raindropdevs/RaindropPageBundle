@@ -30,11 +30,10 @@ class RouteProvider
     {
         $result = $this->page_repository
             ->createQueryBuilder('p')
-            //->select('r, p')
             ->leftJoin('p.route', 'r')
-            ->where('p.country = :country')
-            ->setParameter('country', $this->container->get('session')->get('raindrop:admin:country'))
+            ->where('r.locale = :locale')
             ->orderBy('r.path', 'ASC')
+            ->setParameter('locale', $this->container->get('session')->get('raindrop:admin:locale'))
             ->getQuery()
             ->getResult();
 
