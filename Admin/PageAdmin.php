@@ -364,7 +364,7 @@ class PageAdmin extends Admin
                 $route->setPath($url);
                 $route->setNameFromPath();
 
-                $locale = $this->container->get('session')->get('raindrop_locale');
+                $locale = $this->container->get('session')->get('raindrop:admin:locale');
                 if (!empty($locale)) {
                     $route->setLocale($locale);
                 }
