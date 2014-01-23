@@ -4,6 +4,7 @@ namespace Raindrop\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Raindrop\PageBundle\Form\ClonePageForm;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PageCRUDController extends CRUDController
 {
