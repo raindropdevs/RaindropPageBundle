@@ -3,8 +3,8 @@
 namespace Raindrop\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
-
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MenuCRUDController extends CRUDController
 {

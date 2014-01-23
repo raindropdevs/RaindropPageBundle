@@ -4,6 +4,7 @@ namespace Raindrop\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class BlockCRUDController extends CRUDController
 {
