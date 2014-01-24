@@ -56,4 +56,5 @@ want PageAdmin to show up into your dashboard:
             sonata.admin.block.admin_list:
                 contexts:   [admin]
 
+
 ### **USAGE**:
