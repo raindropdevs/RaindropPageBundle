@@ -19,6 +19,9 @@
                 <li {% if app.request.get('meta') or not object.getId() %}class="active"{% endif %}>
                     <a data-toggle="tab" href="#tabMeta"><i class="icon-tag"></i> META</a>
                 </li>
+                <li>
+                    {% include 'RaindropUploadBundle:Upload:uploaderWidget.html.twig' %}
+                </li>
             </ul>
 
             <div class="tab-content">
