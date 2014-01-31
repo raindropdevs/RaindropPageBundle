@@ -64,7 +64,11 @@ class MenuManager
                 if ($menuPage instanceof Page) {
                     $this->addMenuItem($menu, $menuPage);
                 } elseif ($menuPage instanceof ExternalRoute) {
-                    $this->addMenuItem($menu, $page);
+                    // this is for nested external pages
+                    $external_page = $this
+                        ->orm->getRepository('RaindropPageBundle:Page')
+                        ->findOneByRoute($route);
+                    $this->addMenuItem($menu, $external_page);
                 }
             }
         }
