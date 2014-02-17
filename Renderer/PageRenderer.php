@@ -112,6 +112,22 @@ class PageRenderer implements RendererInterface
                         }
                     }
                 }
+
+                // add also first level of nested blocks
+                if ($block->hasChildren()) {
+                    foreach ($block->getChildren() as $children_block) {
+                        if ($this->blockInUse($children_block)) {
+                            if ($children_block->hasJavascripts()) {
+                                foreach ($children_block->getJavascripts() as $js) {
+                                    if (!isset($requirements[$js])) {
+                                        $requirements [$js]= true;
+                                        $inclusion []= $js;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -145,6 +161,23 @@ class PageRenderer implements RendererInterface
                         if (!isset($requirements[$css])) {
                             $requirements [$css]= true;
                             $inclusion []= $css;
+                        }
+                    }
+                }
+
+
+                // add also first level of nested blocks
+                if ($block->hasChildren()) {
+                    foreach ($block->getChildren() as $children_block) {
+                        if ($this->blockInUse($children_block)) {
+                            if ($children_block->hasStylesheets()) {
+                                foreach ($children_block->getStylesheets() as $css) {
+                                    if (!isset($requirements[$css])) {
+                                        $requirements [$css]= true;
+                                        $inclusion []= $css;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
