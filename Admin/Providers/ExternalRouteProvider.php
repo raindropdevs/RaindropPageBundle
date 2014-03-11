@@ -18,7 +18,10 @@ class ExternalRouteProvider
 
     public function provide()
     {
-        $routes = $this->repository->findAll();
+        $routes = $this->repository->findBy(
+            array(),
+            array('uri' => 'ASC')
+        );
 
         $return = array();
 
