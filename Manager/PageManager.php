@@ -80,6 +80,7 @@ class PageManager
             ->select('m')
             ->leftJoin('m.route', 'r')
             ->where('r.path LIKE :path AND m.country = :country')
+            ->orderBy('r.path', 'ASC')
             ->setParameter('path', '%' . $path . '%')
             ->setParameter('country', $country)
         ;
