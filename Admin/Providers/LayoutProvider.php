@@ -33,6 +33,7 @@ class LayoutProvider
                 ->createQueryBuilder('t')
                 ->select('t.name')
                 ->where('t.type = :type')
+                ->orderBy('t.name', 'ASC')
                 ->setParameter('type', 'layout')
             ;
     }
